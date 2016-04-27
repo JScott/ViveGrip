@@ -24,6 +24,9 @@ public class GrabberSphere : MonoBehaviour {
     float closestDistance = radius + 1f;
     GameObject touchedObject = null;
     foreach (GameObject gameObject in collidingObjects) {
+      if (gameObject.GetComponent<Grabbable>() == null) {
+        continue;
+      }
       float distance = Vector3.Distance(transform.position, gameObject.transform.position);
       if (distance < closestDistance) {
         touchedObject = gameObject;
