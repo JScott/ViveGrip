@@ -20,24 +20,67 @@ public class Grabber : MonoBehaviour {
     grabberSphere = grabberObject.AddComponent<GrabberSphere>();
     grabberSphere.radius = grabRadius;
 
-    joint = GetComponent<ConfigurableJoint>();
+    joint = InstantiateJoint();
+    joint.connectedBody = CONNECTEDOBJECT;
     joint.connectedBody.useGravity = false;
+    Vector3 positionDifference = transform.position - joint.connectedBody.transform.position; // Move to controller
+    positionDifference += Vector3.Scale(joint.anchor, transform.GetComponent<Renderer>().bounds.size); // Offset by anchor
+    joint.targetPosition = positionDifference;
 	}
 
   ConfigurableJoint InstantiateJoint() {
     ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
     // ConfigurableJoint joint = parent.AddComponent<ConfigurableJoint>();
     // joint.anchor = new Vector3(0, 0, 0);
-    joint.xMotion = ConfigurableJointMotion.Locked;
-    joint.yMotion = ConfigurableJointMotion.Locked;
-    joint.zMotion = ConfigurableJointMotion.Locked;
+    joint.xMotion = ConfigurableJointMotion.Limited;
+    joint.yMotion = ConfigurableJointMotion.Limited;
+    joint.zMotion = ConfigurableJointMotion.Limited;
     joint.angularXMotion = ConfigurableJointMotion.Locked;
     joint.angularYMotion = ConfigurableJointMotion.Locked;
     joint.angularZMotion = ConfigurableJointMotion.Locked;
-    // joint.targetPosition = new Vector3(0, 0, 0);
-    joint.connectedBody = CONNECTEDOBJECT;
+
+    // SoftJointLimitSpring springLimit = joint.linearLimitSpring;
+    // springLimit.spring = 10;
+    // springLimit.damper = 5;
+    // joint.linearLimitSpring = springLimit;
+
+    JointDrive jointDrive = joint.xDrive;
+    jointDrive.positionSpring = 10000; // TODO: the higher the better but Mathf.Infinity breaks it...
+    // jointDrive.positionDamper = 1;
+    joint.xDrive = jointDrive;
+    jointDrive = joint.yDrive;
+    jointDrive.positionSpring = 10000;
+    // jointDrive.positionDamper = 1;
+    joint.yDrive = jointDrive;
+    jointDrive = joint.zDrive;
+    jointDrive.positionSpring = 10000;
+    // jointDrive.positionDamper = 1;
+    joint.zDrive = jointDrive;
     return joint;
   }
+
+  // static void SetTargetRotationInternal (ConfigurableJoint joint, Quaternion targetRotation, Quaternion startRotation)
+  // {
+  //   // Calculate the rotation expressed by the joint's axis and secondary axis
+  //   var right = joint.axis;
+  //   var forward = Vector3.Cross (joint.axis, joint.secondaryAxis).normalized;
+  //   var up = Vector3.Cross (forward, right).normalized;
+  //   Quaternion worldToJointSpace = Quaternion.LookRotation (forward, up);
+
+  //   // Transform into world space
+  //   Quaternion resultRotation = Quaternion.Inverse (worldToJointSpace);
+
+  //   // Counter-rotate and apply the new local rotation.
+  //   // Joint space is the inverse of world space, so we need to invert our value
+  //   // world: resultRotation *= startRotation * Quaternion.Inverse (targetRotation);
+  //   resultRotation *= Quaternion.Inverse (targetRotation) * startRotation;
+
+  //   // Transform back into joint space
+  //   resultRotation *= worldToJointSpace;
+
+  //   // Set target rotation to our newly calculated rotation
+  //   joint.targetRotation = resultRotation;
+  // }
 
   GameObject InstantiateGrabberObject() {
     GameObject grabberObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
