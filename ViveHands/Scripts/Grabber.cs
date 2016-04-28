@@ -30,17 +30,6 @@ public class Grabber : MonoBehaviour {
     Vector3 positionDifference = transform.position - joint.connectedBody.transform.position; // Move to controller
     positionDifference += Vector3.Scale(joint.anchor, transform.GetComponent<Renderer>().bounds.size); // Offset by anchor
     joint.targetPosition = positionDifference;
-
-    float objectForce = Mathf.Max(0.1f, connectedObject.mass);
-    JointDrive jointDrive = joint.xDrive;
-    jointDrive.maximumForce = objectForce;
-    joint.xDrive = jointDrive;
-    jointDrive = joint.yDrive;
-    jointDrive.maximumForce = objectForce;
-    joint.yDrive = jointDrive;
-    jointDrive = joint.zDrive;
-    jointDrive.maximumForce = objectForce;
-    joint.zDrive = jointDrive;
   }
 
   ConfigurableJoint InstantiateJoint() {

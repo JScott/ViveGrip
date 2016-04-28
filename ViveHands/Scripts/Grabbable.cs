@@ -15,7 +15,6 @@ public class Grabbable : MonoBehaviour {
 
   void OnCollisionEnter(Collision collision) {
     rigidbody.AddForce(-rigidbody.velocity);
-    Debug.Log(collision.gameObject.name);
     Debug.Log(rigidbody.velocity.magnitude);
   }
 
