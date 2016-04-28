@@ -21,12 +21,27 @@ public class Grabber : MonoBehaviour {
     grabberSphere.radius = grabRadius;
 
     joint = InstantiateJoint();
-    joint.connectedBody = CONNECTEDOBJECT;
+    Connect(joint, CONNECTEDOBJECT);
+	}
+
+  void Connect(ConfigurableJoint joint, Rigidbody connectedObject) {
+    joint.connectedBody = connectedObject;
     joint.connectedBody.useGravity = false;
     Vector3 positionDifference = transform.position - joint.connectedBody.transform.position; // Move to controller
     positionDifference += Vector3.Scale(joint.anchor, transform.GetComponent<Renderer>().bounds.size); // Offset by anchor
     joint.targetPosition = positionDifference;
-	}
+
+    float objectForce = Mathf.Max(0.1f, connectedObject.mass);
+    JointDrive jointDrive = joint.xDrive;
+    jointDrive.maximumForce = objectForce;
+    joint.xDrive = jointDrive;
+    jointDrive = joint.yDrive;
+    jointDrive.maximumForce = objectForce;
+    joint.yDrive = jointDrive;
+    jointDrive = joint.zDrive;
+    jointDrive.maximumForce = objectForce;
+    joint.zDrive = jointDrive;
+  }
 
   ConfigurableJoint InstantiateJoint() {
     ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
@@ -45,17 +60,20 @@ public class Grabber : MonoBehaviour {
     // joint.linearLimitSpring = springLimit;
 
     JointDrive jointDrive = joint.xDrive;
-    jointDrive.positionSpring = 10000; // TODO: the higher the better but Mathf.Infinity breaks it...
-    // jointDrive.positionDamper = 1;
+    jointDrive.positionSpring = 10000f; // TODO: the higher the better but Mathf.Infinity breaks it...
+    jointDrive.positionDamper = 1f;
     joint.xDrive = jointDrive;
     jointDrive = joint.yDrive;
-    jointDrive.positionSpring = 10000;
-    // jointDrive.positionDamper = 1;
+    jointDrive.positionSpring = 10000f;
+    jointDrive.positionDamper = 1f;
     joint.yDrive = jointDrive;
     jointDrive = joint.zDrive;
-    jointDrive.positionSpring = 10000;
-    // jointDrive.positionDamper = 1;
+    jointDrive.positionSpring = 10000f;
+    jointDrive.positionDamper = 1f;
     joint.zDrive = jointDrive;
+
+    //joint.breakForce = 0.001f; // TODO: var
+    // TODO: break at a distance, not a force
     return joint;
   }
 
