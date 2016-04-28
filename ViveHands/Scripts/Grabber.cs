@@ -14,7 +14,7 @@ public class Grabber : MonoBehaviour {
 
   public Rigidbody CONNECTEDOBJECT;
 
-  void Start () {
+  void Start() {
     anchor = Vector3.Scale(anchor, transform.GetComponent<Renderer>().bounds.size/2);
     GameObject grabberObject = InstantiateGrabberObject();
     grabberSphere = grabberObject.AddComponent<GrabberSphere>();
@@ -27,9 +27,23 @@ public class Grabber : MonoBehaviour {
   void Connect(ConfigurableJoint joint, Rigidbody connectedObject) {
     joint.connectedBody = connectedObject;
     joint.connectedBody.useGravity = false;
-    Vector3 positionDifference = transform.position - joint.connectedBody.transform.position; // Move to controller
-    positionDifference += Vector3.Scale(joint.anchor, transform.GetComponent<Renderer>().bounds.size); // Offset by anchor
+    Vector3 positionDifference = WorldAnchorPosition() - joint.connectedBody.transform.position; // Move to controller
     joint.targetPosition = positionDifference;
+    Debug.Log("Connected to " + connectedObject.gameObject.name);
+  }
+
+  void Disconnect(ConfigurableJoint joint) {
+    Debug.Log(joint);
+    Debug.Log(joint.connectedBody);
+    joint.connectedBody.useGravity = true;
+    joint.connectedBody = null;
+    joint.targetPosition = Vector3.zero; // TODO: not really needed...
+    Debug.Log("Disconnected");
+  }
+
+  Vector3 WorldAnchorPosition() {
+    Vector3 scaledAnchor = Vector3.Scale(joint.anchor, transform.GetComponent<Renderer>().bounds.size);
+    return transform.position + scaledAnchor;
   }
 
   ConfigurableJoint InstantiateJoint() {
@@ -101,7 +115,7 @@ public class Grabber : MonoBehaviour {
     return grabberObject;
   }
 
-	void Update () {
+	void Update() {
     GameObject touchedObject = grabberSphere.ClosestObject();
     if (touchedObject != currentObject) {
       if (currentObject != null) {
@@ -113,5 +127,15 @@ public class Grabber : MonoBehaviour {
         currentObject.GetComponent<Renderer>().material.shader = outline;
       }
     }
+    if (HoldingSomething()) {
+      float grabDistance = Vector3.Distance(WorldAnchorPosition(), joint.connectedBody.transform.position);
+      if (grabDistance > grabRadius*1f) {
+        Disconnect(joint);
+      }
+    }
 	}
+
+  bool HoldingSomething() {
+    return joint.connectedBody != null;
+  }
 }
