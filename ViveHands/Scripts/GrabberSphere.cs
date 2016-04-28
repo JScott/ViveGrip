@@ -12,12 +12,10 @@ public class GrabberSphere : MonoBehaviour {
 
   void OnTriggerEnter(Collider other) {
     collidingObjects.Add(other.gameObject);
-    Debug.Log("Added "+other.gameObject.name);
   }
 
   void OnTriggerExit(Collider other) {
     collidingObjects.Remove(other.gameObject);
-    Debug.Log("Removed "+other.gameObject.name);
   }
 
   public GameObject ClosestObject() {
