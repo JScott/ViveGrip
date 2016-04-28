@@ -19,7 +19,9 @@ public class Grabber : MonoBehaviour {
     GameObject grabberObject = InstantiateGrabberObject();
     grabberSphere = grabberObject.AddComponent<GrabberSphere>();
     grabberSphere.radius = grabRadius;
+
     joint = GetComponent<ConfigurableJoint>();
+    joint.connectedBody.useGravity = false;
 	}
 
   ConfigurableJoint InstantiateJoint() {
