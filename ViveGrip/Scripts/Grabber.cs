@@ -92,7 +92,7 @@ public class Grabber : MonoBehaviour {
     Debug.DrawLine(joint.connectedAnchor, desiredObject.transform.position, Color.red, 20, false);
     Vector3 realAnchor = transform.position + transform.TransformVector(defaultAnchor);
     Debug.DrawLine(realAnchor, desiredObject.transform.position, Color.yellow, 20, false);
-    joint.connectedAnchor += realAnchor - desiredObject.transform.position;
+    jointObject.transform.position += realAnchor - desiredObject.transform.position;
     //jointObject.transform.position += moveMe;
     //Debug.Log(jointObject.transform.position);
     Debug.Log("Connected to " + desiredObject.gameObject.name);
@@ -108,7 +108,7 @@ public class Grabber : MonoBehaviour {
     joint.targetPosition = Vector3.zero; // TODO: needed?
     joint.anchor = defaultAnchor;
     anchored = false;
-    //jointObject.transform.position = transform.position;
+    jointObject.transform.position = transform.position;
     Debug.Log("Disconnected");
   }
 
@@ -121,17 +121,17 @@ public class Grabber : MonoBehaviour {
   }
 
   ConfigurableJoint InstantiateJoint() {
-    // jointObject = new GameObject("Joint Object");
-    // jointObject.transform.parent = transform;
-    // jointObject.transform.localPosition = Vector3.zero;
-    // jointObject.transform.localScale = Vector3.one;
-    // ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
+    jointObject = new GameObject("Joint Object");
+    jointObject.transform.parent = transform;
+    jointObject.transform.localPosition = Vector3.zero;
+    jointObject.transform.localScale = Vector3.one;
+    ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
 
-    ConfigurableJoint joint = gameObject.AddComponent<ConfigurableJoint>();
-    GetComponent<Rigidbody>().useGravity = false;
-    GetComponent<Rigidbody>().isKinematic = true;
-    // jointObject.GetComponent<Rigidbody>().useGravity = false;
-    // jointObject.GetComponent<Rigidbody>().isKinematic = true;
+    // ConfigurableJoint joint = gameObject.AddComponent<ConfigurableJoint>();
+    // GetComponent<Rigidbody>().useGravity = false;
+    // GetComponent<Rigidbody>().isKinematic = true;
+    jointObject.GetComponent<Rigidbody>().useGravity = false;
+    jointObject.GetComponent<Rigidbody>().isKinematic = true;
     joint.xMotion = ConfigurableJointMotion.Limited;
     joint.yMotion = ConfigurableJointMotion.Limited;
     joint.zMotion = ConfigurableJointMotion.Limited;
