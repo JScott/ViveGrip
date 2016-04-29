@@ -15,6 +15,8 @@ public class Grabber : MonoBehaviour {
   private bool anchored = false;
   private SteamVR_Controller.Device device;
 
+  private Vector3 defaultAnchor = new Vector3(0, 0, 0.5f);
+
   void Awake() {
     //device = GetDevice();
   }
@@ -75,7 +77,9 @@ public class Grabber : MonoBehaviour {
     // // Vector3 localDifference = -Vector3.Scale(debugVector, debugScalars);
     // joint.targetPosition = debugScalars;//localDifference;
     // ---
-    joint.targetPosition = WorldAnchorPositionFor(joint) - joint.connectedBody.transform.position;
+    joint.targetPosition = Vector3.zero;//WorldAnchorPositionFor(joint) - joint.connectedBody.transform.position;
+    Vector3 debugScalars = WorldAnchorPositionFor(joint) - joint.connectedBody.transform.position;
+    //joint.anchor += WorldAnchorPositionFor(joint) - joint.connectedBody.transform.position;
     //LocalAnchorPositionFor(joint) - transform.TransformVector(joint.connectedBody.transform.position);
     Debug.Log("Connected to " + desiredObject.gameObject.name);
     Debug.Log(LocalAnchorPositionFor(joint) + " l//w " + WorldAnchorPositionFor(joint) + " <-- " + transform.TransformVector(joint.connectedBody.transform.position) + " l//w " + joint.connectedBody.transform.position);
@@ -88,6 +92,7 @@ public class Grabber : MonoBehaviour {
     joint.connectedBody.useGravity = true;
     joint.connectedBody = null;
     joint.targetPosition = Vector3.zero; // TODO: needed?
+    joint.anchor = defaultAnchor;
     anchored = false;
     Debug.Log("Disconnected");
   }
@@ -101,9 +106,15 @@ public class Grabber : MonoBehaviour {
   }
 
   ConfigurableJoint InstantiateJoint() {
-    ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
+    GameObject jointObject = new GameObject("Joint Object");
+    jointObject.transform.parent = transform;
+    jointObject.transform.localPosition = Vector3.zero;
+    jointObject.transform.localScale = Vector3.one;
+    ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
+    jointObject.GetComponent<Rigidbody>().useGravity = false;
+    jointObject.GetComponent<Rigidbody>().isKinematic = true;
     // ConfigurableJoint joint = parent.AddComponent<ConfigurableJoint>();
-    joint.anchor = new Vector3(0, 0, 0.5f);
+    joint.anchor = defaultAnchor;
     joint.xMotion = ConfigurableJointMotion.Limited;
     joint.yMotion = ConfigurableJointMotion.Limited;
     joint.zMotion = ConfigurableJointMotion.Limited;
@@ -111,10 +122,9 @@ public class Grabber : MonoBehaviour {
     joint.angularYMotion = ConfigurableJointMotion.Locked;
     joint.angularZMotion = ConfigurableJointMotion.Locked;
 
-    // SoftJointLimitSpring springLimit = joint.linearLimitSpring;
-    // springLimit.spring = 10;
-    // springLimit.damper = 5;
-    // joint.linearLimitSpring = springLimit;
+    SoftJointLimit jointLimit = joint.linearLimit;
+    jointLimit.limit = 10;
+    joint.linearLimit = jointLimit;
 
     float quiteStrong = 50000f; // TODO: the higher the better but Mathf.Infinity breaks it...
     float somewhatSignificant = 1f;
@@ -131,8 +141,6 @@ public class Grabber : MonoBehaviour {
     jointDrive.positionDamper = somewhatSignificant;
     joint.zDrive = jointDrive;
 
-    //joint.breakForce = 0.001f; // TODO: var
-    // TODO: break at a distance, not a force
     return joint;
   }
 
