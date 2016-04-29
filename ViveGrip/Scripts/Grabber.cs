@@ -19,8 +19,6 @@ public class Grabber : MonoBehaviour {
   private Vector3 defaultAnchor = new Vector3(0, 0, 0.5f);
 
   void Start() {
-    jointObject = InstantiateJointObject();
-    grabberJoint = jointObject.GetComponent<ConfigurableJoint>();
     GameObject grabberObject = InstantiateGrabberObjectOn(grabberJoint);
     grabberSphere = grabberObject.AddComponent<GrabberSphere>();
     grabberSphere.radius = grabRadius;
@@ -30,23 +28,21 @@ public class Grabber : MonoBehaviour {
     device = GetDevice();
 
     GameObject touchedObject = grabberSphere.ClosestObject();
-    if (!SomethingHeldBy(grabberJoint) && device.GetTouchDown(gripInput)) {
-      Connect(grabberJoint, touchedObject.GetComponent<Rigidbody>());
+    if (!SomethingHeld() && touchedObject != null && device.GetTouchDown(gripInput)) {
+      CreateConnectionTo(touchedObject.GetComponent<Rigidbody>());
     }
 
     UpdateHighlighting(touchedObject);
 
-    if (SomethingHeldBy(grabberJoint) && device.GetTouchUp(gripInput)) {
-      Disconnect(grabberJoint);
+    if (SomethingHeld() && device.GetTouchUp(gripInput)) {
+      DestroyConnection();
     }
 
-    if (SomethingHeldBy(grabberJoint)) {
-      float grabDistance = Vector3.Distance(WorldAnchorPositionFor(grabberJoint), grabberJoint.connectedBody.transform.position);
+    if (SomethingHeld()) {
+      float grabDistance = Vector3.Distance(WorldAnchorDefaultPosition(), grabberJoint.connectedBody.transform.position);
       anchored = anchored || PulledToMiddle(grabDistance);
       if (anchored && grabDistance > grabRadius) { // TODO: togglable please
-        Debug.Log(grabDistance + " > " + grabRadius);
-        Debug.Log(touchedObject + " // " + grabberJoint.connectedBody);
-        Disconnect(grabberJoint);
+        DestroyConnection();
       }
     }
   }
@@ -61,29 +57,27 @@ public class Grabber : MonoBehaviour {
     return SteamVR_Controller.Input((int)trackedObject.index);
   }
 
-  void Connect(ConfigurableJoint joint, Rigidbody desiredObject) {
-    joint.connectedBody = desiredObject;
-    joint.connectedBody.useGravity = false;
-    jointObject.transform.position += WorldAnchorPositionFor(joint) - desiredObject.transform.position;
-    SetJointDrive(joint, joint.connectedBody.mass); // TODO: simplify inputs but stay safe?
+  void CreateConnectionTo(Rigidbody desiredObject) {
+    jointObject = InstantiateJointObject();
+    grabberJoint = jointObject.GetComponent<ConfigurableJoint>();
+    grabberJoint.connectedBody = desiredObject;
+    grabberJoint.connectedBody.useGravity = false;
+    jointObject.transform.position += WorldAnchorDefaultPosition() - desiredObject.transform.position;
+    SetJointDrive(grabberJoint, grabberJoint.connectedBody.mass); // TODO: simplify inputs but stay safe?
   }
 
-  void Disconnect(ConfigurableJoint joint) {
-    Debug.Log(joint);
-    Debug.Log(joint.connectedBody);
-    joint.connectedBody.useGravity = true;
-    joint.connectedBody = null;
-    joint.anchor = defaultAnchor;
+  void DestroyConnection() {
+    grabberJoint.connectedBody.useGravity = true;
+    Destroy(jointObject);
     anchored = false;
-    jointObject.transform.position = transform.position;
   }
 
-  Vector3 WorldAnchorPositionFor(ConfigurableJoint joint) {
+  Vector3 WorldAnchorDefaultPosition() {
     return transform.position + transform.TransformVector(defaultAnchor);
   }
 
-  Vector3 LocalAnchorPositionFor(ConfigurableJoint joint) {
-    return Vector3.Scale(joint.anchor, transform.localScale);
+  Vector3 LocalAnchorDefaultPosition() {
+    return Vector3.Scale(defaultAnchor, transform.localScale);
   }
 
   GameObject InstantiateJointObject() {
@@ -136,7 +130,7 @@ public class Grabber : MonoBehaviour {
     }
     grabberObject.transform.localScale = new Vector3(grabRadius, grabRadius, grabRadius);
     grabberObject.transform.SetParent(transform.parent);
-    grabberObject.transform.localPosition = LocalAnchorPositionFor(joint);
+    grabberObject.transform.localPosition = LocalAnchorDefaultPosition();
     grabberObject.name = "Grabber Sphere";
     return grabberObject;
   }
@@ -156,8 +150,8 @@ public class Grabber : MonoBehaviour {
     }
   }
 
-  bool SomethingHeldBy(ConfigurableJoint joint) {
-    return joint.connectedBody != null;
+  bool SomethingHeld() {
+    return jointObject != null;
   }
 }
 
