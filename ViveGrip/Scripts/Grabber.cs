@@ -2,56 +2,51 @@
 using System.Collections;
 
 public class Grabber : MonoBehaviour {
-	public Vector3 anchor = new Vector3(0,0,1f);
   public float grabRadius = 0.5f;
   public Shader outline;
+  public Color outlineColor;
   public bool grabberSphereVisible = false;
   public ulong gripInput = SteamVR_Controller.ButtonMask.Grip;
   private Shader oldShader;
   // TODO: set outline in script with Shader.Find
   private GameObject currentObject;
   private GrabberSphere grabberSphere;
-  private ConfigurableJoint joint;
+  private ConfigurableJoint grabberJoint;
   private bool anchored = false;
   private SteamVR_Controller.Device device;
-
-  public Rigidbody CONNECTEDOBJECT;
 
   void Awake() {
     //device = GetDevice();
   }
 
   void Start() {
-    anchor = Vector3.Scale(anchor, transform.GetComponent<Renderer>().bounds.size/2);
-    GameObject grabberObject = InstantiateGrabberObject();
+    grabberJoint = InstantiateJoint();
+    GameObject grabberObject = InstantiateGrabberObjectOn(grabberJoint);
     grabberSphere = grabberObject.AddComponent<GrabberSphere>();
     grabberSphere.radius = grabRadius;
-    joint = InstantiateJoint();
-
-    //Connect(joint, CONNECTEDOBJECT);
 	}
 
   void Update() {
     device = GetDevice();
 
     GameObject touchedObject = grabberSphere.ClosestObject();
-    if (!HoldingSomething() && device.GetTouchDown(gripInput)) {
-      Connect(joint, touchedObject.GetComponent<Rigidbody>());
+    if (!SomethingHeldBy(grabberJoint) && device.GetTouchDown(gripInput)) {
+      Connect(grabberJoint, touchedObject.GetComponent<Rigidbody>());
     }
 
     UpdateHighlighting(touchedObject);
 
-    if (HoldingSomething() && device.GetTouchUp(gripInput)) {
-      Disconnect(joint);
+    if (SomethingHeldBy(grabberJoint) && device.GetTouchUp(gripInput)) {
+      Disconnect(grabberJoint);
     }
 
-    if (HoldingSomething()) {
-      float grabDistance = Vector3.Distance(WorldAnchorPosition(), joint.connectedBody.transform.position);
+    if (SomethingHeldBy(grabberJoint)) {
+      float grabDistance = Vector3.Distance(WorldAnchorPositionFor(grabberJoint), grabberJoint.connectedBody.transform.position);
       anchored = anchored || PulledToMiddle(grabDistance);
       if (anchored && grabDistance > grabRadius) { // TODO: togglable please
         Debug.Log(grabDistance + " > " + grabRadius);
-        Debug.Log(touchedObject + " // " + joint.connectedBody);
-        Disconnect(joint);
+        Debug.Log(touchedObject + " // " + grabberJoint.connectedBody);
+        Disconnect(grabberJoint);
       }
     }
   }
@@ -66,12 +61,15 @@ public class Grabber : MonoBehaviour {
     return SteamVR_Controller.Input((int)trackedObject.index);
   }
 
-  void Connect(ConfigurableJoint joint, Rigidbody connectedObject) {
-    joint.connectedBody = connectedObject;
+  void Connect(ConfigurableJoint joint, Rigidbody desiredObject) {
+    joint.connectedBody = desiredObject;
     joint.connectedBody.useGravity = false;
-    Vector3 positionDifference = WorldAnchorPosition() - joint.connectedBody.transform.position; // Move to controller
-    joint.targetPosition = positionDifference;
-    Debug.Log("Connected to " + connectedObject.gameObject.name);
+    Vector3 localDifference = transform.InverseTransformPoint( -transform.TransformPoint(joint.connectedBody.transform.position) );
+    //LocalAnchorPositionFor(joint) - transform.TransformPoint(joint.connectedBody.transform.position);
+    joint.targetPosition = localDifference;
+    Debug.Log("Connected to " + desiredObject.gameObject.name);
+    Debug.Log(LocalAnchorPositionFor(joint) + " l//w " + WorldAnchorPositionFor(joint) + " <-- " + transform.TransformPoint(joint.connectedBody.transform.position) + " l//w " + joint.connectedBody.transform.position);
+    Debug.Log(joint.targetPosition);
   }
 
   void Disconnect(ConfigurableJoint joint) {
@@ -79,23 +77,23 @@ public class Grabber : MonoBehaviour {
     Debug.Log(joint.connectedBody);
     joint.connectedBody.useGravity = true;
     joint.connectedBody = null;
-    joint.targetPosition = Vector3.zero; // TODO: not really needed...
+    joint.targetPosition = Vector3.zero; // TODO: needed?
     anchored = false;
     Debug.Log("Disconnected");
   }
 
-  Vector3 WorldAnchorPosition() {
-    return transform.position + ScaledAnchorPosition();
+  Vector3 WorldAnchorPositionFor(ConfigurableJoint joint) {
+    return transform.TransformPoint(LocalAnchorPositionFor(joint));
   }
 
-  Vector3 ScaledAnchorPosition() { // TODO: combine back with WorldAnchorPosition?
-    return Vector3.Scale(joint.anchor, transform.GetComponent<Renderer>().bounds.size);
+  Vector3 LocalAnchorPositionFor(ConfigurableJoint joint) {
+    return Vector3.Scale(joint.anchor, transform.GetComponent<Renderer>().bounds.size/2);
   }
 
   ConfigurableJoint InstantiateJoint() {
     ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
     // ConfigurableJoint joint = parent.AddComponent<ConfigurableJoint>();
-    // joint.anchor = new Vector3(0, 0, 0);
+    joint.anchor = new Vector3(0, 0, 0.5f);
     joint.xMotion = ConfigurableJointMotion.Limited;
     joint.yMotion = ConfigurableJointMotion.Limited;
     joint.zMotion = ConfigurableJointMotion.Limited;
@@ -108,17 +106,19 @@ public class Grabber : MonoBehaviour {
     // springLimit.damper = 5;
     // joint.linearLimitSpring = springLimit;
 
+    float quiteStrong = 50000f; // TODO: the higher the better but Mathf.Infinity breaks it...
+    float somewhatSignificant = 1f;
     JointDrive jointDrive = joint.xDrive;
-    jointDrive.positionSpring = 10000f; // TODO: the higher the better but Mathf.Infinity breaks it...
-    jointDrive.positionDamper = 1f;
+    jointDrive.positionSpring = quiteStrong;
+    jointDrive.positionDamper = somewhatSignificant;
     joint.xDrive = jointDrive;
     jointDrive = joint.yDrive;
-    jointDrive.positionSpring = 10000f;
-    jointDrive.positionDamper = 1f;
+    jointDrive.positionSpring = quiteStrong;
+    jointDrive.positionDamper = somewhatSignificant;
     joint.yDrive = jointDrive;
     jointDrive = joint.zDrive;
-    jointDrive.positionSpring = 10000f;
-    jointDrive.positionDamper = 1f;
+    jointDrive.positionSpring = quiteStrong;
+    jointDrive.positionDamper = somewhatSignificant;
     joint.zDrive = jointDrive;
 
     //joint.breakForce = 0.001f; // TODO: var
@@ -126,14 +126,14 @@ public class Grabber : MonoBehaviour {
     return joint;
   }
 
-  GameObject InstantiateGrabberObject() {
+  GameObject InstantiateGrabberObjectOn(ConfigurableJoint joint) {
     GameObject grabberObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
     if (!grabberSphereVisible) {
       grabberObject.GetComponent<Renderer>().enabled = false;
     }
     grabberObject.transform.localScale = new Vector3(grabRadius, grabRadius, grabRadius);
     grabberObject.transform.SetParent(transform.parent);
-    grabberObject.transform.localPosition = anchor;
+    grabberObject.transform.localPosition = LocalAnchorPositionFor(joint);
     grabberObject.name = "GrabberSphere";
     return grabberObject;
   }
@@ -147,11 +147,12 @@ public class Grabber : MonoBehaviour {
       if (touchedObject != null) {
         oldShader = currentObject.GetComponent<Renderer>().material.shader;
         currentObject.GetComponent<Renderer>().material.shader = outline;
+        //currentObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", outlineColor);
       }
     }
   }
 
-  bool HoldingSomething() {
+  bool SomethingHeldBy(ConfigurableJoint joint) {
     return joint.connectedBody != null;
   }
 }
