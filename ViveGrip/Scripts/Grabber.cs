@@ -3,13 +3,12 @@ using System.Collections;
 
 public class Grabber : MonoBehaviour {
   public float grabRadius = 0.5f;
-  public Shader outline;
+  public Shader outline; // TODO: rename
   public Color outlineColor;
   public bool grabberSphereVisible = false;
   public ulong gripInput = SteamVR_Controller.ButtonMask.Grip;
+  private GameObject highlightedObject;
   private Shader oldShader;
-  // TODO: set outline in script with Shader.Find
-  private GameObject currentObject;
   private GrabberSphere grabberSphere;
   private ConfigurableJoint grabberJoint;
   private GameObject jointObject;
@@ -26,24 +25,44 @@ public class Grabber : MonoBehaviour {
 
   void Update() {
     device = GetDevice();
-
     GameObject touchedObject = grabberSphere.ClosestObject();
-    if (!SomethingHeld() && touchedObject != null && device.GetTouchDown(gripInput)) {
+    HandleGrabbing(touchedObject);
+    UpdateHighlighting(touchedObject);
+    HandleFumbling();
+  }
+
+  void HandleGrabbing(GameObject touchedObject) {
+    bool shouldConnect = !SomethingHeld() && touchedObject != null && device.GetTouchDown(gripInput);
+    if (shouldConnect) {
       CreateConnectionTo(touchedObject.GetComponent<Rigidbody>());
     }
-
-    UpdateHighlighting(touchedObject);
-
     if (SomethingHeld() && device.GetTouchUp(gripInput)) {
       DestroyConnection();
     }
+  }
 
+  void HandleFumbling() {
     if (SomethingHeld()) {
       float grabDistance = Vector3.Distance(WorldAnchorDefaultPosition(), grabberJoint.connectedBody.transform.position);
       anchored = anchored || PulledToMiddle(grabDistance);
-      if (anchored && grabDistance > grabRadius) { // TODO: togglable please
+      float holdRadius = grabRadius; // TODO: variable hold radius
+      if (anchored && grabDistance > holdRadius) { // TODO: togglable please
         DestroyConnection();
       }
+    }
+  }
+
+  void UpdateHighlighting(GameObject touchedObject) {
+    if (touchedObject == highlightedObject) { return; }
+    if (highlightedObject != null) {
+      highlightedObject.GetComponent<Renderer>().material.shader = oldShader;
+    }
+    highlightedObject = touchedObject;
+    if (touchedObject != null) {
+      oldShader = highlightedObject.GetComponent<Renderer>().material.shader;
+      highlightedObject.GetComponent<Renderer>().material.shader = outline;
+      highlightedObject.GetComponent<Renderer>().material.SetFloat("_Outline", 0.0005f);
+      highlightedObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", outlineColor);
     }
   }
 
@@ -133,21 +152,6 @@ public class Grabber : MonoBehaviour {
     grabberObject.transform.localPosition = LocalAnchorDefaultPosition();
     grabberObject.name = "Grabber Sphere";
     return grabberObject;
-  }
-
-  void UpdateHighlighting(GameObject touchedObject) {
-    if (touchedObject != currentObject) {
-      if (currentObject != null) {
-        currentObject.GetComponent<Renderer>().material.shader = oldShader;
-      }
-      currentObject = touchedObject;
-      if (touchedObject != null) {
-        oldShader = currentObject.GetComponent<Renderer>().material.shader;
-        currentObject.GetComponent<Renderer>().material.shader = outline;
-        currentObject.GetComponent<Renderer>().material.SetFloat("_Outline", 0.0005f);
-        currentObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", outlineColor);
-      }
-    }
   }
 
   bool SomethingHeld() {
