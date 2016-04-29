@@ -67,37 +67,12 @@ public class Grabber : MonoBehaviour {
   void Connect(ConfigurableJoint joint, Rigidbody desiredObject) {
     joint.connectedBody = desiredObject;
     joint.connectedBody.useGravity = false;
-
-
-    // Vector3 debugVector = LocalAnchorPositionFor(joint);
-    // debugVector.Normalize();
-    // float debugScalar = WorldAnchorPositionFor(joint).z - joint.connectedBody.transform.position.z;
-    // Vector3 localDifference = -debugVector * debugScalar;
-    // joint.targetPosition = localDifference;
-    //---
-    // Vector3 debugScalars = WorldAnchorPositionFor(joint) - joint.connectedBody.transform.position;
-    // debugScalars.Normalize();
-    // // Vector3 localDifference = -Vector3.Scale(debugVector, debugScalars);
-    // joint.targetPosition = debugScalars;//localDifference;
-    // ---
-    // joint.targetPosition = Vector3.zero;//WorldAnchorPositionFor(joint) - joint.connectedBody.transform.position;
-    // Vector3 debugScalars = (LocalAnchorPositionFor(joint) - transform.position) - joint.connectedBody.transform.position;
-
-
     Vector3 moveMe = joint.connectedAnchor - desiredObject.transform.position;
-    //joint.anchor += WorldAnchorPositionFor(joint) - joint.connectedBody.transform.position;
-    //LocalAnchorPositionFor(joint) - transform.TransformVector(joint.connectedBody.transform.position);
-    // Debug.Log(jointObject.transform.position + " // " + transform.TransformVector(moveMe));
-    //Debug.Log(transform.position + " + " + moveMe);
     Debug.DrawLine(joint.connectedAnchor, desiredObject.transform.position, Color.red, 20, false);
     Vector3 realAnchor = transform.position + transform.TransformVector(defaultAnchor);
     Debug.DrawLine(realAnchor, desiredObject.transform.position, Color.yellow, 20, false);
     jointObject.transform.position += realAnchor - desiredObject.transform.position;
-    //jointObject.transform.position += moveMe;
-    //Debug.Log(jointObject.transform.position);
-    Debug.Log("Connected to " + desiredObject.gameObject.name);
-    // Debug.Log(LocalAnchorPositionFor(joint) + " l//w " + WorldAnchorPositionFor(joint) + " <-- " + transform.TransformVector(joint.connectedBody.transform.position) + " l//w " + joint.connectedBody.transform.position);
-    // Debug.Log(joint.targetPosition);
+    SetJointDrive(joint, joint.connectedBody.mass); // TODO: simplify but stay safe?
   }
 
   void Disconnect(ConfigurableJoint joint) {
@@ -105,11 +80,9 @@ public class Grabber : MonoBehaviour {
     Debug.Log(joint.connectedBody);
     joint.connectedBody.useGravity = true;
     joint.connectedBody = null;
-    joint.targetPosition = Vector3.zero; // TODO: needed?
     joint.anchor = defaultAnchor;
     anchored = false;
     jointObject.transform.position = transform.position;
-    Debug.Log("Disconnected");
   }
 
   Vector3 WorldAnchorPositionFor(ConfigurableJoint joint) {
@@ -126,10 +99,6 @@ public class Grabber : MonoBehaviour {
     jointObject.transform.localPosition = Vector3.zero;
     jointObject.transform.localScale = Vector3.one;
     ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
-
-    // ConfigurableJoint joint = gameObject.AddComponent<ConfigurableJoint>();
-    // GetComponent<Rigidbody>().useGravity = false;
-    // GetComponent<Rigidbody>().isKinematic = true;
     jointObject.GetComponent<Rigidbody>().useGravity = false;
     jointObject.GetComponent<Rigidbody>().isKinematic = true;
     joint.xMotion = ConfigurableJointMotion.Limited;
@@ -145,9 +114,12 @@ public class Grabber : MonoBehaviour {
     jointLimit.limit = 10;
     joint.linearLimit = jointLimit;
 
-    float quiteStrong = 50000f; // TODO: the higher the better but Mathf.Infinity breaks it...
-    // TODO: scale this to mass? 500*mass
-    float somewhatSignificant = 1f;
+    return joint;
+  }
+
+  void SetJointDrive(ConfigurableJoint joint, float mass) {
+    float quiteStrong = 3000f * mass; // TODO: the higher the better but Mathf.Infinity breaks it...
+    float somewhatSignificant = 10f * mass;
     JointDrive jointDrive = joint.xDrive;
     jointDrive.positionSpring = quiteStrong;
     jointDrive.positionDamper = somewhatSignificant;
@@ -160,8 +132,6 @@ public class Grabber : MonoBehaviour {
     jointDrive.positionSpring = quiteStrong;
     jointDrive.positionDamper = somewhatSignificant;
     joint.zDrive = jointDrive;
-
-    return joint;
   }
 
   GameObject InstantiateGrabberObjectOn(ConfigurableJoint joint) {
