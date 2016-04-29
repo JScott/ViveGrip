@@ -83,7 +83,7 @@ public class Grabber : MonoBehaviour {
   }
 
   Vector3 LocalAnchorPositionFor(ConfigurableJoint joint) {
-    return Vector3.Scale(joint.anchor, transform.GetComponent<Renderer>().bounds.size);
+    return Vector3.Scale(joint.anchor, transform.localScale);
   }
 
   GameObject InstantiateJointObject() {
