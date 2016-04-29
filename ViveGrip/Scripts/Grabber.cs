@@ -64,11 +64,21 @@ public class Grabber : MonoBehaviour {
   void Connect(ConfigurableJoint joint, Rigidbody desiredObject) {
     joint.connectedBody = desiredObject;
     joint.connectedBody.useGravity = false;
-    Vector3 localDifference = transform.InverseTransformPoint( -transform.TransformPoint(joint.connectedBody.transform.position) );
-    //LocalAnchorPositionFor(joint) - transform.TransformPoint(joint.connectedBody.transform.position);
-    joint.targetPosition = localDifference;
+    // Vector3 debugVector = LocalAnchorPositionFor(joint);
+    // debugVector.Normalize();
+    // float debugScalar = WorldAnchorPositionFor(joint).z - joint.connectedBody.transform.position.z;
+    // Vector3 localDifference = -debugVector * debugScalar;
+    // joint.targetPosition = localDifference;
+    //---
+    // Vector3 debugScalars = WorldAnchorPositionFor(joint) - joint.connectedBody.transform.position;
+    // debugScalars.Normalize();
+    // // Vector3 localDifference = -Vector3.Scale(debugVector, debugScalars);
+    // joint.targetPosition = debugScalars;//localDifference;
+    // ---
+    joint.targetPosition = WorldAnchorPositionFor(joint) - joint.connectedBody.transform.position;
+    //LocalAnchorPositionFor(joint) - transform.TransformVector(joint.connectedBody.transform.position);
     Debug.Log("Connected to " + desiredObject.gameObject.name);
-    Debug.Log(LocalAnchorPositionFor(joint) + " l//w " + WorldAnchorPositionFor(joint) + " <-- " + transform.TransformPoint(joint.connectedBody.transform.position) + " l//w " + joint.connectedBody.transform.position);
+    Debug.Log(LocalAnchorPositionFor(joint) + " l//w " + WorldAnchorPositionFor(joint) + " <-- " + transform.TransformVector(joint.connectedBody.transform.position) + " l//w " + joint.connectedBody.transform.position);
     Debug.Log(joint.targetPosition);
   }
 
@@ -83,11 +93,11 @@ public class Grabber : MonoBehaviour {
   }
 
   Vector3 WorldAnchorPositionFor(ConfigurableJoint joint) {
-    return transform.TransformPoint(LocalAnchorPositionFor(joint));
+    return transform.TransformVector(LocalAnchorPositionFor(joint));
   }
 
   Vector3 LocalAnchorPositionFor(ConfigurableJoint joint) {
-    return Vector3.Scale(joint.anchor, transform.GetComponent<Renderer>().bounds.size/2);
+    return Vector3.Scale(joint.anchor, transform.GetComponent<Renderer>().bounds.size);
   }
 
   ConfigurableJoint InstantiateJoint() {
@@ -147,7 +157,8 @@ public class Grabber : MonoBehaviour {
       if (touchedObject != null) {
         oldShader = currentObject.GetComponent<Renderer>().material.shader;
         currentObject.GetComponent<Renderer>().material.shader = outline;
-        //currentObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", outlineColor);
+        currentObject.GetComponent<Renderer>().material.SetFloat("_Outline", 0.0005f);
+        currentObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", outlineColor);
       }
     }
   }
