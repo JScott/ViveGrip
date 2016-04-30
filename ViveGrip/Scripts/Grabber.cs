@@ -8,6 +8,7 @@ public class Grabber : MonoBehaviour {
   public Color outlineColor;
   public bool grabberSphereVisible = false;
   public ulong gripInput = SteamVR_Controller.ButtonMask.Grip;
+  public Vector3 defaultAnchor = new Vector3(0, 0, 0.5f);
   private GameObject highlightedObject;
   private Shader oldShader;
   private GrabberSphere grabberSphere;
@@ -16,12 +17,11 @@ public class Grabber : MonoBehaviour {
   private bool anchored = false;
   private SteamVR_Controller.Device device;
 
-  private Vector3 defaultAnchor = new Vector3(0, 0, 0.5f);
-
   void Start() {
     GameObject grabberObject = InstantiateGrabberObjectOn(grabberJoint);
     grabberSphere = grabberObject.AddComponent<GrabberSphere>();
     grabberSphere.radius = grabRadius;
+    JointFactory.defaultAnchor = defaultAnchor;
 	}
 
   void Update() {
@@ -110,7 +110,7 @@ public class Grabber : MonoBehaviour {
     jointObject.transform.parent = transform;
     jointObject.transform.localPosition = Vector3.zero;
     jointObject.transform.localScale = Vector3.one;
-    JointFactory.AddJointTo(jointObject, defaultAnchor, desiredObject.mass);
+    JointFactory.AddJointTo(jointObject, desiredObject.mass);
     jointObject.GetComponent<Rigidbody>().useGravity = false;
     jointObject.GetComponent<Rigidbody>().isKinematic = true;
     return jointObject;

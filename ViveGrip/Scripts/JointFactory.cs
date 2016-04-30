@@ -2,8 +2,15 @@ using UnityEngine;
 using System.Collections;
 
 public static class JointFactory {
-  public static void AddJointTo(GameObject gameObject, Vector3 defaultAnchor, float attachedMass) {
+  public static Vector3 defaultAnchor;
+
+  public static void AddJointTo(GameObject gameObject, float attachedMass) {
     ConfigurableJoint joint = gameObject.AddComponent<ConfigurableJoint>();
+    JointFactory.ConfigureBase(joint);
+    JointFactory.SetDrive(joint, attachedMass);
+  }
+
+  private static void ConfigureBase(ConfigurableJoint joint) {
     joint.xMotion = ConfigurableJointMotion.Limited;
     joint.yMotion = ConfigurableJointMotion.Limited;
     joint.zMotion = ConfigurableJointMotion.Limited;
@@ -14,10 +21,9 @@ public static class JointFactory {
     SoftJointLimit jointLimit = joint.linearLimit;
     jointLimit.limit = 10;
     joint.linearLimit = jointLimit;
-    JointFactory.SetJointDrive(joint, attachedMass);
   }
 
-  private static void SetJointDrive(ConfigurableJoint joint, float mass) {
+  private static void SetDrive(ConfigurableJoint joint, float mass) {
     float gripStrength = 3000f * mass;
     float gripSpeed = 10f * mass;
     JointDrive jointDrive = joint.xDrive;
