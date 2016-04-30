@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ViveGrip_GripPoint : MonoBehaviour {
   public enum ViveInput { Grip, Trigger };
+  public SteamVR_TrackedObject attachedDevice;
   public float grabRadius = 0.2f;
   public float holdRadius = 0.3f;
   public Shader outlineShader;
@@ -10,7 +11,6 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   public bool visible = false;
   public ViveInput input;
   public bool inputIsToggle = false;
-  public SteamVR_TrackedObject attachedDevice;
   private ulong gripInput;
   private ViveGrip_TouchDetection touch;
   private ConfigurableJoint joint;
