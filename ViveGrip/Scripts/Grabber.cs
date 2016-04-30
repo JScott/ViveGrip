@@ -7,7 +7,7 @@ public class Grabber : MonoBehaviour {
   public float holdRadius = 0.3f;
   public Shader outlineShader;
   public Color outlineColor = new Color(1f, 0.5f, 0f);
-  public bool grabberSphereVisible = false; // TODO: -> visible
+  public bool visible = false;
   public ulong gripInput = SteamVR_Controller.ButtonMask.Grip;
   public SteamVR_TrackedObject attachedDevice;
   private GameObject highlightedObject;
@@ -51,7 +51,7 @@ public class Grabber : MonoBehaviour {
 
   void HandleFumbling() {
     if (SomethingHeld()) {
-      Vector3 grabbableAnchorPosition = GrabbableAnchorWorldPosition(grabberJoint.connectedBody.transform);
+      Vector3 grabbableAnchorPosition = AnchorWorldPositionOf(grabberJoint.connectedBody.gameObject);
       float grabDistance = Vector3.Distance(transform.position, grabbableAnchorPosition);
       bool pulledToMiddle = grabDistance < holdRadius;
       anchored = anchored || pulledToMiddle;
@@ -89,7 +89,7 @@ public class Grabber : MonoBehaviour {
     jointObject = InstantiateJointObject();
     SetOrientationOf(desiredObject);
     grabberJoint = JointFactory.JointToConnect(jointObject, desiredObject);
-    jointObject.transform.position += AnchorOffset(desiredObject.transform);
+    jointObject.transform.position += AnchorOffsetOf(desiredObject);
   }
 
   void SetOrientationOf(Rigidbody desiredObject) {
@@ -99,8 +99,8 @@ public class Grabber : MonoBehaviour {
     }
   }
 
-  Vector3 AnchorOffset(Transform grabbableTransform) {
-    return transform.position - GrabbableAnchorWorldPosition(grabbableTransform);
+  Vector3 AnchorOffsetOf(Rigidbody rigidbody) {
+    return transform.position - AnchorWorldPositionOf(rigidbody.gameObject);
   }
 
   void DestroyConnection() {
@@ -109,9 +109,10 @@ public class Grabber : MonoBehaviour {
     anchored = false;
   }
 
-  Vector3 GrabbableAnchorWorldPosition(Transform desiredObjectTransform) {
-    Vector3 anchor = desiredObjectTransform.GetComponent<Grabbable>().anchor;
-    return desiredObjectTransform.position + desiredObjectTransform.TransformVector(anchor);
+  Vector3 AnchorWorldPositionOf(GameObject grabbableObject) {
+    Vector3 anchor = grabbableObject.GetComponent<Grabbable>().anchor;
+    Transform transform = grabbableObject.transform;
+    return transform.position + transform.TransformVector(anchor);
   }
 
   GameObject InstantiateJointObject() {
@@ -129,8 +130,8 @@ public class Grabber : MonoBehaviour {
   GameObject InstantiateGrabberObject() {
     GameObject grabberObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
     Renderer renderer = grabberObject.GetComponent<Renderer>();
-    renderer.enabled = grabberSphereVisible;
-    if (grabberSphereVisible) {
+    renderer.enabled = visible;
+    if (visible) {
       renderer.material = new Material(Shader.Find("GrabSphere"));
       renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
       renderer.receiveShadows = false;
