@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TouchDetection : MonoBehaviour {
+public class ViveGrip_TouchDetection : MonoBehaviour {
   public float radius = 1f;
   private List<GameObject> collidingObjects = new List<GameObject>();
 
@@ -22,7 +22,7 @@ public class TouchDetection : MonoBehaviour {
     float closestDistance = radius + 1f;
     GameObject touchedObject = null;
     foreach (GameObject gameObject in collidingObjects) {
-      if (gameObject.GetComponent<Grabbable>() == null) {
+      if (gameObject.GetComponent<ViveGrip_Grabbable>() == null) {
         continue;
       }
       float distance = Vector3.Distance(transform.position, gameObject.transform.position);

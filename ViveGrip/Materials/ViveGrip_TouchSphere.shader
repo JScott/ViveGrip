@@ -1,5 +1,5 @@
 ﻿//http://forum.unity3d.com/threads/unlit-with-adjustable-alpha.115455/
-Shader "GrabSphere" {
+Shader "ViveGrip/TouchSphere" {
  
 Properties {
     _Color ("Main Color", Color) = (1,1,1,0.5)

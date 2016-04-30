@@ -1,5 +1,5 @@
 ﻿// http://wiki.unity3d.com/index.php/Outlined_Diffuse_3
-Shader "Outlined/Diffuse" {
+Shader "ViveGrip/Outline" {
 	Properties {
 		_Color ("Main Color", Color) = (.5,.5,.5,1)
 		_OutlineColor ("Outline Color", Color) = (0,0,0,1)
