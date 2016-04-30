@@ -72,7 +72,6 @@ public class Grabber : MonoBehaviour {
   }
 
   SteamVR_Controller.Device GetDevice() {
-    // TODO: assumes that parent is the controller object
     SteamVR_TrackedObject trackedObject = transform.parent.GetComponent<SteamVR_TrackedObject>();
     return SteamVR_Controller.Input((int)trackedObject.index);
   }
@@ -117,7 +116,7 @@ public class Grabber : MonoBehaviour {
   GameObject InstantiateJointObject() {
     jointObject = new GameObject("Joint Object");
     jointObject.transform.parent = transform;
-    jointObject.transform.localPosition = defaultAnchor;// Vector3.zero;
+    jointObject.transform.localPosition = defaultAnchor;
     jointObject.transform.localScale = Vector3.one;
     jointObject.transform.rotation = transform.rotation;
     jointObject.AddComponent<Rigidbody>();
