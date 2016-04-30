@@ -8,7 +8,7 @@ public class Grabber : MonoBehaviour {
   public Color outlineColor;
   public bool grabberSphereVisible = false;
   public ulong gripInput = SteamVR_Controller.ButtonMask.Grip;
-  public Vector3 defaultAnchor = new Vector3(0, 0, 0.5f);
+  public Vector3 defaultAnchor = new Vector3(0, 0, 0.3f);
   private GameObject highlightedObject;
   private Shader oldShader;
   private GrabberSphere grabberSphere;
@@ -79,7 +79,7 @@ public class Grabber : MonoBehaviour {
 
   SteamVR_Controller.Device GetDevice() {
     SteamVR_TrackedObject trackedObject = transform.parent.GetComponent<SteamVR_TrackedObject>();
-    if (trackedObject == null) { return null };
+    if (trackedObject == null) { return null; }
     return SteamVR_Controller.Input((int)trackedObject.index);
   }
 
@@ -130,8 +130,12 @@ public class Grabber : MonoBehaviour {
 
   GameObject InstantiateGrabberObjectOn(ConfigurableJoint joint) {
     GameObject grabberObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-    if (!grabberSphereVisible) {
-      grabberObject.GetComponent<Renderer>().enabled = false;
+    Renderer renderer = grabberObject.GetComponent<Renderer>();
+    renderer.enabled = grabberSphereVisible;
+    if (grabberSphereVisible) {
+      renderer.material = new Material(Shader.Find("GrabSphere"));
+      renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+      renderer.receiveShadows = false;
     }
     grabberObject.transform.localScale = new Vector3(grabRadius, grabRadius, grabRadius);
     grabberObject.transform.position = AnchorDefaultWorldPosition();
