@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class Grabber : MonoBehaviour {
-  public float grabRadius = 0.5f;
+  public float grabRadius = 0.2f;
+  public float holdRadius = 0.3f;
   public Shader outline; // TODO: rename
   public Color outlineColor;
   public bool grabberSphereVisible = false;
@@ -45,7 +46,6 @@ public class Grabber : MonoBehaviour {
     if (SomethingHeld()) {
       Vector3 grabbableAnchorPosition = GrabbableAnchorWorldPosition(grabberJoint.connectedBody.transform);
       float grabDistance = Vector3.Distance(AnchorDefaultWorldPosition(), grabbableAnchorPosition);
-      float holdRadius = grabRadius; // TODO: variable hold radius with stronger default (x2?)
       bool pulledToMiddle = grabDistance < holdRadius;
       anchored = anchored || pulledToMiddle;
       if (anchored && grabDistance > holdRadius) { // TODO: togglable please
