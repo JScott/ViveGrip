@@ -3,7 +3,6 @@ using System.Collections;
 
 public static class JointFactory {
   public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject) {
-    Debug.Log("Making joint");
     ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
     JointFactory.ConfigureBase(joint);
     JointFactory.SetDrive(joint, desiredObject.mass);

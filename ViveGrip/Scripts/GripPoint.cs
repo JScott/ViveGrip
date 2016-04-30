@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// TODO: Grabber -> GripPoint
-public class Grabber : MonoBehaviour {
+public class GripPoint : MonoBehaviour {
   public float grabRadius = 0.2f;
   public float holdRadius = 0.3f;
   public Shader outlineShader;
@@ -12,23 +11,22 @@ public class Grabber : MonoBehaviour {
   public SteamVR_TrackedObject attachedDevice;
   private GameObject highlightedObject;
   private Shader oldShader;
-  private GrabberSphere grabberSphere;
-  private ConfigurableJoint grabberJoint;
+  private TouchDetection touch;
+  private ConfigurableJoint joint;
   private GameObject jointObject;
   private bool anchored = false;
   private SteamVR_Controller.Device device;
 
-  // TODO: only let one hand grab at a time?
-
   void Start() {
-    GameObject grabberObject = InstantiateGrabberObject();
-    grabberSphere = grabberObject.AddComponent<GrabberSphere>();
-    grabberSphere.radius = grabRadius;
+    GameObject gripSphere = InstantiateGrabberObject();
+    touch = gripSphere.AddComponent<TouchDetection>();
+    touch.radius = grabRadius;
+    if (outlineShader == null) { outlineShader = Shader.Find("Outlined/Diffuse"); }
 	}
 
   void Update() {
     device = GetDevice();
-    GameObject touchedObject = grabberSphere.ClosestObject();
+    GameObject touchedObject = touch.NearestObject();
     HandleGrabbing(touchedObject);
     UpdateHighlighting(touchedObject);
     HandleFumbling();
@@ -51,7 +49,7 @@ public class Grabber : MonoBehaviour {
 
   void HandleFumbling() {
     if (SomethingHeld()) {
-      Vector3 grabbableAnchorPosition = AnchorWorldPositionOf(grabberJoint.connectedBody.gameObject);
+      Vector3 grabbableAnchorPosition = AnchorWorldPositionOf(joint.connectedBody.gameObject);
       float grabDistance = Vector3.Distance(transform.position, grabbableAnchorPosition);
       bool pulledToMiddle = grabDistance < holdRadius;
       anchored = anchored || pulledToMiddle;
@@ -88,7 +86,7 @@ public class Grabber : MonoBehaviour {
   void CreateConnectionTo(Rigidbody desiredObject) {
     jointObject = InstantiateJointObject();
     SetOrientationOf(desiredObject);
-    grabberJoint = JointFactory.JointToConnect(jointObject, desiredObject);
+    joint = JointFactory.JointToConnect(jointObject, desiredObject);
     jointObject.transform.position += AnchorOffsetOf(desiredObject);
   }
 
@@ -104,7 +102,7 @@ public class Grabber : MonoBehaviour {
   }
 
   void DestroyConnection() {
-    grabberJoint.connectedBody.useGravity = true;
+    joint.connectedBody.useGravity = true;
     Destroy(jointObject);
     anchored = false;
   }
@@ -128,19 +126,19 @@ public class Grabber : MonoBehaviour {
   }
 
   GameObject InstantiateGrabberObject() {
-    GameObject grabberObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-    Renderer renderer = grabberObject.GetComponent<Renderer>();
+    GameObject gripSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+    Renderer renderer = gripSphere.GetComponent<Renderer>();
     renderer.enabled = visible;
     if (visible) {
       renderer.material = new Material(Shader.Find("GrabSphere"));
       renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
       renderer.receiveShadows = false;
     }
-    grabberObject.transform.localScale = Vector3.one * grabRadius;
-    grabberObject.transform.position = transform.position;
-    grabberObject.transform.SetParent(transform);
-    grabberObject.name = "Grabber Sphere";
-    return grabberObject;
+    gripSphere.transform.localScale = Vector3.one * grabRadius;
+    gripSphere.transform.position = transform.position;
+    gripSphere.transform.SetParent(transform);
+    gripSphere.name = "Grip Sphere";
+    return gripSphere;
   }
 
   bool SomethingHeld() {
