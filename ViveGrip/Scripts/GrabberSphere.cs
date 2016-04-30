@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+// TODO: GrabberSphere -> GripSphere
 public class GrabberSphere : MonoBehaviour {
   public float radius = 1f;
   private List<GameObject> collidingObjects = new List<GameObject>();
