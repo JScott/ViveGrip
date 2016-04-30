@@ -2,8 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public static class JointFactory {
-  public static Vector3 defaultAnchor;
-
   public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject) {
     ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
     JointFactory.ConfigureBase(joint);

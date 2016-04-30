@@ -23,7 +23,6 @@ public class Grabber : MonoBehaviour {
     GameObject grabberObject = InstantiateGrabberObjectOn(grabberJoint);
     grabberSphere = grabberObject.AddComponent<GrabberSphere>();
     grabberSphere.radius = grabRadius;
-    JointFactory.defaultAnchor = defaultAnchor;
 	}
 
   void Update() {
@@ -62,7 +61,7 @@ public class Grabber : MonoBehaviour {
       touchedObject = null;
     }
     if (touchedObject == highlightedObject) { return; }
-    if (highlightedObject != null) {
+    if (highlightedObject != null && oldShader != null) {
       highlightedObject.GetComponent<Renderer>().material.shader = oldShader;
     }
     highlightedObject = touchedObject;
