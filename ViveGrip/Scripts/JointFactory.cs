@@ -4,10 +4,13 @@ using System.Collections;
 public static class JointFactory {
   public static Vector3 defaultAnchor;
 
-  public static void AddJointTo(GameObject gameObject, float attachedMass) {
-    ConfigurableJoint joint = gameObject.AddComponent<ConfigurableJoint>();
+  public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject) {
+    ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
     JointFactory.ConfigureBase(joint);
-    JointFactory.SetDrive(joint, attachedMass);
+    JointFactory.SetDrive(joint, desiredObject.mass);
+    joint.connectedBody = desiredObject;
+    joint.connectedBody.useGravity = false;
+    return joint;
   }
 
   private static void ConfigureBase(ConfigurableJoint joint) {

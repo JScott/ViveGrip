@@ -1,4 +1,5 @@
-﻿Shader "Outlined/Diffuse" {
+﻿// http://wiki.unity3d.com/index.php/Outlined_Diffuse_3
+Shader "Outlined/Diffuse" {
 	Properties {
 		_Color ("Main Color", Color) = (.5,.5,.5,1)
 		_OutlineColor ("Outline Color", Color) = (0,0,0,1)
@@ -99,10 +100,10 @@ ENDCG
 			ColorMask RGB
 			Blend SrcAlpha OneMinusSrcAlpha
  
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma exclude_renderers gles xbox360 ps3
-			ENDCG
+			//CGPROGRAM
+			//#pragma vertex vert
+			//#pragma exclude_renderers gles xbox360 ps3
+			//ENDCG
 			SetTexture [_MainTex] { combine primary }
 		}
 	}

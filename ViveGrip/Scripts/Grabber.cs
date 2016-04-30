@@ -4,7 +4,7 @@ using System.Collections;
 public class Grabber : MonoBehaviour {
   public float grabRadius = 0.2f;
   public float holdRadius = 0.3f;
-  public Shader outline; // TODO: rename
+  public Shader outlineShader;
   public Color outlineColor;
   public bool grabberSphereVisible = false;
   public ulong gripInput = SteamVR_Controller.ButtonMask.Grip;
@@ -48,7 +48,7 @@ public class Grabber : MonoBehaviour {
       float grabDistance = Vector3.Distance(AnchorDefaultWorldPosition(), grabbableAnchorPosition);
       bool pulledToMiddle = grabDistance < holdRadius;
       anchored = anchored || pulledToMiddle;
-      if (anchored && grabDistance > holdRadius) { // TODO: togglable please
+      if (anchored && grabDistance > holdRadius) {
         DestroyConnection();
       }
     }
@@ -65,7 +65,7 @@ public class Grabber : MonoBehaviour {
     highlightedObject = touchedObject;
     if (touchedObject != null) {
       oldShader = highlightedObject.GetComponent<Renderer>().material.shader;
-      highlightedObject.GetComponent<Renderer>().material.shader = outline;
+      highlightedObject.GetComponent<Renderer>().material.shader = outlineShader;
       highlightedObject.GetComponent<Renderer>().material.SetFloat("_Outline", 0.0005f);
       highlightedObject.GetComponent<Renderer>().material.SetColor("_OutlineColor", outlineColor);
     }
@@ -78,20 +78,20 @@ public class Grabber : MonoBehaviour {
   }
 
   void CreateConnectionTo(Rigidbody desiredObject) {
-    jointObject = InstantiateJointObject(desiredObject);
-    Grabbable grabbable = desiredObject.gameObject.GetComponent<Grabbable>();
-    if (grabbable.useOrientation) {
-      desiredObject.transform.rotation = transform.rotation * Quaternion.Euler(grabbable.orientation);
-    }
-
-    grabberJoint = jointObject.GetComponent<ConfigurableJoint>();
-    grabberJoint.connectedBody = desiredObject;
-    grabberJoint.connectedBody.useGravity = false;
-
-    jointObject.transform.position += GrabbableOffset(desiredObject.transform);
+    jointObject = InstantiateJointObject();
+    SetOrientationOf(desiredObject);
+    grabberJoint = JointFactory.JointToConnect(jointObject, desiredObject);
+    jointObject.transform.position += AnchorOffset(desiredObject.transform);
   }
 
-  Vector3 GrabbableOffset(Transform grabbableTransform) {
+  void SetOrientationOf(Rigidbody desiredObject) {
+    Grabbable grabbable = desiredObject.gameObject.GetComponent<Grabbable>();
+    if (grabbable.snapToOrientation) {
+      desiredObject.transform.rotation = transform.rotation * Quaternion.Euler(grabbable.orientation);
+    }
+  }
+
+  Vector3 AnchorOffset(Transform grabbableTransform) {
     return AnchorDefaultWorldPosition() - GrabbableAnchorWorldPosition(grabbableTransform);
   }
 
@@ -114,13 +114,13 @@ public class Grabber : MonoBehaviour {
     return desiredObjectTransform.position + desiredObjectTransform.TransformVector(anchor);
   }
 
-  GameObject InstantiateJointObject(Rigidbody desiredObject) {
+  GameObject InstantiateJointObject() {
     jointObject = new GameObject("Joint Object");
     jointObject.transform.parent = transform;
     jointObject.transform.localPosition = defaultAnchor;// Vector3.zero;
     jointObject.transform.localScale = Vector3.one;
     jointObject.transform.rotation = transform.rotation;
-    JointFactory.AddJointTo(jointObject, desiredObject.mass);
+    jointObject.AddComponent<Rigidbody>();
     jointObject.GetComponent<Rigidbody>().useGravity = false;
     jointObject.GetComponent<Rigidbody>().isKinematic = true;
     return jointObject;
@@ -142,27 +142,3 @@ public class Grabber : MonoBehaviour {
     return jointObject != null;
   }
 }
-
-
-  // static void SetTargetRotationInternal (ConfigurableJoint joint, Quaternion targetRotation, Quaternion startRotation)
-  // {
-  //   // Calculate the rotation expressed by the joint's axis and secondary axis
-  //   var right = joint.axis;
-  //   var forward = Vector3.Cross (joint.axis, joint.secondaryAxis).normalized;
-  //   var up = Vector3.Cross (forward, right).normalized;
-  //   Quaternion worldToJointSpace = Quaternion.LookRotation (forward, up);
-
-  //   // Transform into world space
-  //   Quaternion resultRotation = Quaternion.Inverse (worldToJointSpace);
-
-  //   // Counter-rotate and apply the new local rotation.
-  //   // Joint space is the inverse of world space, so we need to invert our value
-  //   // world: resultRotation *= startRotation * Quaternion.Inverse (targetRotation);
-  //   resultRotation *= Quaternion.Inverse (targetRotation) * startRotation;
-
-  //   // Transform back into joint space
-  //   resultRotation *= worldToJointSpace;
-
-  //   // Set target rotation to our newly calculated rotation
-  //   joint.targetRotation = resultRotation;
-  // }
