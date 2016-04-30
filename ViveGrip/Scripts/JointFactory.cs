@@ -17,7 +17,7 @@ public static class JointFactory {
     joint.angularXMotion = ConfigurableJointMotion.Locked;
     joint.angularYMotion = ConfigurableJointMotion.Locked;
     joint.angularZMotion = ConfigurableJointMotion.Locked;
-    joint.anchor = defaultAnchor;
+    joint.anchor = Vector3.zero;
     SoftJointLimit jointLimit = joint.linearLimit;
     jointLimit.limit = 10;
     joint.linearLimit = jointLimit;

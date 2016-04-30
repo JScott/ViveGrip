@@ -108,8 +108,9 @@ public class Grabber : MonoBehaviour {
   GameObject InstantiateJointObject(Rigidbody desiredObject) {
     jointObject = new GameObject("Joint Object");
     jointObject.transform.parent = transform;
-    jointObject.transform.localPosition = Vector3.zero;
-    jointObject.transform.localScale = Vector3.one;
+    jointObject.transform.localPosition = defaultAnchor;// Vector3.zero;
+    jointObject.transform.localScale = transform.localScale;//Vector3.one;
+    jointObject.transform.localRotation = transform.localRotation;
     JointFactory.AddJointTo(jointObject, desiredObject.mass);
     jointObject.GetComponent<Rigidbody>().useGravity = false;
     jointObject.GetComponent<Rigidbody>().isKinematic = true;
