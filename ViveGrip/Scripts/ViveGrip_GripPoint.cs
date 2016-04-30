@@ -7,10 +7,8 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   public Shader outlineShader;
   public Color outlineColor = new Color(1f, 0.5f, 0f);
   public bool visible = false;
-  public ulong gripInput = SteamVR_Controller.ButtonMask.Grip;
+  public ulong gripInput = SteamVR_Controller.ButtonMask.Grip; // TODO: enum selection
   public SteamVR_TrackedObject attachedDevice;
-  // private GameObject highlightedObject;
-  // private Shader oldShader;
   private ViveGrip_TouchDetection touch;
   private ConfigurableJoint joint;
   private GameObject jointObject;
@@ -19,7 +17,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   private ViveGrip_Highlighter highlighter;
 
   void Start() {
-    GameObject gripSphere = InstantiateGrabberObject();
+    GameObject gripSphere = InstantiateTouchSphere();
     touch = gripSphere.AddComponent<ViveGrip_TouchDetection>();
     touch.radius = grabRadius;
     if (outlineShader == null) { outlineShader = Shader.Find("ViveGrip/Outline"); }
@@ -63,7 +61,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void CreateConnectionTo(Rigidbody desiredObject) {
-    jointObject = InstantiateJointObject();
+    jointObject = InstantiateJointParent();
     SetOrientationOf(desiredObject);
     joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredObject);
     jointObject.transform.position += AnchorOffsetOf(desiredObject);
@@ -92,8 +90,8 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     return transform.position + transform.TransformVector(anchor);
   }
 
-  GameObject InstantiateJointObject() {
-    jointObject = new GameObject("Joint Object");
+  GameObject InstantiateJointParent() {
+    jointObject = new GameObject("ViveGrip Joint Parent");
     jointObject.transform.parent = transform;
     jointObject.transform.localPosition = Vector3.zero;
     jointObject.transform.localScale = Vector3.one;
@@ -104,7 +102,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     return jointObject;
   }
 
-  GameObject InstantiateGrabberObject() {
+  GameObject InstantiateTouchSphere() {
     GameObject gripSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
     Renderer renderer = gripSphere.GetComponent<Renderer>();
     renderer.enabled = visible;
@@ -116,7 +114,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     gripSphere.transform.localScale = Vector3.one * grabRadius;
     gripSphere.transform.position = transform.position;
     gripSphere.transform.SetParent(transform);
-    gripSphere.name = "Grip Sphere";
+    gripSphere.name = "ViveGrip Touch Sphere";
     return gripSphere;
   }
 
