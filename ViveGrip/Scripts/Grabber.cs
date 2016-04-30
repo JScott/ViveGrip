@@ -24,7 +24,7 @@ public class Grabber : MonoBehaviour {
 	}
 
   void Update() {
-    device = GetDevice();
+    device = GetDevice(); // TODO: what happens with both controllers?
     GameObject touchedObject = grabberSphere.ClosestObject();
     HandleGrabbing(touchedObject);
     UpdateHighlighting(touchedObject);
@@ -43,9 +43,11 @@ public class Grabber : MonoBehaviour {
 
   void HandleFumbling() {
     if (SomethingHeld()) {
-      float grabDistance = Vector3.Distance(WorldAnchorDefaultPosition(), grabberJoint.connectedBody.transform.position);
-      anchored = anchored || PulledToMiddle(grabDistance);
-      float holdRadius = grabRadius; // TODO: variable hold radius
+      Vector3 grabbableAnchorPosition = GrabbableAnchorWorldPosition(grabberJoint.connectedBody.transform);
+      float grabDistance = Vector3.Distance(AnchorDefaultWorldPosition(), grabbableAnchorPosition);
+      float holdRadius = grabRadius; // TODO: variable hold radius with stronger default (x2?)
+      bool pulledToMiddle = grabDistance < holdRadius;
+      anchored = anchored || pulledToMiddle;
       if (anchored && grabDistance > holdRadius) { // TODO: togglable please
         DestroyConnection();
       }
@@ -66,10 +68,6 @@ public class Grabber : MonoBehaviour {
     }
   }
 
-  bool PulledToMiddle(float distance) {
-    return distance < grabRadius;
-  }
-
   SteamVR_Controller.Device GetDevice() {
     // TODO: assumes that parent is the controller object
     SteamVR_TrackedObject trackedObject = transform.parent.GetComponent<SteamVR_TrackedObject>();
@@ -81,8 +79,12 @@ public class Grabber : MonoBehaviour {
     grabberJoint = jointObject.GetComponent<ConfigurableJoint>();
     grabberJoint.connectedBody = desiredObject;
     grabberJoint.connectedBody.useGravity = false;
-    jointObject.transform.position += WorldAnchorDefaultPosition() - desiredObject.transform.position;
+    jointObject.transform.position += GrabbableOffset(desiredObject.transform);
     SetJointDrive(grabberJoint, grabberJoint.connectedBody.mass); // TODO: simplify inputs but stay safe?
+  }
+
+  Vector3 GrabbableOffset(Transform grabbableTransform) {
+    return AnchorDefaultWorldPosition() - GrabbableAnchorWorldPosition(grabbableTransform);
   }
 
   void DestroyConnection() {
@@ -91,12 +93,17 @@ public class Grabber : MonoBehaviour {
     anchored = false;
   }
 
-  Vector3 WorldAnchorDefaultPosition() {
+  Vector3 AnchorDefaultWorldPosition() {
     return transform.position + transform.TransformVector(defaultAnchor);
   }
 
-  Vector3 LocalAnchorDefaultPosition() {
+  Vector3 AnchorDefaultLocalPosition() {
     return Vector3.Scale(defaultAnchor, transform.localScale);
+  }
+
+  Vector3 GrabbableAnchorWorldPosition(Transform desiredObjectTransform) {
+    Vector3 anchor = desiredObjectTransform.GetComponent<Grabbable>().anchor;
+    return desiredObjectTransform.position + desiredObjectTransform.TransformVector(anchor);
   }
 
   GameObject InstantiateJointObject() {
@@ -108,7 +115,7 @@ public class Grabber : MonoBehaviour {
     return jointObject;
   }
 
-  ConfigurableJoint InstantiateJointOn(GameObject jointObject) {
+  ConfigurableJoint InstantiateJointOn(GameObject jointObject) { // TODO: custom joint object please
     ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
     jointObject.GetComponent<Rigidbody>().useGravity = false;
     jointObject.GetComponent<Rigidbody>().isKinematic = true;
@@ -149,7 +156,7 @@ public class Grabber : MonoBehaviour {
     }
     grabberObject.transform.localScale = new Vector3(grabRadius, grabRadius, grabRadius);
     grabberObject.transform.SetParent(transform.parent);
-    grabberObject.transform.localPosition = LocalAnchorDefaultPosition();
+    grabberObject.transform.localPosition = AnchorDefaultLocalPosition();
     grabberObject.name = "Grabber Sphere";
     return grabberObject;
   }
