@@ -9,6 +9,7 @@ public class Grabber : MonoBehaviour {
   public bool grabberSphereVisible = false;
   public ulong gripInput = SteamVR_Controller.ButtonMask.Grip;
   public Vector3 defaultAnchor = new Vector3(0, 0, 0.3f);
+  public SteamVR_TrackedObject attachedDevice;
   private GameObject highlightedObject;
   private Shader oldShader;
   private GrabberSphere grabberSphere;
@@ -20,7 +21,7 @@ public class Grabber : MonoBehaviour {
   // TODO: only let one hand grab at a time?
 
   void Start() {
-    GameObject grabberObject = InstantiateGrabberObjectOn(grabberJoint);
+    GameObject grabberObject = InstantiateGrabberObject();
     grabberSphere = grabberObject.AddComponent<GrabberSphere>();
     grabberSphere.radius = grabRadius;
 	}
@@ -33,9 +34,16 @@ public class Grabber : MonoBehaviour {
     HandleFumbling();
   }
 
+  SteamVR_Controller.Device GetDevice() {
+    SteamVR_TrackedObject trackedObject = attachedDevice;
+    return SteamVR_Controller.Input((int)trackedObject.index);
+  }
+
   void HandleGrabbing(GameObject touchedObject) {
-    if (device == null) { return; }
+    Debug.Log("Trying to grab "+touchedObject);
     bool shouldConnect = !SomethingHeld() && touchedObject != null && device.GetTouchDown(gripInput);
+    Debug.Log(device.GetTouch(gripInput));
+    Debug.Log(shouldConnect);
     if (shouldConnect) {
       CreateConnectionTo(touchedObject.GetComponent<Rigidbody>());
     }
@@ -76,20 +84,17 @@ public class Grabber : MonoBehaviour {
     }
   }
 
-  SteamVR_Controller.Device GetDevice() {
-    SteamVR_TrackedObject trackedObject = transform.parent.GetComponent<SteamVR_TrackedObject>();
-    if (trackedObject == null) { return null; }
-    return SteamVR_Controller.Input((int)trackedObject.index);
-  }
-
   void CreateConnectionTo(Rigidbody desiredObject) {
+    Debug.Log("Connecting to " + desiredObject.gameObject.name);
     jointObject = InstantiateJointObject();
     SetOrientationOf(desiredObject);
     grabberJoint = JointFactory.JointToConnect(jointObject, desiredObject);
     jointObject.transform.position += AnchorOffset(desiredObject.transform);
+    Debug.Log(jointObject.transform.position);
   }
 
   void SetOrientationOf(Rigidbody desiredObject) {
+    Debug.Log("Setting orientation");
     Grabbable grabbable = desiredObject.gameObject.GetComponent<Grabbable>();
     if (grabbable.snapToOrientation) {
       desiredObject.transform.rotation = transform.rotation * Quaternion.Euler(grabbable.orientation);
@@ -116,6 +121,7 @@ public class Grabber : MonoBehaviour {
   }
 
   GameObject InstantiateJointObject() {
+    Debug.Log("Making joint object");
     jointObject = new GameObject("Joint Object");
     jointObject.transform.parent = transform;
     jointObject.transform.localPosition = defaultAnchor;
@@ -127,7 +133,7 @@ public class Grabber : MonoBehaviour {
     return jointObject;
   }
 
-  GameObject InstantiateGrabberObjectOn(ConfigurableJoint joint) {
+  GameObject InstantiateGrabberObject() {
     GameObject grabberObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
     Renderer renderer = grabberObject.GetComponent<Renderer>();
     renderer.enabled = grabberSphereVisible;
@@ -136,9 +142,10 @@ public class Grabber : MonoBehaviour {
       renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
       renderer.receiveShadows = false;
     }
-    grabberObject.transform.localScale = new Vector3(grabRadius, grabRadius, grabRadius);
+    grabberObject.transform.localScale = Vector3.one * grabRadius;
     grabberObject.transform.position = AnchorDefaultWorldPosition();
     grabberObject.transform.SetParent(transform.parent);
+    Debug.DrawLine(Vector3.zero, transform.parent.position, Color.blue, 20, false);
     Debug.DrawLine(grabberObject.transform.position, transform.parent.position, Color.red, 20, false);
     grabberObject.name = "Grabber Sphere";
     return grabberObject;
