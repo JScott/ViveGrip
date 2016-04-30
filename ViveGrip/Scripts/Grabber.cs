@@ -55,6 +55,9 @@ public class Grabber : MonoBehaviour {
   }
 
   void UpdateHighlighting(GameObject touchedObject) {
+    if (SomethingHeld()) {
+      touchedObject = null;
+    }
     if (touchedObject == highlightedObject) { return; }
     if (highlightedObject != null) {
       highlightedObject.GetComponent<Renderer>().material.shader = oldShader;
