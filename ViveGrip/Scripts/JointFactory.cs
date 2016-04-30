@@ -11,12 +11,14 @@ public static class JointFactory {
   }
 
   private static void ConfigureBase(ConfigurableJoint joint) {
-    joint.xMotion = ConfigurableJointMotion.Limited;
-    joint.yMotion = ConfigurableJointMotion.Limited;
-    joint.zMotion = ConfigurableJointMotion.Limited;
-    joint.angularXMotion = ConfigurableJointMotion.Locked;
-    joint.angularYMotion = ConfigurableJointMotion.Locked;
-    joint.angularZMotion = ConfigurableJointMotion.Locked;
+    ConfigurableJointMotion linearMotion = ConfigurableJointMotion.Limited;
+    ConfigurableJointMotion angularMotion = ConfigurableJointMotion.Locked;
+    joint.xMotion = linearMotion;
+    joint.yMotion = linearMotion;
+    joint.zMotion = linearMotion;
+    joint.angularXMotion = angularMotion;
+    joint.angularYMotion = angularMotion;
+    joint.angularZMotion = angularMotion;
     joint.anchor = Vector3.zero;
     SoftJointLimit jointLimit = joint.linearLimit;
     jointLimit.limit = 10;

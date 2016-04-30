@@ -79,9 +79,15 @@ public class Grabber : MonoBehaviour {
 
   void CreateConnectionTo(Rigidbody desiredObject) {
     jointObject = InstantiateJointObject(desiredObject);
+    Grabbable grabbable = desiredObject.gameObject.GetComponent<Grabbable>();
+    if (grabbable.useOrientation) {
+      desiredObject.transform.rotation = transform.rotation * Quaternion.Euler(grabbable.orientation);
+    }
+
     grabberJoint = jointObject.GetComponent<ConfigurableJoint>();
     grabberJoint.connectedBody = desiredObject;
     grabberJoint.connectedBody.useGravity = false;
+
     jointObject.transform.position += GrabbableOffset(desiredObject.transform);
   }
 
@@ -112,8 +118,8 @@ public class Grabber : MonoBehaviour {
     jointObject = new GameObject("Joint Object");
     jointObject.transform.parent = transform;
     jointObject.transform.localPosition = defaultAnchor;// Vector3.zero;
-    jointObject.transform.localScale = transform.localScale;//Vector3.one;
-    jointObject.transform.localRotation = transform.localRotation;
+    jointObject.transform.localScale = Vector3.one;
+    jointObject.transform.rotation = transform.rotation;
     JointFactory.AddJointTo(jointObject, desiredObject.mass);
     jointObject.GetComponent<Rigidbody>().useGravity = false;
     jointObject.GetComponent<Rigidbody>().isKinematic = true;
