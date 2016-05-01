@@ -36,6 +36,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   void HandleGrabbing(GameObject touchedObject) {
     bool shouldConnect = !SomethingHeld() && touchedObject != null && GrabRequested();
     if (shouldConnect) {
+      highlighter.RemoveHighlighting();
       CreateConnectionTo(touchedObject.GetComponent<Rigidbody>());
     }
     if (SomethingHeld() && DropRequested()) {

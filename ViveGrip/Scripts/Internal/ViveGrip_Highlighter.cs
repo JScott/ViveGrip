@@ -19,7 +19,7 @@ public class ViveGrip_Highlighter {
     if (!disabled && gameObject != null) { Highlight(gameObject); }
   }
 
-  private void RemoveHighlighting() {
+  public void RemoveHighlighting() {
     if (oldShader != null) {
       highlightedObject.GetComponent<Renderer>().material.shader = oldShader;
     }
