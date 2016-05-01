@@ -28,16 +28,17 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   void Update() {
     GameObject touchedObject = touch.NearestObject();
     HandleGrabbing(touchedObject);
+    HandleInteraction(touchedObject);
     highlighter.disabled = SomethingHeld();
     highlighter.UpdateFor(touchedObject);
     HandleFumbling();
   }
 
-  void HandleGrabbing(GameObject touchedObject) {
-    bool shouldConnect = !SomethingHeld() && touchedObject != null && GrabRequested();
+  void HandleGrabbing(GameObject targetObject) {
+    bool shouldConnect = !SomethingHeld() && targetObject != null && GrabRequested();
     if (shouldConnect) {
       highlighter.RemoveHighlighting();
-      CreateConnectionTo(touchedObject.GetComponent<Rigidbody>());
+      CreateConnectionTo(targetObject.GetComponent<Rigidbody>());
     }
     if (SomethingHeld() && DropRequested()) {
       DestroyConnection();
@@ -59,6 +60,14 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     inputPressed = button.Holding("grab");
     if (inputWasPressed) { return false; }
     else { return inputPressed; }
+  }
+
+  void HandleInteraction(GameObject targetObject) {
+    if (targetObject == null || !button.Pressed("interact")) { return; }
+    if (SomethingHeld()) {
+      targetObject = joint.connectedBody.gameObject;
+    }
+    targetObject.SendMessage("OnInteraction", SomethingHeld(), SendMessageOptions.DontRequireReceiver);
   }
 
   void HandleFumbling() {
