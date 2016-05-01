@@ -2,26 +2,22 @@
 using System.Collections;
 
 public class ViveGrip_GripPoint : MonoBehaviour {
-  public enum ViveInput { Grip, Trigger };
-  public SteamVR_TrackedObject attachedDevice;
   public float grabRadius = 0.2f;
   public float holdRadius = 0.3f;
   public Shader outlineShader;
   public Color outlineColor = new Color(1f, 0.5f, 0f);
   public bool visible = false;
-  public ViveInput input;
   public bool inputIsToggle = false;
-  private ulong gripInput;
+  private ViveGrip_ButtonManager button;
   private ViveGrip_TouchDetection touch;
   private ConfigurableJoint joint;
   private GameObject jointObject;
   private bool anchored = false;
-  private SteamVR_Controller.Device device;
   private ViveGrip_Highlighter highlighter;
   private bool inputPressed = false;
 
   void Start() {
-    gripInput = ParseInput();
+    button = GetComponent<ViveGrip_ButtonManager>();
     GameObject gripSphere = InstantiateTouchSphere();
     touch = gripSphere.AddComponent<ViveGrip_TouchDetection>();
     touch.radius = grabRadius;
@@ -30,7 +26,6 @@ public class ViveGrip_GripPoint : MonoBehaviour {
 	}
 
   void Update() {
-    device = GetDevice();
     GameObject touchedObject = touch.NearestObject();
     HandleGrabbing(touchedObject);
     highlighter.disabled = SomethingHeld();
@@ -38,44 +33,29 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     HandleFumbling();
   }
 
-  ulong ParseInput() {
-    switch ((int)input) {
-      default:
-      case 0:
-        return SteamVR_Controller.ButtonMask.Grip;
-      case 1:
-        return SteamVR_Controller.ButtonMask.Trigger;
-    }
-  }
-
-  SteamVR_Controller.Device GetDevice() {
-    SteamVR_TrackedObject trackedObject = attachedDevice;
-    return SteamVR_Controller.Input((int)trackedObject.index);
-  }
-
   void HandleGrabbing(GameObject touchedObject) {
     bool shouldConnect = !SomethingHeld() && touchedObject != null && GrabRequested();
     if (shouldConnect) {
       CreateConnectionTo(touchedObject.GetComponent<Rigidbody>());
     }
-    if (SomethingHeld() && ReleaseRequested()) {
+    if (SomethingHeld() && DropRequested()) {
       DestroyConnection();
     }
   }
 
   bool GrabRequested() {
     if (inputIsToggle) { return GrabToggleRequested(); }
-    else { return device.GetTouchDown(gripInput); }
+    else { return button.Pressed("grab"); }
   }
 
-  bool ReleaseRequested() {
+  bool DropRequested() {
     if (inputIsToggle) { return GrabToggleRequested(); }
-    else { return device.GetTouchUp(gripInput); }
+    else { return button.Released("grab"); }
   }
 
   bool GrabToggleRequested() {
     bool inputWasPressed = inputPressed;
-    inputPressed = device.GetTouch(gripInput);
+    inputPressed = button.Holding("grab");
     if (inputWasPressed) { return false; }
     else { return inputPressed; }
   }
