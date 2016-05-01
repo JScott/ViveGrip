@@ -8,8 +8,9 @@ Vive Grip handles these for you. A few simple scripts let you can create immersi
 
 1. Import the [SteamVR Plugin](https://www.assetstore.unity3d.com/en/#!/content/32647) and place their prefab rig in your scene
 2. Import the latest [Vive Grip release]()
-3. Add Vive Grip's `Grip Point` prefab under a controller object where objects will attach to
-4. Set the prefab's `Tracked Object` in the Inspector to the appropriate `SteamVR_TrackedObject`
+3. Place the Vive Grip's `Grip Point` prefab as a child of the controller object
+4. Set the prefab's `Tracked Object` in the Inspector to the respective `SteamVR_TrackedObject`
+5. Move the `Grip Point` to the desired local position
 
 The [API](API.md) is showcased in the [Demo Scene]().
 
