@@ -5,10 +5,10 @@ public class ViveGrip_ButtonManager : MonoBehaviour {
   public enum ViveInput {
     Grip,
     Trigger
-  };
+  }; // TODO: add more buttons
   public SteamVR_TrackedObject trackedObject;
-  public ViveInput grab;
-  public ViveInput interact;
+  public ViveInput grab = ViveInput.Grip;
+  public ViveInput interact = ViveInput.Trigger;
 
   void Start() {}
 
