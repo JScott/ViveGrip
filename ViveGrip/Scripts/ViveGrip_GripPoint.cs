@@ -14,6 +14,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   private bool anchored = false;
   private bool inputPressed = false;
   private GameObject lastTouchedObject;
+  private bool grabbedObjectHadGravity = false;
 
   void Start() {
     button = GetComponent<ViveGrip_ButtonManager>();
@@ -97,6 +98,9 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void CreateConnectionTo(Rigidbody desiredObject) {
+    Rigidbody desiredBody = desiredObject.GetComponent<Rigidbody>();
+    grabbedObjectHadGravity = desiredObject.useGravity;
+    desiredBody.useGravity = false;
     jointObject = InstantiateJointParent();
     SetOrientationOf(desiredObject);
     joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredObject);
@@ -115,7 +119,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void DestroyConnection() {
-    joint.connectedBody.useGravity = true;
+    joint.connectedBody.useGravity = grabbedObjectHadGravity;
     Destroy(jointObject);
     anchored = false;
   }
@@ -132,9 +136,9 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     jointObject.transform.localPosition = Vector3.zero;
     jointObject.transform.localScale = Vector3.one;
     jointObject.transform.rotation = transform.rotation;
-    jointObject.AddComponent<Rigidbody>();
-    jointObject.GetComponent<Rigidbody>().useGravity = false;
-    jointObject.GetComponent<Rigidbody>().isKinematic = true;
+    Rigidbody rigidbody = jointObject.AddComponent<Rigidbody>();
+    rigidbody.useGravity = false;
+    rigidbody.isKinematic = true;
     return jointObject;
   }
 
