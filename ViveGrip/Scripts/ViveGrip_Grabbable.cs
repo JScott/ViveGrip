@@ -6,5 +6,9 @@ public class ViveGrip_Grabbable : MonoBehaviour {
   public bool snapToOrientation = false;
   public Vector3 orientation = Vector3.zero;
 
-  void Start() {}
+  void Start() {
+    if (GetComponent<Rigidbody>() == null) {
+      gameObject.AddComponent<Rigidbody>();
+    }
+  }
 }
