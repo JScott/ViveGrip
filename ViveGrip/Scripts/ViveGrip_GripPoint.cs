@@ -4,40 +4,38 @@ using System.Collections;
 public class ViveGrip_GripPoint : MonoBehaviour {
   public float grabRadius = 0.2f;
   public float holdRadius = 0.3f;
-  public Shader outlineShader;
-  public Color outlineColor = new Color(1f, 0.5f, 0f);
   public bool visible = false;
   public bool inputIsToggle = false;
+  private Color highlightTint = new Color(0.2f, 0.2f, 0.2f);
   private ViveGrip_ButtonManager button;
   private ViveGrip_TouchDetection touch;
   private ConfigurableJoint joint;
   private GameObject jointObject;
   private bool anchored = false;
-  private ViveGrip_Highlighter highlighter;
   private bool inputPressed = false;
+  private GameObject lastTouchedObject;
 
   void Start() {
     button = GetComponent<ViveGrip_ButtonManager>();
     GameObject gripSphere = InstantiateTouchSphere();
     touch = gripSphere.AddComponent<ViveGrip_TouchDetection>();
     touch.radius = grabRadius;
-    if (outlineShader == null) { outlineShader = Shader.Find("ViveGrip/Outline"); }
-    highlighter = new ViveGrip_Highlighter(outlineShader, outlineColor);
 	}
 
   void Update() {
     GameObject touchedObject = touch.NearestObject();
     HandleGrabbing(touchedObject);
     HandleInteraction(touchedObject);
-    highlighter.disabled = SomethingHeld();
-    highlighter.UpdateFor(touchedObject);
+    HandleHighlighting(touchedObject);
     HandleFumbling();
+    lastTouchedObject = touchedObject;
   }
 
   void HandleGrabbing(GameObject targetObject) {
     bool shouldConnect = !SomethingHeld() && targetObject != null && GrabRequested();
     if (shouldConnect) {
-      highlighter.RemoveHighlighting();
+      ViveGrip_Highlight target = GetHighlight(targetObject);
+      if (target != null) { target.RemoveHighlighting(); }
       CreateConnectionTo(targetObject.GetComponent<Rigidbody>());
     }
     if (SomethingHeld() && DropRequested()) {
@@ -68,6 +66,22 @@ public class ViveGrip_GripPoint : MonoBehaviour {
       targetObject = joint.connectedBody.gameObject;
     }
     targetObject.SendMessage("OnInteraction", SomethingHeld(), SendMessageOptions.DontRequireReceiver);
+  }
+
+  void HandleHighlighting(GameObject targetObject) {
+    ViveGrip_Highlight last = GetHighlight(lastTouchedObject);
+    ViveGrip_Highlight current = GetHighlight(targetObject);
+    if (last != null && last != current) {
+      last.RemoveHighlighting();
+    }
+    if (current != null && !SomethingHeld()) {
+      current.Highlight(highlightTint);
+    }
+  }
+
+  ViveGrip_Highlight GetHighlight(GameObject targetObject) {
+    if (targetObject == null) { return null; }
+    return targetObject.GetComponent<ViveGrip_Highlight>();
   }
 
   void HandleFumbling() {
