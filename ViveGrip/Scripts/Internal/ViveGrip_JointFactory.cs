@@ -6,8 +6,15 @@ public static class ViveGrip_JointFactory {
     ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
     ViveGrip_JointFactory.ConfigureBase(joint);
     ViveGrip_JointFactory.SetLinearDrive(joint, desiredObject.mass);
+
+
     ViveGrip_JointFactory.SetAngularDrive(joint, desiredObject.mass);
-    joint.SetTargetRotationLocal(desiredRotation, jointObject.transform.localRotation);
+    // joint.targetRotation = desiredRotation;
+    // desiredRotation = Quaternion.Euler(0,90,0);
+    Quaternion currentRotation = desiredObject.transform.localRotation;
+    joint.SetTargetRotationLocal(desiredRotation, currentRotation);
+    // joint.targetRotation = Quaternion.Euler(0,90,0);
+
     joint.connectedBody = desiredObject;
     joint.connectedBody.useGravity = false;
     return joint;
@@ -23,9 +30,9 @@ public static class ViveGrip_JointFactory {
     joint.angularYMotion = angularMotion;
     joint.angularZMotion = angularMotion;
     joint.anchor = Vector3.zero;
-    SoftJointLimit jointLimit = joint.linearLimit;
-    jointLimit.limit = 10;
-    joint.linearLimit = jointLimit;
+    // SoftJointLimit jointLimit = joint.linearLimit;
+    // jointLimit.limit = 10;
+    // joint.linearLimit = jointLimit;
   }
 
   private static void SetLinearDrive(ConfigurableJoint joint, float mass) {
@@ -66,4 +73,15 @@ public static class ViveGrip_JointFactory {
     jointDrive.positionDamper = gripSpeed;
     joint.angularXDrive = jointDrive;
   }
+
+  // public static void UnlockJoint(ConfigurableJoint joint) {
+  //   ConfigurableJointMotion linearMotion = ConfigurableJointMotion.Free;
+  //   ConfigurableJointMotion angularMotion = ConfigurableJointMotion.Free;
+  //   joint.xMotion = linearMotion;
+  //   joint.yMotion = linearMotion;
+  //   joint.zMotion = linearMotion;
+  //   joint.angularXMotion = angularMotion;
+  //   joint.angularYMotion = angularMotion;
+  //   joint.angularZMotion = angularMotion;
+  // }
 }

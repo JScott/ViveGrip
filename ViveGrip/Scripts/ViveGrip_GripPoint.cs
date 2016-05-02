@@ -103,6 +103,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     jointObject = InstantiateJointParent();
     //SetOrientationOf(desiredBody);
     Quaternion desiredRotation = DesiredLocalOrientationFor(desiredBody.gameObject);
+    //desiredBody.transform.rotation = Quaternion.identity;
     joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredBody, desiredRotation);
     jointObject.transform.position += AnchorOffsetOf(desiredBody);
   }
@@ -113,7 +114,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
       return Quaternion.Euler(grabbable.orientation);
     }
     else {
-      return Quaternion.identity;
+      return target.transform.localRotation;
     }
   }
 
