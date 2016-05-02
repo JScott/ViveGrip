@@ -131,7 +131,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   GameObject InstantiateJointParent() {
-    jointObject = new GameObject("ViveGrip Joint Parent");
+    jointObject = new GameObject("ViveGrip Joint");
     jointObject.transform.parent = transform;
     jointObject.transform.localPosition = Vector3.zero;
     jointObject.transform.localScale = Vector3.one;
