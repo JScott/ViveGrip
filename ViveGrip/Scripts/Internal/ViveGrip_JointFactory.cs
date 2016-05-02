@@ -2,10 +2,12 @@ using UnityEngine;
 using System.Collections;
 
 public static class ViveGrip_JointFactory {
-  public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject) {
+  public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject, Quaternion desiredRotation) {
     ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
     ViveGrip_JointFactory.ConfigureBase(joint);
-    ViveGrip_JointFactory.SetDrive(joint, desiredObject.mass);
+    ViveGrip_JointFactory.SetLinearDrive(joint, desiredObject.mass);
+    ViveGrip_JointFactory.SetAngularDrive(joint, desiredObject.mass);
+    joint.SetTargetRotationLocal(desiredRotation, jointObject.transform.localRotation);
     joint.connectedBody = desiredObject;
     joint.connectedBody.useGravity = false;
     return joint;
@@ -13,7 +15,7 @@ public static class ViveGrip_JointFactory {
 
   private static void ConfigureBase(ConfigurableJoint joint) {
     ConfigurableJointMotion linearMotion = ConfigurableJointMotion.Limited;
-    ConfigurableJointMotion angularMotion = ConfigurableJointMotion.Locked;
+    ConfigurableJointMotion angularMotion = ConfigurableJointMotion.Free;
     joint.xMotion = linearMotion;
     joint.yMotion = linearMotion;
     joint.zMotion = linearMotion;
@@ -26,7 +28,7 @@ public static class ViveGrip_JointFactory {
     joint.linearLimit = jointLimit;
   }
 
-  private static void SetDrive(ConfigurableJoint joint, float mass) {
+  private static void SetLinearDrive(ConfigurableJoint joint, float mass) {
     float gripStrength = 3000f * mass;
     float gripSpeed = 10f * mass;
     JointDrive jointDrive = joint.xDrive;
@@ -41,5 +43,27 @@ public static class ViveGrip_JointFactory {
     jointDrive.positionSpring = gripStrength;
     jointDrive.positionDamper = gripSpeed;
     joint.zDrive = jointDrive;
+  }
+
+  private static void SetAngularDrive(ConfigurableJoint joint, float mass) {
+    float gripStrength = 3000f * mass;
+    float gripSpeed = 10f * mass;
+    // joint.rotationDriveMode = RotationDriveMode.Slerp;
+    // JointDrive slerpDrive = joint.slerpDrive;
+    // slerpDrive.positionSpring = gripStrength;
+    // slerpDrive.positionDamper = gripSpeed;
+    // joint.slerpDrive = slerpDrive;
+
+    //joint.targetAngularVelocity = Vector3.one * gripSpeed;
+
+    joint.rotationDriveMode = RotationDriveMode.XYAndZ;
+    JointDrive jointDrive = joint.angularYZDrive;
+    jointDrive.positionSpring = gripStrength;
+    jointDrive.positionDamper = gripSpeed;
+    joint.angularYZDrive = jointDrive;
+    jointDrive = joint.angularXDrive;
+    jointDrive.positionSpring = gripStrength;
+    jointDrive.positionDamper = gripSpeed;
+    joint.angularXDrive = jointDrive;
   }
 }

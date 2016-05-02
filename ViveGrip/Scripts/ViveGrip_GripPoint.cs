@@ -97,14 +97,24 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     }
   }
 
-  void CreateConnectionTo(Rigidbody desiredObject) {
-    Rigidbody desiredBody = desiredObject.GetComponent<Rigidbody>();
-    grabbedObjectHadGravity = desiredObject.useGravity;
+  void CreateConnectionTo(Rigidbody desiredBody) {
+    grabbedObjectHadGravity = desiredBody.useGravity;
     desiredBody.useGravity = false;
     jointObject = InstantiateJointParent();
-    SetOrientationOf(desiredObject);
-    joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredObject);
-    jointObject.transform.position += AnchorOffsetOf(desiredObject);
+    //SetOrientationOf(desiredBody);
+    Quaternion desiredRotation = DesiredLocalOrientationFor(desiredBody.gameObject);
+    joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredBody, desiredRotation);
+    jointObject.transform.position += AnchorOffsetOf(desiredBody);
+  }
+
+  Quaternion DesiredLocalOrientationFor(GameObject target) {
+    ViveGrip_Grabbable grabbable = target.GetComponent<ViveGrip_Grabbable>();
+    if (grabbable.snapToOrientation) {
+      return Quaternion.Euler(grabbable.orientation);
+    }
+    else {
+      return Quaternion.identity;
+    }
   }
 
   void SetOrientationOf(Rigidbody desiredObject) {
