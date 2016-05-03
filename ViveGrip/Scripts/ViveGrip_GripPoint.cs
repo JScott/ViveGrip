@@ -110,7 +110,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     ViveGrip_Grabbable grabbable = target.GetComponent<ViveGrip_Grabbable>();
     if (grabbable.snapToOrientation) {
       target.transform.rotation = transform.rotation; // Rotations are hard so we cheat
-      return target.transform.localRotation;
+      return target.transform.localRotation * Quaternion.Euler(grabbable.orientation);
     }
     else {
       return target.transform.localRotation;

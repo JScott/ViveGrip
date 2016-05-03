@@ -4,8 +4,9 @@ using System.Collections;
 public static class ViveGrip_JointFactory {
   public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject, Quaternion desiredRotation) {
     ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
-    ViveGrip_JointFactory.ConfigureBase(joint);
+
     ViveGrip_JointFactory.SetLinearDrive(joint, desiredObject.mass);
+    //ViveGrip_JointFactory.ConfigureBase(joint);
 
     ViveGrip_JointFactory.SetAngularDrive(joint, desiredObject.mass);
     Quaternion currentRotation = desiredObject.transform.rotation;
@@ -16,20 +17,20 @@ public static class ViveGrip_JointFactory {
     return joint;
   }
 
-  private static void ConfigureBase(ConfigurableJoint joint) {
-    ConfigurableJointMotion linearMotion = ConfigurableJointMotion.Free;
-    ConfigurableJointMotion angularMotion = ConfigurableJointMotion.Free;
-    joint.xMotion = linearMotion;
-    joint.yMotion = linearMotion;
-    joint.zMotion = linearMotion;
-    joint.angularXMotion = angularMotion;
-    joint.angularYMotion = angularMotion;
-    joint.angularZMotion = angularMotion;
-    joint.anchor = Vector3.zero;
-    // SoftJointLimit jointLimit = joint.linearLimit;
-    // jointLimit.limit = 10;
-    // joint.linearLimit = jointLimit;
-  }
+  // private static void ConfigureBase(ConfigurableJoint joint) {
+  //   ConfigurableJointMotion linearMotion = ConfigurableJointMotion.Free;
+  //   ConfigurableJointMotion angularMotion = ConfigurableJointMotion.Free;
+  //   joint.xMotion = linearMotion;
+  //   joint.yMotion = linearMotion;
+  //   joint.zMotion = linearMotion;
+  //   joint.angularXMotion = angularMotion;
+  //   joint.angularYMotion = angularMotion;
+  //   joint.angularZMotion = angularMotion;
+  //   joint.anchor = Vector3.zero;
+  //   // SoftJointLimit jointLimit = joint.linearLimit;
+  //   // jointLimit.limit = 10;
+  //   // joint.linearLimit = jointLimit;
+  // }
 
   private static void SetLinearDrive(ConfigurableJoint joint, float mass) {
     float gripStrength = 3000f * mass;
