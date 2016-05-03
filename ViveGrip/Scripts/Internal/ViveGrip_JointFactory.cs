@@ -7,13 +7,9 @@ public static class ViveGrip_JointFactory {
     ViveGrip_JointFactory.ConfigureBase(joint);
     ViveGrip_JointFactory.SetLinearDrive(joint, desiredObject.mass);
 
-
     ViveGrip_JointFactory.SetAngularDrive(joint, desiredObject.mass);
-    // joint.targetRotation = desiredRotation;
-    // desiredRotation = Quaternion.Euler(0,90,0);
-    Quaternion currentRotation = desiredObject.transform.localRotation;
+    Quaternion currentRotation = desiredObject.transform.rotation;
     joint.SetTargetRotationLocal(desiredRotation, currentRotation);
-    // joint.targetRotation = Quaternion.Euler(0,90,0);
 
     joint.connectedBody = desiredObject;
     joint.connectedBody.useGravity = false;
@@ -21,7 +17,7 @@ public static class ViveGrip_JointFactory {
   }
 
   private static void ConfigureBase(ConfigurableJoint joint) {
-    ConfigurableJointMotion linearMotion = ConfigurableJointMotion.Limited;
+    ConfigurableJointMotion linearMotion = ConfigurableJointMotion.Free;
     ConfigurableJointMotion angularMotion = ConfigurableJointMotion.Free;
     joint.xMotion = linearMotion;
     joint.yMotion = linearMotion;
@@ -55,14 +51,6 @@ public static class ViveGrip_JointFactory {
   private static void SetAngularDrive(ConfigurableJoint joint, float mass) {
     float gripStrength = 3000f * mass;
     float gripSpeed = 10f * mass;
-    // joint.rotationDriveMode = RotationDriveMode.Slerp;
-    // JointDrive slerpDrive = joint.slerpDrive;
-    // slerpDrive.positionSpring = gripStrength;
-    // slerpDrive.positionDamper = gripSpeed;
-    // joint.slerpDrive = slerpDrive;
-
-    //joint.targetAngularVelocity = Vector3.one * gripSpeed;
-
     joint.rotationDriveMode = RotationDriveMode.XYAndZ;
     JointDrive jointDrive = joint.angularYZDrive;
     jointDrive.positionSpring = gripStrength;
@@ -73,15 +61,4 @@ public static class ViveGrip_JointFactory {
     jointDrive.positionDamper = gripSpeed;
     joint.angularXDrive = jointDrive;
   }
-
-  // public static void UnlockJoint(ConfigurableJoint joint) {
-  //   ConfigurableJointMotion linearMotion = ConfigurableJointMotion.Free;
-  //   ConfigurableJointMotion angularMotion = ConfigurableJointMotion.Free;
-  //   joint.xMotion = linearMotion;
-  //   joint.yMotion = linearMotion;
-  //   joint.zMotion = linearMotion;
-  //   joint.angularXMotion = angularMotion;
-  //   joint.angularYMotion = angularMotion;
-  //   joint.angularZMotion = angularMotion;
-  // }
 }
