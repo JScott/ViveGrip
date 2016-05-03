@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class ViveGrip_Grabbable : MonoBehaviour {
+  // TODO: snapToAnchor
   public Vector3 anchor = Vector3.zero;
   public bool snapToOrientation = false;
   public Vector3 orientation = Vector3.zero;
-  // TODO: public bool highlighted = false;
 
   void Start() {
     if (GetComponent<Rigidbody>() == null) {

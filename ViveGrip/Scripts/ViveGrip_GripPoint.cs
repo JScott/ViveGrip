@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class ViveGrip_GripPoint : MonoBehaviour {
   public float grabRadius = 0.2f;
@@ -25,15 +24,17 @@ public class ViveGrip_GripPoint : MonoBehaviour {
 
   void Update() {
     GameObject touchedObject = touch.NearestObject();
+    HandleHighlighting(touchedObject);
     HandleGrabbing(touchedObject);
     HandleInteraction(touchedObject);
-    HandleHighlighting(touchedObject);
     HandleFumbling();
     lastTouchedObject = touchedObject;
   }
 
   void HandleGrabbing(GameObject targetObject) {
-    bool shouldConnect = !SomethingHeld() && targetObject != null && GrabRequested();
+    if (targetObject == null) { return; }
+    bool shouldConnect = targetObject.GetComponent<ViveGrip_Grabbable>() != null;
+    shouldConnect &= !SomethingHeld() && targetObject != null && GrabRequested();
     if (shouldConnect) {
       ViveGrip_Highlight target = GetHighlight(targetObject);
       if (target != null) { target.RemoveHighlighting(); }
@@ -45,20 +46,18 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   bool GrabRequested() {
-    if (inputIsToggle) { return GrabToggleRequested(); }
-    else { return button.Pressed("grab"); }
+    return inputIsToggle ? GrabToggleRequested() : button.Pressed("grab");
   }
 
   bool DropRequested() {
-    if (inputIsToggle) { return GrabToggleRequested(); }
-    else { return button.Released("grab"); }
+    return inputIsToggle ? GrabToggleRequested() : button.Released("grab");
   }
 
   bool GrabToggleRequested() {
     bool inputWasPressed = inputPressed;
     inputPressed = button.Holding("grab");
     if (inputWasPressed) { return false; }
-    else { return inputPressed; }
+    return inputPressed;
   }
 
   void HandleInteraction(GameObject targetObject) {
@@ -102,10 +101,8 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     desiredBody.useGravity = false;
     jointObject = InstantiateJointParent();
     Quaternion desiredRotation = DesiredLocalOrientationFor(desiredBody.gameObject);
-    // Vector3 offset = AnchorOffsetOf(desiredBody);
     Vector3 offset = desiredBody.gameObject.GetComponent<ViveGrip_Grabbable>().anchor;
     joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredBody, offset, desiredRotation);
-    //jointObject.transform.position += AnchorOffsetOf(desiredBody);
   }
 
   Quaternion DesiredLocalOrientationFor(GameObject target) {
@@ -114,13 +111,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
       target.transform.rotation = transform.rotation; // Rotations are hard so we cheat
       return target.transform.localRotation * Quaternion.Euler(grabbable.orientation);
     }
-    else {
-      return target.transform.localRotation;
-    }
-  }
-
-  Vector3 AnchorOffsetOf(Rigidbody rigidbody) {
-    return transform.position - AnchorWorldPositionOf(rigidbody.gameObject);
+    return target.transform.localRotation;
   }
 
   void DestroyConnection() {
@@ -131,8 +122,8 @@ public class ViveGrip_GripPoint : MonoBehaviour {
 
   Vector3 AnchorWorldPositionOf(GameObject grabbableObject) {
     Vector3 anchor = grabbableObject.GetComponent<ViveGrip_Grabbable>().anchor;
-    Transform transform = grabbableObject.transform;
-    return transform.position + transform.TransformVector(anchor);
+    Transform grabbableTransform = grabbableObject.transform;
+    return grabbableTransform.position + grabbableTransform.TransformVector(anchor);
   }
 
   GameObject InstantiateJointParent() {
@@ -141,20 +132,20 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     jointObject.transform.localPosition = Vector3.zero;
     jointObject.transform.localScale = Vector3.one;
     jointObject.transform.rotation = transform.rotation;
-    Rigidbody rigidbody = jointObject.AddComponent<Rigidbody>();
-    rigidbody.useGravity = false;
-    rigidbody.isKinematic = true;
+    Rigidbody jointRigidbody = jointObject.AddComponent<Rigidbody>();
+    jointRigidbody.useGravity = false;
+    jointRigidbody.isKinematic = true;
     return jointObject;
   }
 
   GameObject InstantiateTouchSphere() {
     GameObject gripSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-    Renderer renderer = gripSphere.GetComponent<Renderer>();
-    renderer.enabled = visible;
+    Renderer sphereRenderer = gripSphere.GetComponent<Renderer>();
+    sphereRenderer.enabled = visible;
     if (visible) {
-      renderer.material = new Material(Shader.Find("ViveGrip/TouchSphere"));
-      renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-      renderer.receiveShadows = false;
+      sphereRenderer.material = new Material(Shader.Find("ViveGrip/TouchSphere"));
+      sphereRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+      sphereRenderer.receiveShadows = false;
     }
     gripSphere.transform.localScale = Vector3.one * grabRadius;
     gripSphere.transform.position = transform.position;
