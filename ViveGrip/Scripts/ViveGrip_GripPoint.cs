@@ -61,11 +61,16 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void HandleInteraction(GameObject targetObject) {
-    if (targetObject == null || !button.Pressed("interact")) { return; }
+    if (targetObject == null) { return; }
     if (SomethingHeld()) {
       targetObject = joint.connectedBody.gameObject;
     }
-    targetObject.SendMessage("OnInteraction", SomethingHeld(), SendMessageOptions.DontRequireReceiver);
+    if (button.Pressed("interact")) {
+      targetObject.SendMessage("OnViveGripInteraction", SomethingHeld(), SendMessageOptions.DontRequireReceiver);
+    }
+    if (button.Holding("interact")) {
+      targetObject.SendMessage("OnViveGripInteractionHeld", SomethingHeld(), SendMessageOptions.DontRequireReceiver);
+    }
   }
 
   void HandleHighlighting(GameObject targetObject) {

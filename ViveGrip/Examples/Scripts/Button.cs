@@ -7,7 +7,7 @@ public class Button : MonoBehaviour {
 
 	void Start () {}
 
-  void OnInteraction() {
+  void OnViveGripInteraction() {
     Destroy(GetComponent<ViveGrip_Interactable>());
     StartCoroutine("Move");
   }
