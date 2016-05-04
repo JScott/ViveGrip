@@ -3,11 +3,11 @@ using System.Collections;
 
 public static class ViveGrip_JointFactory {
   public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject, Vector3 offset, Quaternion desiredRotation) {
-    bool useGripRotation = desiredObject.gameObject.GetComponent<ViveGrip_Grabbable>().useGripRotation;
+    bool applyGripRotation = desiredObject.gameObject.GetComponent<ViveGrip_Grabbable>().applyGripRotation;
     ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
     ViveGrip_JointFactory.SetLinearDrive(joint, desiredObject.mass);
-    ViveGrip_JointFactory.ConfigureAnchor(joint, offset, useGripRotation);
-    if (useGripRotation) {
+    ViveGrip_JointFactory.ConfigureAnchor(joint, offset, applyGripRotation);
+    if (applyGripRotation) {
       ViveGrip_JointFactory.SetAngularDrive(joint, desiredObject.mass);
       ViveGrip_JointFactory.ConfigureRotation(joint, desiredObject, desiredRotation);
     }
@@ -15,8 +15,8 @@ public static class ViveGrip_JointFactory {
     return joint;
   }
 
-  private static void ConfigureAnchor(ConfigurableJoint joint, Vector3 offset, bool useGripRotation) {
-    if (useGripRotation) { // TODO: Why is this important when we rotate? We pass in a local offset...
+  private static void ConfigureAnchor(ConfigurableJoint joint, Vector3 offset, bool applyGripRotation) {
+    if (applyGripRotation) { // TODO: Why is this important when we rotate? We pass in a local offset...
       joint.autoConfigureConnectedAnchor = false;
       joint.connectedAnchor = offset;
     }
