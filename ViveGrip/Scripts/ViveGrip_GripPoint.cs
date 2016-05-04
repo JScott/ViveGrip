@@ -106,7 +106,8 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     desiredBody.useGravity = false;
     jointObject = InstantiateJointParent();
     Quaternion desiredRotation = DesiredLocalOrientationFor(desiredBody.gameObject);
-    Vector3 offset = desiredBody.gameObject.GetComponent<ViveGrip_Grabbable>().anchor;
+    Vector3 offset = DesiredLocalOffsetFor(desiredBody.gameObject);
+    Debug.DrawLine(desiredBody.transform.position, desiredBody.transform.position+offset, Color.red, 20f, false);
     joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredBody, offset, desiredRotation);
   }
 
@@ -117,6 +118,17 @@ public class ViveGrip_GripPoint : MonoBehaviour {
       return target.transform.localRotation * Quaternion.Euler(grabbable.orientation);
     }
     return target.transform.localRotation;
+  }
+
+  Vector3 DesiredLocalOffsetFor(GameObject target) {
+    ViveGrip_Grabbable grabbable = target.GetComponent<ViveGrip_Grabbable>();
+    if (grabbable.snapToAnchor) {
+      return target.GetComponent<ViveGrip_Grabbable>().anchor;
+    }
+    Vector3 closestPoint = target.GetComponent<Rigidbody>().ClosestPointOnBounds(transform.position);
+    //Debug.DrawLine(target.transform.position, target.transform.position+closestPoint, Color.red, 20f, false);
+    // return target.transform.position - closestPoint;
+    return transform.position - target.transform.position;
   }
 
   void DestroyConnection() {
