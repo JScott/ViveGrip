@@ -13,7 +13,6 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   private bool anchored = false;
   private bool inputPressed = false;
   private GameObject lastTouchedObject;
-  private bool grabbedObjectHadGravity = false;
 
   void Start() {
     button = GetComponent<ViveGrip_ButtonManager>();
@@ -102,8 +101,6 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void CreateConnectionTo(Rigidbody desiredBody) {
-    grabbedObjectHadGravity = desiredBody.useGravity;
-    desiredBody.useGravity = false;
     jointObject = InstantiateJointParent();
     Quaternion desiredRotation = DesiredLocalOrientationFor(desiredBody.gameObject);
     Vector3 offset = desiredBody.gameObject.GetComponent<ViveGrip_Grabbable>().anchor;
@@ -121,7 +118,6 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void DestroyConnection() {
-    joint.connectedBody.useGravity = grabbedObjectHadGravity;
     Destroy(jointObject);
     anchored = false;
   }

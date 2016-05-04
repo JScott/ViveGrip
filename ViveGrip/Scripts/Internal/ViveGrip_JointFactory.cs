@@ -67,6 +67,5 @@ public static class ViveGrip_JointFactory {
 
   private static void Attach(ConfigurableJoint joint, Rigidbody desiredObject) {
     joint.connectedBody = desiredObject;
-    joint.connectedBody.useGravity = false;
   }
 }
