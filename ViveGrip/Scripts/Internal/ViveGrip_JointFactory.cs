@@ -28,17 +28,21 @@ public static class ViveGrip_JointFactory {
   private static void SetLinearDrive(ConfigurableJoint joint, float mass) {
     float gripStrength = 3000f * mass;
     float gripSpeed = 10f * mass;
+    float maxPower = 50f * mass;
     JointDrive jointDrive = joint.xDrive;
     jointDrive.positionSpring = gripStrength;
     jointDrive.positionDamper = gripSpeed;
+    jointDrive.maximumForce = maxPower;
     joint.xDrive = jointDrive;
     jointDrive = joint.yDrive;
     jointDrive.positionSpring = gripStrength;
     jointDrive.positionDamper = gripSpeed;
+    jointDrive.maximumForce = maxPower;
     joint.yDrive = jointDrive;
     jointDrive = joint.zDrive;
     jointDrive.positionSpring = gripStrength;
     jointDrive.positionDamper = gripSpeed;
+    jointDrive.maximumForce = maxPower;
     joint.zDrive = jointDrive;
   }
 
