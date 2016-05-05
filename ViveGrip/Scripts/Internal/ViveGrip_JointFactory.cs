@@ -3,12 +3,14 @@ using System.Collections;
 
 public static class ViveGrip_JointFactory {
   public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject, Vector3 offset, Quaternion desiredRotation) {
-    bool applyGripRotation = desiredObject.gameObject.GetComponent<ViveGrip_Grabbable>().applyGripRotation;
+    ViveGrip_Grabbable grabbable = desiredObject.gameObject.GetComponent<ViveGrip_Grabbable>();
     ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
     ViveGrip_JointFactory.SetLinearDrive(joint, desiredObject.mass);
-    ViveGrip_JointFactory.ConfigureAnchor(joint, offset, applyGripRotation);
-    if (applyGripRotation) {
+    ViveGrip_JointFactory.ConfigureAnchor(joint, offset, grabbable.applyGripRotation);
+    if (grabbable.applyGripRotation) {
       ViveGrip_JointFactory.SetAngularDrive(joint, desiredObject.mass);
+    }
+    if (grabbable.snapToOrientation) {
       ViveGrip_JointFactory.ConfigureRotation(joint, desiredObject, desiredRotation);
     }
     ViveGrip_JointFactory.Attach(joint, desiredObject);
@@ -26,7 +28,7 @@ public static class ViveGrip_JointFactory {
   }
 
   private static void SetLinearDrive(ConfigurableJoint joint, float mass) {
-    float gripStrength = 3000f * mass;
+    float gripStrength = 2000f * mass;
     float gripSpeed = 10f * mass;
     float maxPower = 50f * mass;
     JointDrive jointDrive = joint.xDrive;
