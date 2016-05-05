@@ -22,6 +22,9 @@ public class ViveGrip_TouchDetection : MonoBehaviour {
     float closestDistance = radius + 1f;
     GameObject touchedObject = null;
     foreach (GameObject gameObject in collidingObjects) {
+      if (gameObject == null) { // Happens with Destroy() sometimes
+        continue;
+      }
       if (gameObject.GetComponent<ViveGrip_Grabbable>() == null &&
           gameObject.GetComponent<ViveGrip_Interactable>() == null) {
         continue;

@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public static class ViveGrip_JointFactory {
   public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject, Vector3 offset, Quaternion desiredRotation) {
@@ -10,9 +9,7 @@ public static class ViveGrip_JointFactory {
     if (grabbable.applyGripRotation) {
       ViveGrip_JointFactory.SetAngularDrive(joint, desiredObject.mass);
     }
-    if (grabbable.snapToOrientation) {
-      ViveGrip_JointFactory.ConfigureRotation(joint, desiredObject, desiredRotation);
-    }
+    joint.targetRotation = desiredRotation;
     ViveGrip_JointFactory.Attach(joint, desiredObject);
     return joint;
   }
@@ -49,13 +46,12 @@ public static class ViveGrip_JointFactory {
   }
 
   private static void ConfigureRotation(ConfigurableJoint joint, Rigidbody desiredObject, Quaternion desiredRotation) {
-    Quaternion currentRotation = desiredObject.transform.rotation;
-    joint.SetTargetRotationLocal(desiredRotation, currentRotation);
+    joint.targetRotation = desiredRotation;
   }
 
   private static void SetAngularDrive(ConfigurableJoint joint, float mass) {
-    float gripStrength = 3000f * mass;
-    float gripSpeed = 10f * mass;
+    float gripStrength = 30f * mass;
+    float gripSpeed = 1f * mass;
     joint.rotationDriveMode = RotationDriveMode.XYAndZ;
     JointDrive jointDrive = joint.angularYZDrive;
     jointDrive.positionSpring = gripStrength;

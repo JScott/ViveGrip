@@ -110,10 +110,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   Quaternion DesiredLocalOrientationFor(GameObject target) {
     ViveGrip_Grabbable grabbable = target.GetComponent<ViveGrip_Grabbable>();
     if (grabbable.snapToOrientation) {
-      target.transform.rotation = transform.rotation; // Rotations are hard so we cheat
-      return target.transform.localRotation * Quaternion.Euler(grabbable.orientation);
+      // Undo current rotation, apply the orientation, and translate that to controller space
+      Quaternion localToController = transform.rotation * Quaternion.Euler(grabbable.orientation) * Quaternion.Inverse(target.transform.rotation);
+      return localToController;
     }
-    return target.transform.localRotation;
+    return Quaternion.identity;
   }
 
   void DestroyConnection() {
@@ -132,7 +133,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     jointObject.transform.parent = transform;
     jointObject.transform.localPosition = Vector3.zero;
     jointObject.transform.localScale = Vector3.one;
-    jointObject.transform.rotation = transform.rotation;
+    jointObject.transform.rotation = Quaternion.identity;
     Rigidbody jointRigidbody = jointObject.AddComponent<Rigidbody>();
     jointRigidbody.useGravity = false;
     jointRigidbody.isKinematic = true;
