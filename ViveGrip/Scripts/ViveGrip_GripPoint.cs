@@ -111,7 +111,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     ViveGrip_Grabbable grabbable = target.GetComponent<ViveGrip_Grabbable>();
     if (grabbable.snapToOrientation) {
       // Undo current rotation, apply the orientation, and translate that to controller space
-      Quaternion localToController = transform.rotation * Quaternion.Euler(grabbable.orientation) * Quaternion.Inverse(target.transform.rotation);
+      Quaternion localToController = transform.rotation * Quaternion.Euler(grabbable.localOrientation) * Quaternion.Inverse(target.transform.rotation);
       return localToController;
     }
     return Quaternion.identity;

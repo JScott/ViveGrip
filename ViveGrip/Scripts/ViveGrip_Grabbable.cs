@@ -5,7 +5,7 @@ public class ViveGrip_Grabbable : MonoBehaviour {
   public Vector3 anchor = Vector3.zero;
   public bool applyGripRotation = true;
   public bool snapToOrientation = false;
-  public Vector3 orientation = Vector3.zero;
+  public Vector3 localOrientation = Vector3.zero;
 
   void Start() {
     if (GetComponent<Rigidbody>() == null) {
