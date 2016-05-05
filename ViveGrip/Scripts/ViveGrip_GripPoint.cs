@@ -55,6 +55,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   bool GrabToggleRequested() {
     bool inputWasPressed = inputPressed;
     inputPressed = button.Holding("grab");
+    // TODO: return !inputWasPressed && inputPressed; ?
     if (inputWasPressed) { return false; }
     return inputPressed;
   }
@@ -102,15 +103,15 @@ public class ViveGrip_GripPoint : MonoBehaviour {
 
   void CreateConnectionTo(Rigidbody desiredBody) {
     jointObject = InstantiateJointParent();
-    Quaternion desiredRotation = DesiredLocalOrientationFor(desiredBody.gameObject);
+    Quaternion desiredRotation = OrientationChangeFor(desiredBody.gameObject);
     Vector3 offset = desiredBody.gameObject.GetComponent<ViveGrip_Grabbable>().anchor;
     joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredBody, offset, desiredRotation);
   }
 
-  Quaternion DesiredLocalOrientationFor(GameObject target) {
+  Quaternion OrientationChangeFor(GameObject target) {
     ViveGrip_Grabbable grabbable = target.GetComponent<ViveGrip_Grabbable>();
     if (grabbable.snapToOrientation) {
-      // Undo current rotation, apply the orientation, and translate that to controller space
+      // Undo current rotation, apply the orientation, and translate that to controller space (reverse order because Quaternions)
       Quaternion localToController = transform.rotation * Quaternion.Euler(grabbable.localOrientation) * Quaternion.Inverse(target.transform.rotation);
       return localToController;
     }
