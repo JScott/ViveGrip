@@ -34,9 +34,9 @@ The track is just for show and has no collider. You'll get some weird behaviour 
 
 - `ViveGrip_Interactable`
 - `BoxCollider`
-- `OnViveGripInteraction(bool held)`
+- `OnViveGripInteraction(bool grabbed)`
 
-The button is a cube with `ViveGrip_Interactable` attached. It doesn't need to be picked up so it doesn't automatically add a `Rigidbody` and I use the default collider. Instead of being grabbable, any `OnViveGripInteraction(bool held)` methods in scripts attached to the object will be called when its interacted with.
+The button is a cube with `ViveGrip_Interactable` attached. It doesn't need to be picked up so it doesn't automatically add a `Rigidbody` and I use the default collider. Instead of being grabbable, any `OnViveGripInteraction(bool grabbed)` methods in scripts attached to the object will be called when its interacted with.
 
 In this case, the attached script will move the button in and back out when triggered.
 
@@ -68,8 +68,8 @@ The holder for the lever is just for show and has no colliders.
   - `Snap to Orientation`
   - `Local Orientation`
 - `ViveGrip_Interactable`
-- `OnViveGripInteractionHeld(bool held)`
+- `OnViveGripInteractionHeld(bool grabbed)`
 
 The bubbler gun is a mesh `ViveGrip_Grabbable` attached. It needs to be held properly by the controller so I enable `Snap To Orienatation` and give it a `Local Orientation` that tilts it forward slightly for comfort. I also add `ViveGrip_Interactable` because I want to fire it by interacting with it.
 
-Any attached scripts will call `OnViveGripInteractionHeld(bool held)` while the interaction button is held. I use this to generate bubbles when the trigger is held. I also make sure that `held` is true so it can't be fired from the ground.
+Any attached scripts will call `OnViveGripInteractionHeld(bool grabbed)` while the interaction button is held. I use this to generate bubbles when the trigger is held. I also make sure that `grabbed` is true so it can't be fired from the ground.

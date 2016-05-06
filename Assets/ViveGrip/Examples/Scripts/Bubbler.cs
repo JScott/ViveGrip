@@ -15,8 +15,8 @@ public class Bubbler : MonoBehaviour {
     }
   }
 
-  void OnViveGripInteractionHeld(bool held) {
-    if (!held) { return; }
+  void OnViveGripInteractionHeld(bool grabbed) {
+    if (!grabbed) { return; }
     if (cooldown <= 0) {
       Vector3 location = transform.position + (transform.forward*0.2f) + (transform.up*0.1f);
       GameObject instance = (GameObject)Instantiate(bubble, location, Quaternion.identity);
