@@ -21,4 +21,8 @@ public class ViveGrip_Highlight : MonoBehaviour {
     }
     oldColors.Clear();
   }
+
+  void OnDestroy() {
+    RemoveHighlighting();
+  }
 }

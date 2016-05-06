@@ -12,7 +12,7 @@ Vive Grip handles these for you. A few simple scripts let you can create immersi
 ## Quick Start
 
 1. Add SteamVR's `[CameraRig]` object to your Scene
-2. Place the Vive Grip's `Grip Point` prefab as a child of the controller objects
+2. Place the Vive Grip's `Grip Point` prefab as children of the controller objects
 3. Set the prefab's `Tracked Object` in the Inspector to the respective `SteamVR_TrackedObject`
 4. Move the `Grip Point` to the local position of your grip
 5. Add `ViveGrip_Grabbable` and `ViveGrip_Interactable` to your objects

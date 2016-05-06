@@ -16,7 +16,6 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   private ConfigurableJoint joint;
   private GameObject jointObject;
   private bool anchored = false;
-  private bool grabPressed = false;
   private GameObject lastTouchedObject;
 
   void Start() {
@@ -47,13 +46,12 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   bool GrabTriggered() {
+    if (button == null) { return false; }
     if (inputIsToggle) {
       return button.Pressed("grab");
     }
     else {
-      bool grabWasPressed = grabPressed;
-      grabPressed = button.Holding("grab");
-      return grabWasPressed != grabPressed;
+      return SomethingHeld() ? button.Released("grab") : button.Pressed("grab");
     }
   }
 

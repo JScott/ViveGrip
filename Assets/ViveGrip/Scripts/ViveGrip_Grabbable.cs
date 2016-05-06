@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[AddComponentMenu("ViveGrip/Grabbable")]
 [RequireComponent (typeof (Rigidbody))]
 [DisallowMultipleComponent]
 public class ViveGrip_Grabbable : ViveGrip_Highlight {
