@@ -7,7 +7,7 @@ Vive Grip handles these for you. A few simple scripts let you can create immersi
 ## Install
 
 1. Import the [SteamVR Plugin](https://www.assetstore.unity3d.com/en/#!/content/32647) and place their prefab rig in your scene
-2. Import the latest [Vive Grip release]()
+2. Import the latest [Vive Grip release](https://github.com/JScott/ViveGrip/releases/latest)
 
 ## Quick Start
 
