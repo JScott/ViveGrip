@@ -24,7 +24,9 @@ The track is just for show and has no collider. You'll get some weird behaviour 
 
 #### Button (intermediate)
 
-The button is a cube with `ViveGrip_Interactable` attached.
+The button is a cube with `ViveGrip_Interactable` attached. It doesn't need to be picked up so it doesn't automatically add a Rigidbody and I use the default collider. Instead of being grabbable, any `OnViveGripInteraction(bool held)` methods in scripts attached to the object will be called when its interacted with.
+
+In this case, the attached script will move the button in and back out when triggered.
 
 #### Dial and light (intermediate)
 
@@ -32,10 +34,12 @@ The button is a cube with `ViveGrip_Interactable` attached.
 
 #### Lever (advanced)
 
-I loaded in a lever model and added a `ViveGrip_Grabbable` to it. To make sure that it gets gripped by the handle, I set the local anchor point's Y value. An easy way to find the position you want is to parent an empty object, move it, and then copy its relative position.
+The lever is a model with `ViveGrip_Grabbable` attached. To make sure that it gets gripped by the handle, I set the local anchor point's Y value. An easy way to find the position you want is to parent an empty object, move it, and then copy its relative position.
 
 The lever needs to rotate when its pulled, which I achieve with a hinge joint. I set the joint's anchor to the bottom of the mesh, set the axis of rotation, and configure a few motors to get it moving properly. I also set a few Rigidbody constraints so that it behaves as you would expect.
 
 The holder for the lever is just for show and has no colliders.
 
 #### Bubble gun (advanced)
+
+The bubbler gun is a mesh `ViveGrip_Grabbable` attached. It needs to be held properly by the controller so I enable `Snap To Orienatation` and give it a `Local Orientation` that tilts it forward slightly for comfort.
