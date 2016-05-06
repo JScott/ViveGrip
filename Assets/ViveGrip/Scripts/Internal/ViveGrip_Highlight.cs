@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class ViveGrip_Highlight : MonoBehaviour {
-  //public bool disabled = false;
   private Queue<Color> oldColors = new Queue<Color>();
 
   public void Highlight(Color color) {
