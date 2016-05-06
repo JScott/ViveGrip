@@ -14,6 +14,8 @@ public class ViveGrip_Grabbable : MonoBehaviour {
   public Vector3 localOrientation = Vector3.zero;
 
   void Start() {
-    gameObject.AddComponent<ViveGrip_Highlight>();
+    if (GetComponent<ViveGrip_Highlight>() == null) {
+      gameObject.AddComponent<ViveGrip_Highlight>();
+    }
   }
 }
