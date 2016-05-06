@@ -20,11 +20,6 @@ public class ViveGrip_ButtonManager : MonoBehaviour {
     return Device().GetTouchDown(rawInput);
   }
 
-  public bool Released(string action) {
-    ulong rawInput = ConvertString(action);
-    return Device().GetTouchUp(rawInput);
-  }
-
   public bool Holding(string action) {
     ulong rawInput = ConvertString(action);
     return Device().GetTouch(rawInput);
