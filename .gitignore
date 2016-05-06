@@ -26,3 +26,5 @@ ExportedObj/
 sysinfo.txt
 
 *.meta
+.vs
+.vscode
