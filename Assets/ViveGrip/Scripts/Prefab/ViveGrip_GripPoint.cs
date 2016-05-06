@@ -70,6 +70,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     if (SomethingHeld()) {
       targetObject = joint.connectedBody.gameObject;
     }
+    if (targetObject.GetComponent<ViveGrip_Interactable>() == null) { return; }
     if (button.Pressed("interact")) {
       targetObject.SendMessage("OnViveGripInteraction", SomethingHeld(), SendMessageOptions.DontRequireReceiver);
     }
