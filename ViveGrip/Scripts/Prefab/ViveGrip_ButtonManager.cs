@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[DisallowMultipleComponent]
 public class ViveGrip_ButtonManager : MonoBehaviour {
   public enum ViveInput {
     Grip,
     Trigger
   }; // TODO: add more buttons
+  [Tooltip("The device that will be giving the input.")]
   public SteamVR_TrackedObject trackedObject;
+  [Tooltip("The button used for gripping.")]
   public ViveInput grab = ViveInput.Grip;
+  [Tooltip("The button used for interacting.")]
   public ViveInput interact = ViveInput.Trigger;
 
   void Start() {}

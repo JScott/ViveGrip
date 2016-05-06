@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 
+[DisallowMultipleComponent]
 public class ViveGrip_GripPoint : MonoBehaviour {
-  public float grabRadius = 0.2f;
+  [Tooltip("The distance at which you can touch objects.t")]
+  public float touchRadius = 0.2f;
+  [Tooltip("The distance at which objects will automatically drop.")]
   public float holdRadius = 0.3f;
+  [Tooltip("Whether the touch radius is visible. Good for debugging.")]
   public bool visible = false;
+  [Tooltip("Whether you press the input to toggle rather than holding it.")]
   public bool inputIsToggle = false;
   private Color highlightTint = new Color(0.2f, 0.2f, 0.2f);
   private ViveGrip_ButtonManager button;
@@ -18,7 +23,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     button = GetComponent<ViveGrip_ButtonManager>();
     GameObject gripSphere = InstantiateTouchSphere();
     touch = gripSphere.AddComponent<ViveGrip_TouchDetection>();
-    touch.radius = grabRadius;
+    touch.radius = touchRadius;
 	}
 
   void Update() {
@@ -150,7 +155,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
       sphereRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
       sphereRenderer.receiveShadows = false;
     }
-    gripSphere.transform.localScale = Vector3.one * grabRadius;
+    gripSphere.transform.localScale = Vector3.one * touchRadius;
     gripSphere.transform.position = transform.position;
     gripSphere.transform.SetParent(transform);
     gripSphere.name = "ViveGrip Touch Sphere";
