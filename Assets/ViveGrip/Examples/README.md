@@ -8,7 +8,7 @@ Some things you might want to try:
 - Tossing the bubble gun 360 and catching it on the way down
 - Move the light box onto the heavy box without grabbing it
 
-### How I created the...
+### How to create the...
 
 #### Stack of boxes (easy)
 
