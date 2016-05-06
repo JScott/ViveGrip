@@ -16,7 +16,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   private ConfigurableJoint joint;
   private GameObject jointObject;
   private bool anchored = false;
-  private bool inputPressed = false;
+  private bool grabPressed = false;
   private GameObject lastTouchedObject;
 
   void Start() {
@@ -36,33 +36,25 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void HandleGrabbing(GameObject targetObject) {
-    if (targetObject == null) { return; }
-    bool shouldConnect = targetObject.GetComponent<ViveGrip_Grabbable>() != null;
-    shouldConnect &= !SomethingHeld() && targetObject != null && GrabRequested();
-    if (shouldConnect) {
-      ViveGrip_Highlight target = GetHighlight(targetObject);
-      if (target != null) { target.RemoveHighlighting(); }
-      CreateConnectionTo(targetObject.GetComponent<Rigidbody>());
-    }
-    if (SomethingHeld() && DropRequested()) {
+    if (!GrabTriggered() || targetObject == null) { return; }
+    if (SomethingHeld()) {
       DestroyConnection();
     }
+    else if (targetObject.GetComponent<ViveGrip_Grabbable>() != null) {
+      GetHighlight(targetObject).RemoveHighlighting();
+      CreateConnectionTo(targetObject.GetComponent<Rigidbody>());
+    }
   }
 
-  bool GrabRequested() {
-    return inputIsToggle ? GrabToggleRequested() : button.Pressed("grab");
-  }
-
-  bool DropRequested() {
-    return inputIsToggle ? GrabToggleRequested() : button.Released("grab");
-  }
-
-  bool GrabToggleRequested() {
-    bool inputWasPressed = inputPressed;
-    inputPressed = button.Holding("grab");
-    // TODO: return !inputWasPressed && inputPressed; ?
-    if (inputWasPressed) { return false; }
-    return inputPressed;
+  bool GrabTriggered() {
+    if (inputIsToggle) {
+      return button.Pressed("grab");
+    }
+    else {
+      bool grabWasPressed = grabPressed;
+      grabPressed = button.Holding("grab");
+      return grabWasPressed != grabPressed;
+    }
   }
 
   void HandleInteraction(GameObject targetObject) {
@@ -117,9 +109,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   Quaternion OrientationChangeFor(GameObject target) {
     ViveGrip_Grabbable grabbable = target.GetComponent<ViveGrip_Grabbable>();
     if (grabbable.snapToOrientation) {
-      // Undo current rotation, apply the orientation, and translate that to controller space (reverse order because Quaternions)
-      Quaternion localToController = transform.rotation * Quaternion.Euler(grabbable.localOrientation) * Quaternion.Inverse(target.transform.rotation);
-      return localToController;
+      // Undo current rotation, apply the orientation, and translate that to controller space
+      // ...but in reverse order because thats how Quaternions work
+      Quaternion localToController = transform.rotation;
+      localToController *= Quaternion.Euler(grabbable.localOrientation);
+      return localToController * Quaternion.Inverse(target.transform.rotation);
     }
     return Quaternion.identity;
   }
