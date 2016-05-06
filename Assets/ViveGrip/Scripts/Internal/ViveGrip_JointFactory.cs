@@ -10,7 +10,7 @@ public static class ViveGrip_JointFactory {
       ViveGrip_JointFactory.SetAngularDrive(joint, desiredObject.mass);
     }
     joint.targetRotation = desiredRotation;
-    ViveGrip_JointFactory.Attach(joint, desiredObject);
+    joint.connectedBody = desiredObject;
     return joint;
   }
 
@@ -45,10 +45,6 @@ public static class ViveGrip_JointFactory {
     joint.zDrive = jointDrive;
   }
 
-  private static void ConfigureRotation(ConfigurableJoint joint, Rigidbody desiredObject, Quaternion desiredRotation) {
-    joint.targetRotation = desiredRotation;
-  }
-
   private static void SetAngularDrive(ConfigurableJoint joint, float mass) {
     float gripStrength = 30f * mass;
     float gripSpeed = 1f * mass;
@@ -61,9 +57,5 @@ public static class ViveGrip_JointFactory {
     jointDrive.positionSpring = gripStrength;
     jointDrive.positionDamper = gripSpeed;
     joint.angularXDrive = jointDrive;
-  }
-
-  private static void Attach(ConfigurableJoint joint, Rigidbody desiredObject) {
-    joint.connectedBody = desiredObject;
   }
 }
