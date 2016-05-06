@@ -10,7 +10,7 @@ public class ViveGrip_Grabbable : MonoBehaviour {
   public bool applyGripRotation = true;
   [Tooltip("Should this object snap to localOrientation when grabbed?")]
   public bool snapToOrientation = false;
-  [Tooltip("The local orientation that gets ")]
+  [Tooltip("The local orientation that can be snapped to when grabbed.")]
   public Vector3 localOrientation = Vector3.zero;
 
   void Start() {
