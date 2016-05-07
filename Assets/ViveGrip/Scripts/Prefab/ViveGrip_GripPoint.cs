@@ -34,14 +34,14 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     lastTouchedObject = touchedObject;
   }
 
-  void HandleGrabbing(GameObject targetObject) {
-    if (!GrabTriggered() || targetObject == null) { return; }
+  void HandleGrabbing(GameObject touchedObject) {
+    if (!GrabTriggered()) { return; }
     if (SomethingHeld()) {
       DestroyConnection();
     }
-    else if (targetObject.GetComponent<ViveGrip_Grabbable>() != null) {
-      GetHighlight(targetObject).RemoveHighlighting();
-      CreateConnectionTo(targetObject.GetComponent<Rigidbody>());
+    else if (touchedObject != null && touchedObject.GetComponent<ViveGrip_Grabbable>() != null) {
+      GetHighlight(touchedObject).RemoveHighlighting();
+      CreateConnectionTo(touchedObject.GetComponent<Rigidbody>());
     }
   }
 
@@ -50,28 +50,26 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     if (inputIsToggle) {
       return button.Pressed("grab");
     }
-    else {
-      return SomethingHeld() ? button.Released("grab") : button.Pressed("grab");
-    }
+    return button.Pressed("grab") || button.Released("grab");
   }
 
-  void HandleInteraction(GameObject targetObject) {
-    if (targetObject == null) { return; }
+  void HandleInteraction(GameObject touchedObject) {
+    if (touchedObject == null) { return; }
     if (SomethingHeld()) {
-      targetObject = joint.connectedBody.gameObject;
+      touchedObject = joint.connectedBody.gameObject;
     }
-    if (targetObject.GetComponent<ViveGrip_Interactable>() == null) { return; }
+    if (touchedObject.GetComponent<ViveGrip_Interactable>() == null) { return; }
     if (button.Pressed("interact")) {
-      targetObject.SendMessage("OnViveGripInteraction", SomethingHeld(), SendMessageOptions.DontRequireReceiver);
+      touchedObject.SendMessage("OnViveGripInteraction", SomethingHeld(), SendMessageOptions.DontRequireReceiver);
     }
     if (button.Holding("interact")) {
-      targetObject.SendMessage("OnViveGripInteractionHeld", SomethingHeld(), SendMessageOptions.DontRequireReceiver);
+      touchedObject.SendMessage("OnViveGripInteractionHeld", SomethingHeld(), SendMessageOptions.DontRequireReceiver);
     }
   }
 
-  void HandleHighlighting(GameObject targetObject) {
+  void HandleHighlighting(GameObject touchedObject) {
     ViveGrip_Highlight last = GetHighlight(lastTouchedObject);
-    ViveGrip_Highlight current = GetHighlight(targetObject);
+    ViveGrip_Highlight current = GetHighlight(touchedObject);
     if (last != null && last != current) {
       last.RemoveHighlighting();
     }
@@ -80,9 +78,9 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     }
   }
 
-  ViveGrip_Highlight GetHighlight(GameObject targetObject) {
-    if (targetObject == null) { return null; }
-    return targetObject.GetComponent<ViveGrip_Highlight>();
+  ViveGrip_Highlight GetHighlight(GameObject touchedObject) {
+    if (touchedObject == null) { return null; }
+    return touchedObject.GetComponent<ViveGrip_Highlight>();
   }
 
   void HandleFumbling() {
@@ -128,15 +126,15 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   GameObject InstantiateJointParent() {
-    jointObject = new GameObject("ViveGrip Joint");
-    jointObject.transform.parent = transform;
-    jointObject.transform.localPosition = Vector3.zero;
-    jointObject.transform.localScale = Vector3.one;
-    jointObject.transform.rotation = Quaternion.identity;
-    Rigidbody jointRigidbody = jointObject.AddComponent<Rigidbody>();
+    GameObject newJointObject = new GameObject("ViveGrip Joint");
+    newJointObject.transform.parent = transform;
+    newJointObject.transform.localPosition = Vector3.zero;
+    newJointObject.transform.localScale = Vector3.one;
+    newJointObject.transform.rotation = Quaternion.identity;
+    Rigidbody jointRigidbody = newJointObject.AddComponent<Rigidbody>();
     jointRigidbody.useGravity = false;
     jointRigidbody.isKinematic = true;
-    return jointObject;
+    return newJointObject;
   }
 
   GameObject InstantiateTouchSphere() {
