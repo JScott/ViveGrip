@@ -1,5 +1,8 @@
 fileFormatVersion: 2
 guid: 03e427fe291702641a8aef1a67c382cd
+labels:
+- Configurablejoint
+- Joint
 timeCreated: 1462256543
 licenseType: Free
 MonoImporter:

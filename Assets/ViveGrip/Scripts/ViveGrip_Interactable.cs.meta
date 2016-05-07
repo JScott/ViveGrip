@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 5470ee8fcf59b6846a7cd998b0b6fff5
+labels:
+- Interact
 timeCreated: 1462286336
 licenseType: Free
 MonoImporter:

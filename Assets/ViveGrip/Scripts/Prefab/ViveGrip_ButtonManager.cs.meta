@@ -1,5 +1,10 @@
 fileFormatVersion: 2
 guid: ec6dd5709efec2f46969cec97fd8df23
+labels:
+- Input
+- Vive
+- Htc
+- Steamvr
 timeCreated: 1462464689
 licenseType: Free
 MonoImporter:
