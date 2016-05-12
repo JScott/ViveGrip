@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Button : MonoBehaviour {
+public class ViveGripExample_Button : MonoBehaviour {
   private const float SPEED = 0.1f;
   private float distance;
   private int direction = 1;

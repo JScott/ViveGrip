@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Dial : MonoBehaviour {
+public class ViveGripExample_Dial : MonoBehaviour {
   public Transform attachedLight;
 
 	void Start () {}

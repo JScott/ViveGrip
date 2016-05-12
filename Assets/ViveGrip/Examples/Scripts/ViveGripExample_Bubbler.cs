@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Bubbler : MonoBehaviour {
+public class ViveGripExample_Bubbler : MonoBehaviour {
   public GameObject bubble;
 	private float maxSize = 0.2f;
   private float minSize = 0.1f;

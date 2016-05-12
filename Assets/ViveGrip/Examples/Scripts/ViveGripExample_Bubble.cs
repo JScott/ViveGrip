@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Bubble : MonoBehaviour {
+public class ViveGripExample_Bubble : MonoBehaviour {
 	private float life = 5f;
   private float bounces = 2;
 
