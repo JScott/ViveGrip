@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 
 [RequireComponent (typeof (Rigidbody))]
 [DisallowMultipleComponent]
@@ -14,4 +15,9 @@ public class ViveGrip_Grabbable : ViveGrip_Highlight {
   // TODO: snapToOrientation doesn't make much sense without applyGripRotation. Make it an enum?
 
   void Start() {}
+
+  public void OnDrawGizmosSelected() {
+    Vector3 worldAnchor = transform.position + anchor;
+    Gizmos.DrawIcon(worldAnchor, "anchor.png", false);
+  }
 }
