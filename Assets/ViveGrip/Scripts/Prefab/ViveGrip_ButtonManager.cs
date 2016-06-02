@@ -4,8 +4,9 @@
 public class ViveGrip_ButtonManager : MonoBehaviour {
   public enum ViveInput {
     Grip,
-    Trigger
-  }; // TODO: add more buttons
+    Trigger,
+    Touchpad
+  };
   [Tooltip("The device that will be giving the input.")]
   public SteamVR_TrackedObject trackedObject;
   [Tooltip("The button used for gripping.")]
@@ -17,17 +18,17 @@ public class ViveGrip_ButtonManager : MonoBehaviour {
 
   public bool Pressed(string action) {
     ulong rawInput = ConvertString(action);
-    return Device().GetTouchDown(rawInput);
+    return Device().GetPressDown(rawInput);
   }
 
   public bool Released(string action) {
     ulong rawInput = ConvertString(action);
-    return Device().GetTouchUp(rawInput);
+    return Device().GetPressUp(rawInput);
   }
 
   public bool Holding(string action) {
     ulong rawInput = ConvertString(action);
-    return Device().GetTouch(rawInput);
+    return Device().GetPress(rawInput);
   }
 
   ulong ConvertString(string action) {
@@ -56,6 +57,8 @@ public class ViveGrip_ButtonManager : MonoBehaviour {
         return SteamVR_Controller.ButtonMask.Grip;
       case 1:
         return SteamVR_Controller.ButtonMask.Trigger;
+      case 2:
+        return SteamVR_Controller.ButtonMask.Touchpad;
     }
   }
 }
