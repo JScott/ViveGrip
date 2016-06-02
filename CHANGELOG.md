@@ -6,6 +6,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Updated to SteamVR Plugin v1.1.0
 
+### Added
+- Trackpad to ViveGrip_ButtonManager inputs
+
 ## [1.0.2] - 2016-05-11
 ### Fixed
 - Namespaced the Example scripts so they don't conflict with your stuff
