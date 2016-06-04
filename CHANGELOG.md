@@ -3,11 +3,17 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Fixed
+- Anchors were secretly kind of broken
+- Letting go of the grip will no longer grab
+
 ### Changed
 - Updated to SteamVR Plugin v1.1.0
 
 ### Added
 - Trackpad to ViveGrip_ButtonManager inputs
+- Snapping to a grabbable's anchor can now be toggled
+- Added a Gizmo icon to grabbable anchors
 
 ## [1.0.2] - 2016-05-11
 ### Fixed
