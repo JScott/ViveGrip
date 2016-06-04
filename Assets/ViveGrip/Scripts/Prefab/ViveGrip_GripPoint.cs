@@ -51,7 +51,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     if (inputIsToggle) {
       return button.Pressed("grab");
     }
-    return button.Pressed("grab") || button.Released("grab");
+    return SomethingHeld() ? button.Released("grab") : button.Pressed("grab");
   }
 
   void HandleInteraction(GameObject touchedObject) {
