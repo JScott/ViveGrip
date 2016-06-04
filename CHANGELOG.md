@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Anchors were secretly kind of broken
 - Letting go of the grip will no longer grab
+- General code improvements
 
 ### Changed
 - Updated to SteamVR Plugin v1.1.0

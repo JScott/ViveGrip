@@ -86,9 +86,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
 
   void HandleFumbling() {
     if (SomethingHeld()) {
-      ViveGrip_Grabbable grabbable = joint.connectedBody.gameObject.GetComponent<ViveGrip_Grabbable>();
-      Vector3 grabbedAnchorPosition = grabbable.WorldAnchorPosition();
-      float grabDistance = Vector3.Distance(transform.position, grabbedAnchorPosition);
+      float grabDistance = CalculateGrabDistance();
       bool pulledToMiddle = grabDistance < holdRadius;
       anchored = anchored || pulledToMiddle;
       if (anchored && grabDistance > holdRadius) {
@@ -97,10 +95,16 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     }
   }
 
+  float CalculateGrabDistance() {
+    Debug.DrawLine(contact.point, contact.point + contact.normal, Color.green, 2, false);
+    ViveGrip_Grabbable grabbable = joint.connectedBody.gameObject.GetComponent<ViveGrip_Grabbable>();
+    Vector3 grabbedAnchorPosition = grabbable.WorldAnchorPosition();
+    return Vector3.Distance(transform.position, grabbedAnchorPosition);
+  }
+
   void CreateConnectionTo(Rigidbody desiredBody) {
     jointObject = InstantiateJointParent();
-    ViveGrip_Grabbable grabbable = desiredBody.gameObject.GetComponent<ViveGrip_Grabbable>();
-    grabbable.GrabFrom(transform.position);
+    desiredBody.gameObject.GetComponent<ViveGrip_Grabbable>().GrabFrom(transform.position);
     joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredBody, transform.rotation);
   }
 
