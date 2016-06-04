@@ -5,7 +5,7 @@ using UnityEditor;
 [DisallowMultipleComponent]
 public class ViveGrip_Grabbable : ViveGrip_Highlight {
   [Tooltip("The local position that will be gripped.")]
-  public Vector3 anchor = Vector3.zero;
+  public Vector3 localAnchor = Vector3.zero;
   [Tooltip("Should the controller rotation be applied when grabbed?")]
   public bool applyGripRotation = true;
   [Tooltip("Should this object snap to localOrientation when grabbed?")]
@@ -17,14 +17,10 @@ public class ViveGrip_Grabbable : ViveGrip_Highlight {
   void Start() {}
 
   public void OnDrawGizmosSelected() {
-    Gizmos.DrawIcon(transform.position + WorldAnchor(), "anchor.png", true);
+    Gizmos.DrawIcon(transform.position + RotatedAnchor(), "anchor.png", true);
   }
 
-  public Vector3 WorldAnchor() {
-    Vector3 worldAnchor = Vector3.zero;
-    worldAnchor += transform.right * anchor.x;
-    worldAnchor += transform.up * anchor.y;
-    worldAnchor += transform.forward * anchor.z;
-    return worldAnchor;
+  public Vector3 RotatedAnchor() {
+    return transform.rotation * localAnchor;
   }
 }
