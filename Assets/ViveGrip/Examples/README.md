@@ -13,12 +13,13 @@ Some things you might want to try:
 #### Stack of boxes (easy)
 
 - `ViveGrip_Grabbable`
+  - `Snap to Anchor`
   - `Apply Grip Rotation`
 - `Rigidbody`
 
 The boxes are cubes with `ViveGrip_Grabbable` attached. This automatically adds a `Rigidbody` and makes it so I can grip them with my controller's grip point. I changed the mass of each so that Unity's physics engine would handle the details of the Iight difference.
 
-I also wanted the heavy box to be unwieldy so I turned off `Apply Grip Rotation`. This makes it hang off your grip instead of forcing it to keep its rotation and rotate with your controller.
+I also wanted the heavy box to be unwieldy so I turned off `Apply Grip Rotation` and `Snap to Anchor`. This makes it hang off your grip wherever you grab it instead of snapping the position and rotation to the controller.
 
 #### Slider (easy)
 
