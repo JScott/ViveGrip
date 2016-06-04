@@ -5,7 +5,9 @@ public static class ViveGrip_JointFactory {
     ViveGrip_Grabbable grabbable = desiredObject.gameObject.GetComponent<ViveGrip_Grabbable>();
     ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
     ViveGrip_JointFactory.SetLinearDrive(joint, desiredObject.mass);
-    ViveGrip_JointFactory.ConfigureAnchor(joint, desiredObject, anchor, grabbable.applyGripRotation);
+    if (grabbable.snapToAnchor) {
+      ViveGrip_JointFactory.ConfigureAnchor(joint, desiredObject, anchor);
+    }
     if (grabbable.applyGripRotation) {
       ViveGrip_JointFactory.SetAngularDrive(joint, desiredObject.mass);
     }
@@ -14,7 +16,7 @@ public static class ViveGrip_JointFactory {
     return joint;
   }
 
-  private static void ConfigureAnchor(ConfigurableJoint joint, Rigidbody desiredObject, Vector3 anchor, bool applyGripRotation) {
+  private static void ConfigureAnchor(ConfigurableJoint joint, Rigidbody desiredObject, Vector3 anchor) {
     joint.autoConfigureConnectedAnchor = false;
     joint.connectedAnchor = desiredObject.transform.InverseTransformVector(anchor);
   }
