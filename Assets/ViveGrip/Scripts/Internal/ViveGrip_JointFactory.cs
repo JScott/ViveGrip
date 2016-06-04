@@ -1,22 +1,32 @@
 using UnityEngine;
 
 public static class ViveGrip_JointFactory {
-  public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject, Vector3 anchor, Quaternion desiredRotation) {
+  public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject, Quaternion controllerRotation) {
     ViveGrip_Grabbable grabbable = desiredObject.gameObject.GetComponent<ViveGrip_Grabbable>();
     ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
     ViveGrip_JointFactory.SetLinearDrive(joint, desiredObject.mass);
     if (grabbable.snapToAnchor) {
-      ViveGrip_JointFactory.ConfigureAnchor(joint, desiredObject, anchor);
+      ViveGrip_JointFactory.SetAnchor(joint, desiredObject, grabbable.RotatedAnchor());
     }
     if (grabbable.applyGripRotation) {
       ViveGrip_JointFactory.SetAngularDrive(joint, desiredObject.mass);
     }
-    joint.targetRotation = desiredRotation;
+    if (grabbable.snapToOrientation) {
+      ViveGrip_JointFactory.SetTargetRotation(joint, desiredObject, grabbable.localOrientation, controllerRotation);
+    }
     joint.connectedBody = desiredObject;
     return joint;
   }
 
-  private static void ConfigureAnchor(ConfigurableJoint joint, Rigidbody desiredObject, Vector3 anchor) {
+  private static void SetTargetRotation(ConfigurableJoint joint, Rigidbody desiredObject, Vector3 desiredOrientation, Quaternion controllerRotation) {
+    // Undo current rotation, apply the desired orientation, and translate that to controller space
+    // ...but in reverse order because thats how Quaternions work
+    joint.targetRotation = controllerRotation;
+    joint.targetRotation *= Quaternion.Euler(desiredOrientation);
+    joint.targetRotation *= Quaternion.Inverse(desiredObject.transform.rotation);
+  }
+
+  private static void SetAnchor(ConfigurableJoint joint, Rigidbody desiredObject, Vector3 anchor) {
     joint.autoConfigureConnectedAnchor = false;
     joint.connectedAnchor = desiredObject.transform.InverseTransformVector(anchor);
   }

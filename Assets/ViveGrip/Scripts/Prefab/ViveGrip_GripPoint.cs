@@ -101,22 +101,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     jointObject = InstantiateJointParent();
     ViveGrip_Grabbable grabbable = desiredBody.gameObject.GetComponent<ViveGrip_Grabbable>();
     grabbable.GrabFrom(transform.position);
-    Vector3 anchor = grabbable.RotatedAnchor();
-    Quaternion desiredRotation = OrientationChangeFor(desiredBody.gameObject);
-    joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredBody, anchor, desiredRotation);
-  }
-
-  Quaternion OrientationChangeFor(GameObject target) {
-    // TODO: move to joint factory?
-    ViveGrip_Grabbable grabbable = target.GetComponent<ViveGrip_Grabbable>();
-    if (grabbable.snapToOrientation) {
-      // Undo current rotation, apply the desired orientation, and translate that to controller space
-      // ...but in reverse order because thats how Quaternions work
-      Quaternion localToController = transform.rotation;
-      localToController *= Quaternion.Euler(grabbable.localOrientation);
-      return localToController * Quaternion.Inverse(target.transform.rotation);
-    }
-    return Quaternion.identity;
+    joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredBody, transform.rotation);
   }
 
   void DestroyConnection() {
