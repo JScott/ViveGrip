@@ -29,11 +29,10 @@ public class ViveGrip_Grabbable : ViveGrip_Highlight {
   }
 
   public void GrabFrom(Vector3 jointLocation) {
-    Vector3 realAnchor = snapToAnchor ? localAnchor : (jointLocation - transform.position);
-    grabCentre = transform.rotation * realAnchor;
+    grabCentre = snapToAnchor ? localAnchor : (jointLocation - transform.position);
   }
 
   public Vector3 WorldAnchorPosition() {
-    return transform.position + grabCentre;
+    return transform.position + (transform.rotation * grabCentre);
   }
 }

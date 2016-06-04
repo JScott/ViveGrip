@@ -96,7 +96,6 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   float CalculateGrabDistance() {
-    Debug.DrawLine(contact.point, contact.point + contact.normal, Color.green, 2, false);
     ViveGrip_Grabbable grabbable = joint.connectedBody.gameObject.GetComponent<ViveGrip_Grabbable>();
     Vector3 grabbedAnchorPosition = grabbable.WorldAnchorPosition();
     return Vector3.Distance(transform.position, grabbedAnchorPosition);
