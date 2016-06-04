@@ -18,7 +18,7 @@ public class ViveGripExample_Bubbler : MonoBehaviour {
   void OnViveGripInteractionHeld(bool grabbed) {
     if (!grabbed) { return; }
     if (cooldown <= 0) {
-      Vector3 location = transform.position + (transform.forward*0.2f) + (transform.up*0.1f);
+      Vector3 location = transform.position + (transform.forward*0.2f);
       GameObject instance = (GameObject)Instantiate(bubble, location, Quaternion.identity);
       float size = Random.Range(minSize, maxSize);
       instance.transform.localScale = Vector3.one * size;
