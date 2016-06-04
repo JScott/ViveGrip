@@ -98,8 +98,8 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   void CreateConnectionTo(Rigidbody desiredBody) {
     jointObject = InstantiateJointParent();
     Quaternion desiredRotation = OrientationChangeFor(desiredBody.gameObject);
-    Vector3 offset = desiredBody.gameObject.GetComponent<ViveGrip_Grabbable>().anchor;
-    joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredBody, offset, desiredRotation);
+    Vector3 worldAnchor = desiredBody.gameObject.GetComponent<ViveGrip_Grabbable>().WorldAnchor();
+    joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredBody, worldAnchor, desiredRotation);
   }
 
   Quaternion OrientationChangeFor(GameObject target) {

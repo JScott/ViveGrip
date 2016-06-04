@@ -17,10 +17,14 @@ public class ViveGrip_Grabbable : ViveGrip_Highlight {
   void Start() {}
 
   public void OnDrawGizmosSelected() {
-    Vector3 localAnchor = Vector3.zero;
-    localAnchor += transform.right * anchor.x;
-    localAnchor += transform.up * anchor.y;
-    localAnchor += transform.forward * anchor.z;
-    Gizmos.DrawIcon(transform.position + localAnchor, "anchor.png", true);
+    Gizmos.DrawIcon(transform.position + WorldAnchor(), "anchor.png", true);
+  }
+
+  public Vector3 WorldAnchor() {
+    Vector3 worldAnchor = Vector3.zero;
+    worldAnchor += transform.right * anchor.x;
+    worldAnchor += transform.up * anchor.y;
+    worldAnchor += transform.forward * anchor.z;
+    return worldAnchor;
   }
 }
