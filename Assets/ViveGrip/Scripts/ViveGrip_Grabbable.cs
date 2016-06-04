@@ -20,7 +20,7 @@ public class ViveGrip_Grabbable : ViveGrip_Highlight {
 
   public void OnDrawGizmosSelected() {
     if (snapToAnchor) {
-      Gizmos.DrawIcon(transform.position + RotatedAnchor(), "anchor.png", true);
+      Gizmos.DrawIcon(transform.position + RotatedAnchor(), "ViveGrip/anchor.png", true);
     }
   }
 
