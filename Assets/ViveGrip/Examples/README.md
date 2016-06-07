@@ -35,11 +35,11 @@ The track is just for show and has no collider. You'll get some weird behaviour 
 
 - `ViveGrip_Interactable`
 - `BoxCollider`
-- `OnViveGripInteraction(bool grabbed)`
+- `ViveGripInteractionStart(ViveGrip_GripPoint gripPoint)`
 
-The button is a cube with `ViveGrip_Interactable` attached. It doesn't need to be picked up so it doesn't automatically add a `Rigidbody` and I use the default collider. Instead of being grabbable, any `OnViveGripInteraction(bool grabbed)` methods in scripts attached to the object will be called when its interacted with.
+The button is a cube with `ViveGrip_Interactable` attached. It doesn't need to be picked up so it doesn't automatically add a `Rigidbody` and I use the default collider. Instead of being grabbable, any `ViveGripInteractionStart` methods in scripts attached to the object will be called when its interacted with.
 
-In this case, the attached script will move the button in and back out when triggered.
+In this case, the attached script will move the button in and back out when triggered. We also ignore the provided `ViveGrip_GripPoint` object because we don't need it for this.
 
 #### Dial and light (intermediate)
 
@@ -69,8 +69,9 @@ The holder for the lever is just for show and has no colliders.
   - `Snap to Orientation`
   - `Local Orientation`
 - `ViveGrip_Interactable`
-- `OnViveGripInteractionHeld(bool grabbed)`
+- `ViveGripInteractionStart(ViveGrip_GripPoint gripPoint)`
+- `ViveGripInteractionStop(ViveGrip_GripPoint gripPoint)`
 
 The bubbler gun is a mesh `ViveGrip_Grabbable` attached. It needs to be held properly by the controller so I enable `Snap To Orienatation` and give it a `Local Orientation` that tilts it forward slightly for comfort. I also add `ViveGrip_Interactable` because I want to fire it by interacting with it.
 
-Any attached scripts will call `OnViveGripInteractionHeld(bool grabbed)` while the interaction button is held. I use this to generate bubbles when the trigger is held. I also make sure that `grabbed` is true so it can't be fired from the ground.
+Any attached scripts will call `ViveGripInteractionStart` while the interaction button is held and `ViveGripInteractionStop` when we let go. I use this to toggle a boolean so that bubbles are made when I hold the trigger down. I also make sure that `gripPoint.SomethingHeld()` is true from the provided `ViveGrip_GripPoint` script so that it can't be fired from the ground.
