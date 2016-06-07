@@ -50,6 +50,13 @@ The dial is a cylinder with `ViveGrip_Grabbable` attached. The `Rigidbody` posit
 
 The attached script will read the rotation of the dial and use that to set the light's color.
 
+#### Grabbing sounds (intermediate)
+
+- `ViveGripHighlightStart(ViveGrip_GripPoint gripPoint)`
+- `ViveGripHighlightStop(ViveGrip_GripPoint gripPoint)`
+- `ViveGripGrabStart(ViveGrip_GripPoint gripPoint)`
+- `ViveGripGrabStop(ViveGrip_GripPoint gripPoint)`
+
 #### Lever (advanced)
 
 - `ViveGrip_Grabbable`

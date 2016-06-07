@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Interaction methods are faster and safer now. Update your scripts!
 
+### Added
+- Messages to the tracked object and all children:
+  - `ViveGripHighlightStart` and `ViveGripHighlightStop`
+  - `ViveGripGrabStart` and `ViveGripGrabStop`
+
 ## [v1.1.0] - 2016-06-03
 ### Fixed
 - Anchors were secretly kind of broken
