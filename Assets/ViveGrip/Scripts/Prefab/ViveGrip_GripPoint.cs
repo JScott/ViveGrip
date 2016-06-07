@@ -37,7 +37,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
 
   void HandleGrabbing(GameObject touchedObject) {
     if (!GrabTriggered()) { return; }
-    if (SomethingHeld()) {
+    if (HoldingSomething()) {
       DestroyConnection();
     }
     else if (touchedObject != null && touchedObject.GetComponent<ViveGrip_Grabbable>() != null) {
@@ -51,20 +51,20 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     if (inputIsToggle) {
       return button.Pressed("grab");
     }
-    return SomethingHeld() ? button.Released("grab") : button.Pressed("grab");
+    return HoldingSomething() ? button.Released("grab") : button.Pressed("grab");
   }
 
   void HandleInteraction(GameObject touchedObject) {
     if (touchedObject == null) { return; }
-    if (SomethingHeld()) {
+    if (HoldingSomething()) {
       touchedObject = joint.connectedBody.gameObject;
     }
     if (touchedObject.GetComponent<ViveGrip_Interactable>() == null) { return; }
     if (button.Pressed("interact")) {
-      touchedObject.SendMessage("OnViveGripInteraction", SomethingHeld(), SendMessageOptions.DontRequireReceiver);
+      touchedObject.SendMessage("ViveGripInteractionStart", this, SendMessageOptions.DontRequireReceiver);
     }
-    if (button.Holding("interact")) {
-      touchedObject.SendMessage("OnViveGripInteractionHeld", SomethingHeld(), SendMessageOptions.DontRequireReceiver);
+    if (button.Released("interact")) {
+      touchedObject.SendMessage("ViveGripInteractionStop", this, SendMessageOptions.DontRequireReceiver);
     }
   }
 
@@ -74,7 +74,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     if (last != null && last != current) {
       last.RemoveHighlighting();
     }
-    if (current != null && !SomethingHeld()) {
+    if (current != null && !HoldingSomething()) {
       current.Highlight(highlightTint);
     }
   }
@@ -85,7 +85,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void HandleFumbling() {
-    if (SomethingHeld()) {
+    if (HoldingSomething()) {
       float grabDistance = CalculateGrabDistance();
       bool pulledToMiddle = grabDistance < holdRadius;
       anchored = anchored || pulledToMiddle;
@@ -141,7 +141,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     return gripSphere;
   }
 
-  bool SomethingHeld() {
+  public bool HoldingSomething() {
     return jointObject != null;
   }
 }

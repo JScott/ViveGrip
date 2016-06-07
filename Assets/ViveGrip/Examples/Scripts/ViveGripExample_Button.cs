@@ -10,7 +10,7 @@ public class ViveGripExample_Button : MonoBehaviour {
     ResetDistance();
   }
 
-  void OnViveGripInteraction() {
+  void ViveGripInteractionStart() {
     Destroy(GetComponent<ViveGrip_Interactable>());
     StartCoroutine("Move");
   }
