@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Messages to the tracked object and all children:
   - `ViveGripHighlightStart` and `ViveGripHighlightStop`
   - `ViveGripGrabStart` and `ViveGripGrabStop`
+- Example right hand
 
 ## [v1.1.0] - 2016-06-03
 ### Fixed

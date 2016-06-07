@@ -73,11 +73,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     ViveGrip_Highlight current = GetHighlight(touchedObject);
     if (last != null && last != current) {
       last.RemoveHighlighting();
-      TrackedObject().BroadcastMessage("ViveGripHighlightStart", this, SendMessageOptions.DontRequireReceiver);
+      TrackedObject().BroadcastMessage("ViveGripHighlightStop", this, SendMessageOptions.DontRequireReceiver);
     }
     if (current != null && !HoldingSomething()) {
       current.Highlight(highlightTint);
-      TrackedObject().BroadcastMessage("ViveGripHighlightStop", this, SendMessageOptions.DontRequireReceiver);
+      TrackedObject().BroadcastMessage("ViveGripHighlightStart", this, SendMessageOptions.DontRequireReceiver);
     }
   }
 
@@ -149,7 +149,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     return jointObject != null;
   }
 
-  SteamVR_TrackedObject TrackedObject() {
+  GameObject TrackedObject() {
     return button.trackedObject.gameObject;
   }
 }
