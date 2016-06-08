@@ -11,7 +11,7 @@ public class ViveGripExample_Button : MonoBehaviour {
   }
 
   void ViveGripInteractionStart() {
-    Destroy(GetComponent<ViveGrip_Interactable>());
+    GetComponent<ViveGrip_Interactable>().enabled = false;
     StartCoroutine("Move");
   }
 
@@ -32,7 +32,7 @@ public class ViveGripExample_Button : MonoBehaviour {
     }
     direction *= -1;
     ResetDistance();
-    gameObject.AddComponent<ViveGrip_Interactable>();
+    GetComponent<ViveGrip_Interactable>().enabled = true;
   }
 
   void Increment() {
