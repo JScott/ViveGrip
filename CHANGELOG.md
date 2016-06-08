@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   - `ViveGripHighlightStart` and `ViveGripHighlightStop`
   - `ViveGripGrabStart` and `ViveGripGrabStop`
 - Example hands and documentation
+- "None" button option that maps to nothing
 
 ### Fixed
 - Honouring the `.enabled` flag on grabbable and interactable scripts

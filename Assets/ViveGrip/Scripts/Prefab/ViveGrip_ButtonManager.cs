@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
+using Valve.VR;
 
 [DisallowMultipleComponent]
 public class ViveGrip_ButtonManager : MonoBehaviour {
   public enum ViveInput {
     Grip,
     Trigger,
-    Touchpad
+    Touchpad,
+    None
   };
   [Tooltip("The device that will be giving the input.")]
   public SteamVR_TrackedObject trackedObject;
@@ -52,13 +54,15 @@ public class ViveGrip_ButtonManager : MonoBehaviour {
 
   ulong Decode(ViveInput input) {
     switch ((int)input) {
-      default:
       case 0:
         return SteamVR_Controller.ButtonMask.Grip;
       case 1:
         return SteamVR_Controller.ButtonMask.Trigger;
       case 2:
         return SteamVR_Controller.ButtonMask.Touchpad;
+      default:
+      case 3:
+        return (1ul << (int)EVRButtonId.k_EButton_Max+1);
     }
   }
 }
