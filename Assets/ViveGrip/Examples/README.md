@@ -58,9 +58,9 @@ The attached script will read the rotation of the dial and use that to set the l
 - `ViveGripGrabStart(ViveGrip_GripPoint gripPoint)`
 - `ViveGripGrabStop(ViveGrip_GripPoint gripPoint)`
 
-Grip point anchor
+The hands are a grip point and model attached to the controller tracked objects. To start things off I add a hand model sibling and adjust the grip point anchor to roughly match the palm of the hand.
 
-Model hand
+In order to give visual cues to the player, I change the hand mesh when an object is highlighted and the hand fades when we grab something. The logic is hooked into the methods that get called on the controller and all its children when starting or stopping a highlight or grab.
 
 #### Lever (advanced)
 

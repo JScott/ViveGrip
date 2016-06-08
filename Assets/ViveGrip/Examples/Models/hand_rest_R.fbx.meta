@@ -10,6 +10,8 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: at rest.001
+    4300002: at rest right
+    4300004: primed right
   materials:
     importMaterials: 1
     materialName: 0
@@ -34,7 +36,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.03
+    globalScale: 0.025
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
