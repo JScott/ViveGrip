@@ -86,4 +86,4 @@ The holder for the lever is just for show and has no colliders.
 
 The bubbler gun is a mesh `ViveGrip_Grabbable` attached. It needs to be held properly by the controller so I enable `Snap To Orienatation` and give it a `Local Orientation` that tilts it forward slightly for comfort. I also add `ViveGrip_Interactable` because I want to fire it by interacting with it.
 
-Any attached scripts will call `ViveGripInteractionStart` while the interaction button is held and `ViveGripInteractionStop` when we let go. I use this to toggle a boolean so that bubbles are made when I hold the trigger down. I also make sure that `gripPoint.SomethingHeld()` is true from the provided `ViveGrip_GripPoint` script so that it can't be fired from the ground.
+Any attached scripts will call `ViveGripInteractionStart` while the interaction button is held and `ViveGripInteractionStop` when we let go. I use this to toggle a boolean so that bubbles are made when I hold the trigger down. I also make sure that `gripPoint.SomethingHeld()` is true from the provided `ViveGrip_GripPoint` script so that it can't be fired without holding it.
