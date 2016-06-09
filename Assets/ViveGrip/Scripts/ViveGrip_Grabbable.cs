@@ -35,4 +35,14 @@ public class ViveGrip_Grabbable : ViveGrip_Highlight {
   public Vector3 WorldAnchorPosition() {
     return transform.position + (transform.rotation * grabCentre);
   }
+
+  // These are called this on all scripts in the attached object:
+
+  // When touched and moved away from, respectively
+  //   void ViveGripHighlightStart(ViveGrip_GripPoint gripPoint) {}
+  //   void ViveGripHighlightStop(ViveGrip_GripPoint gripPoint) {}
+
+  // When touched and the grab button is pressed and released, respectively
+  //   void ViveGripGrabStart(ViveGrip_GripPoint gripPoint) {}
+  //   void ViveGripGrabStop(ViveGrip_GripPoint gripPoint) {}
 }

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using System.Collections;
 using Valve.VR;
 
 [DisallowMultipleComponent]
-public class ViveGrip_ButtonManager : MonoBehaviour {
+public class ViveGrip_ControllerHandler : MonoBehaviour {
   public enum ViveInput {
     Grip,
     Trigger,
@@ -15,6 +16,7 @@ public class ViveGrip_ButtonManager : MonoBehaviour {
   public ViveInput grab = ViveInput.Grip;
   [Tooltip("The button used for interacting.")]
   public ViveInput interact = ViveInput.Trigger;
+  private float MAX_VIBRATION_STRENGTH = 3999f;
 
   void Start() {}
 
@@ -63,6 +65,18 @@ public class ViveGrip_ButtonManager : MonoBehaviour {
       default:
       case 3:
         return (1ul << (int)EVRButtonId.k_EButton_Max+1);
+    }
+  }
+
+  public void Vibrate(float milliseconds, float strength) {
+    float seconds = milliseconds / 1000f;
+    StartCoroutine(LongVibration(seconds, strength));
+  }
+
+  IEnumerator LongVibration(float length, float strength) {
+    for(float i = 0; i < length; i += Time.deltaTime) {
+      Device().TriggerHapticPulse((ushort)Mathf.Lerp(0, MAX_VIBRATION_STRENGTH, strength));
+      yield return null;
     }
   }
 }

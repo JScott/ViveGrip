@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Valve.VR;
 
 [DisallowMultipleComponent]
 public class ViveGrip_GripPoint : MonoBehaviour {
@@ -10,9 +11,10 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   public bool visible = false;
   [Tooltip("Should the button toggle grabbing?")]
   public bool inputIsToggle = false;
-  private Color highlightTint = new Color(0.2f, 0.2f, 0.2f);
-  private ViveGrip_ButtonManager button;
+  [HideInInspector]
+  public ViveGrip_ControllerHandler controller;
   private ViveGrip_TouchDetection touch;
+  private Color highlightTint = new Color(0.2f, 0.2f, 0.2f);
   private ConfigurableJoint joint;
   private GameObject jointObject;
   private bool anchored = false;
@@ -20,7 +22,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   private GameObject lastTouchedObject;
 
   void Start() {
-    button = GetComponent<ViveGrip_ButtonManager>();
+    controller = GetComponent<ViveGrip_ControllerHandler>();
     GameObject gripSphere = InstantiateTouchSphere();
     touch = gripSphere.AddComponent<ViveGrip_TouchDetection>();
     touch.radius = touchRadius;
@@ -47,11 +49,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   bool GrabTriggered() {
-    if (button == null) { return false; }
+    if (controller == null) { return false; }
     if (inputIsToggle) {
-      return button.Pressed("grab");
+      return controller.Pressed("grab");
     }
-    return HoldingSomething() ? button.Released("grab") : button.Pressed("grab");
+    return HoldingSomething() ? controller.Released("grab") : controller.Pressed("grab");
   }
 
   void HandleInteraction(GameObject touchedObject) {
@@ -60,11 +62,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
       touchedObject = joint.connectedBody.gameObject;
     }
     if (touchedObject.GetComponent<ViveGrip_Interactable>() == null) { return; }
-    if (button.Pressed("interact")) {
-      touchedObject.SendMessage("ViveGripInteractionStart", this, SendMessageOptions.DontRequireReceiver);
+    if (controller.Pressed("interact")) {
+      Message("ViveGripInteractionStart");
     }
-    if (button.Released("interact")) {
-      touchedObject.SendMessage("ViveGripInteractionStop", this, SendMessageOptions.DontRequireReceiver);
+    if (controller.Released("interact")) {
+      Message("ViveGripInteractionStop");
     }
   }
 
@@ -73,11 +75,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     ViveGrip_Highlight current = GetHighlight(touchedObject);
     if (last != null && last != current) {
       last.RemoveHighlighting();
-      TrackedObject().BroadcastMessage("ViveGripHighlightStop", this, SendMessageOptions.DontRequireReceiver);
+      Message("ViveGripHighlightStop");
     }
     if (current != null && !HoldingSomething()) {
       current.Highlight(highlightTint);
-      TrackedObject().BroadcastMessage("ViveGripHighlightStart", this, SendMessageOptions.DontRequireReceiver);
+      Message("ViveGripHighlightStart");
     }
   }
 
@@ -107,13 +109,13 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     jointObject = InstantiateJointParent();
     desiredBody.gameObject.GetComponent<ViveGrip_Grabbable>().GrabFrom(transform.position);
     joint = ViveGrip_JointFactory.JointToConnect(jointObject, desiredBody, transform.rotation);
-    TrackedObject().BroadcastMessage("ViveGripGrabStart", this, SendMessageOptions.DontRequireReceiver);
+    Message("ViveGripGrabStart");
   }
 
   void DestroyConnection() {
     Destroy(jointObject);
     anchored = false;
-    TrackedObject().BroadcastMessage("ViveGripGrabStop", this, SendMessageOptions.DontRequireReceiver);
+    Message("ViveGripGrabStop");
   }
 
   GameObject InstantiateJointParent() {
@@ -150,6 +152,13 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   GameObject TrackedObject() {
-    return button.trackedObject.gameObject;
+    return controller.trackedObject.gameObject;
+  }
+
+  void Message(string name) {
+    TrackedObject().BroadcastMessage(name, this, SendMessageOptions.DontRequireReceiver);
+    GameObject touchedObject = touch.NearestObject();
+    if (touchedObject == null) { return; }
+    touchedObject.SendMessage(name, this, SendMessageOptions.DontRequireReceiver);
   }
 }

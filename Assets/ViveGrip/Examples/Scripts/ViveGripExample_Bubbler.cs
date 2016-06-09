@@ -7,6 +7,7 @@ public class ViveGripExample_Bubbler : MonoBehaviour {
   private float speed = 5f;
   private float cooldown = 0f;
   private bool bubbling = false;
+  private ViveGrip_ControllerHandler controller;
 
   void Start() {}
 
@@ -16,17 +17,22 @@ public class ViveGripExample_Bubbler : MonoBehaviour {
       cooldown -= Time.deltaTime;
     }
     else {
+      controller.Vibrate(50, 0.1f);
       CreateBubble();
       cooldown = 0.1f;
     }
   }
 
   void ViveGripInteractionStart(ViveGrip_GripPoint gripPoint) {
-    if (gripPoint.HoldingSomething()) { bubbling = true; }
+    if (gripPoint.HoldingSomething()) {
+      bubbling = true;
+      controller = gripPoint.controller;
+    }
   }
 
   void ViveGripInteractionStop() {
     bubbling = false;
+    controller = null;
     cooldown = 0f;
   }
 

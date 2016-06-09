@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   - `ViveGripGrabStart` and `ViveGripGrabStop`
 - Example hands and documentation
 - "None" button option that maps to nothing
+- `gripPoint.controller` and `ViveGrip_ControllerHandler.Vibrate(milliseconds, strength)`
 
 ### Fixed
 - Honouring the `.enabled` flag on grabbable and interactable scripts

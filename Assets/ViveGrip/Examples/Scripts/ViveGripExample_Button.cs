@@ -10,7 +10,8 @@ public class ViveGripExample_Button : MonoBehaviour {
     ResetDistance();
   }
 
-  void ViveGripInteractionStart() {
+  void ViveGripInteractionStart(ViveGrip_GripPoint gripPoint) {
+    gripPoint.controller.Vibrate(50, 0.1f);
     GetComponent<ViveGrip_Interactable>().enabled = false;
     StartCoroutine("Move");
   }
