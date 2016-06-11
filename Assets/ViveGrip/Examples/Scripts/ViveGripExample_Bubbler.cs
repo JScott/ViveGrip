@@ -24,7 +24,6 @@ public class ViveGripExample_Bubbler : MonoBehaviour {
   }
 
   void ViveGripInteractionStart(ViveGrip_GripPoint gripPoint) {
-    Debug.Log("Inter Start " + gripPoint.controller);
     if (gripPoint.HoldingSomething()) {
       bubbling = true;
       controller = gripPoint.controller;
@@ -32,17 +31,14 @@ public class ViveGripExample_Bubbler : MonoBehaviour {
   }
 
   void ViveGripGrabStop() {
-    Debug.Log("Grab Stop");
     StopFiring();
   }
 
   void ViveGripInteractionStop() {
-    Debug.Log("Inter Stop");
     StopFiring();
   }
 
   void StopFiring() {
-    Debug.Log("Inter Stop");
     bubbling = false;
     controller = null;
     cooldown = 0f;
