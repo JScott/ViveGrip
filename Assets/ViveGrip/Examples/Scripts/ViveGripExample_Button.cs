@@ -11,7 +11,7 @@ public class ViveGripExample_Button : MonoBehaviour {
   }
 
   void ViveGripInteractionStart(ViveGrip_GripPoint gripPoint) {
-    gripPoint.controller.Vibrate(50, 0.1f);
+    gripPoint.controller.Vibrate(25, 0.4f);
     GetComponent<ViveGrip_Interactable>().enabled = false;
     StartCoroutine("Move");
   }

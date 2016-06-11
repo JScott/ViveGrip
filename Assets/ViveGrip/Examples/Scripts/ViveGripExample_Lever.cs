@@ -4,8 +4,8 @@ using System.Collections;
 public class ViveGripExample_Lever : MonoBehaviour {
   private ViveGrip_ControllerHandler controller;
   private float oldXRotation;
-  private float MAX_VIBRATION_STRENGTH = 0.5f;
-  private float MAX_VIBRATION_ANGLE = 45f;
+  private float MAX_VIBRATION_STRENGTH = 0.7f;
+  private float MAX_VIBRATION_ANGLE = 35f;
 
   void Start () {
     oldXRotation = transform.eulerAngles.x;
