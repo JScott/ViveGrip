@@ -20,6 +20,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   private bool anchored = false;
   private Vector3 grabbedAt;
   private GameObject lastTouchedObject;
+  private GameObject lastInteractedObject;
 
   void Start() {
     controller = GetComponent<ViveGrip_ControllerHandler>();
@@ -57,16 +58,19 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void HandleInteraction(GameObject touchedObject) {
-    if (touchedObject == null) { return; }
     if (HoldingSomething()) {
       touchedObject = joint.connectedBody.gameObject;
     }
-    if (touchedObject.GetComponent<ViveGrip_Interactable>() == null) { return; }
-    if (controller.Pressed("interact")) {
-      Message("ViveGripInteractionStart");
+    if (touchedObject != null) {
+      if (touchedObject.GetComponent<ViveGrip_Interactable>() == null) { return; }
+      if (controller.Pressed("interact")) {
+        lastInteractedObject = touchedObject;
+        Message("ViveGripInteractionStart");
+      }
     }
     if (controller.Released("interact")) {
-      Message("ViveGripInteractionStop");
+      Message("ViveGripInteractionStop", lastInteractedObject);
+      lastInteractedObject = null;
     }
   }
 
