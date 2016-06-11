@@ -4,7 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Changed
-- Interaction methods are faster and safer now. Update your scripts!
+- `ViveGripInteractionHeld` is now `ViveGripInteractionStop` (*update your scripts!*)
+- All `ViveGripXStart` and `ViveGripXStop` scripts pass in the calling ViveGrip_GripPoint object
 
 ### Added
 - Messages to the tracked object and all children:

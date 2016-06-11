@@ -76,7 +76,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     if (last != current) {
       if (last != null) {
         last.RemoveHighlighting();
-        Message("ViveGripHighlightStop");
+        Message("ViveGripHighlightStop", last.gameObject);
       }
       if (current != null && !HoldingSomething()) {
         current.Highlight(highlightTint);
@@ -115,9 +115,10 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void DestroyConnection() {
+    GameObject lastObject = jointObject.GetComponent<ConfigurableJoint>().connectedBody.gameObject;
     Destroy(jointObject);
     anchored = false;
-    Message("ViveGripGrabStop");
+    Message("ViveGripGrabStop", lastObject);
   }
 
   GameObject InstantiateJointParent() {
@@ -157,9 +158,9 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     return controller.trackedObject.gameObject;
   }
 
-  void Message(string name) {
+  void Message(string name, GameObject touchedObject = null) {
     TrackedObject().BroadcastMessage(name, this, SendMessageOptions.DontRequireReceiver);
-    GameObject touchedObject = touch.NearestObject();
+    touchedObject = touchedObject ?? touch.NearestObject();
     if (touchedObject == null) { return; }
     touchedObject.SendMessage(name, this, SendMessageOptions.DontRequireReceiver);
   }
