@@ -41,6 +41,9 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   void HandleGrabbing(GameObject touchedObject) {
     if (!GrabTriggered()) { return; }
     if (HoldingSomething()) {
+      if (touchedObject != null) {
+        GetHighlight(touchedObject).Highlight(highlightTint);
+      }
       DestroyConnection();
     }
     else if (touchedObject != null && touchedObject.GetComponent<ViveGrip_Grabbable>() != null) {
