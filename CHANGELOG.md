@@ -7,6 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Objects will highlight when letting go of them
 - Example hand will animate properly during edge cases
 
+### Changed
+- `ViveGripHighlight*` methods renamed to `ViveGripTouch*` (**update your scripts!**)
+
 ## [v1.2.0] - 2016-06-11
 ### Changed
 - `ViveGripInteractionHeld` is now `ViveGripInteractionStop` (**update your scripts!**)

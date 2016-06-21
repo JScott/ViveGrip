@@ -39,8 +39,8 @@ public class ViveGrip_Grabbable : ViveGrip_Highlight {
   // These are called this on the scripts of the attached object and children of the controller:
 
   // When touched and moved away from, respectively
-  //   void ViveGripHighlightStart(ViveGrip_GripPoint gripPoint) {}
-  //   void ViveGripHighlightStop(ViveGrip_GripPoint gripPoint) {}
+  //   void ViveGripTouchStart(ViveGrip_GripPoint gripPoint) {}
+  //   void ViveGripTouchStop(ViveGrip_GripPoint gripPoint) {}
 
   // When touched and the grab button is pressed and released, respectively
   //   void ViveGripGrabStart(ViveGrip_GripPoint gripPoint) {}

@@ -83,11 +83,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     if (last != current) {
       if (last != null) {
         last.RemoveHighlighting();
-        Message("ViveGripHighlightStop", last.gameObject);
+        Message("ViveGripTouchStop", last.gameObject);
       }
       if (current != null && !HoldingSomething()) {
         current.Highlight(highlightTint);
-        Message("ViveGripHighlightStart");
+        Message("ViveGripTouchStart");
       }
     }
   }

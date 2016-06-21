@@ -8,11 +8,11 @@ public class ViveGripExample_Hand : MonoBehaviour {
 
 	void Start () {}
 
-  void ViveGripHighlightStart() {
+  void ViveGripTouchStart() {
     GetComponent<MeshFilter>().mesh = primed;
   }
 
-  void ViveGripHighlightStop(ViveGrip_GripPoint gripPoint) {
+  void ViveGripTouchStop(ViveGrip_GripPoint gripPoint) {
     // We might move out of highlight range but still be holding something
     if (!gripPoint.HoldingSomething()) {
       GetComponent<MeshFilter>().mesh = rest;
