@@ -161,6 +161,10 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     return jointObject != null;
   }
 
+  public bool TouchingSomething() {
+    return touch.NearestObject() != null;
+  }
+
   GameObject TrackedObject() {
     return controller.trackedObject.gameObject;
   }
