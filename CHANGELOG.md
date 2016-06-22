@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - `ViveGripHighlight*` methods renamed to `ViveGripTouch*` (**update your scripts!**)
+- Increased the grip position and rotation strength by x10 (**update your object mass!**)
 
 ## [v1.2.0] - 2016-06-11
 ### Changed
