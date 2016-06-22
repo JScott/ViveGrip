@@ -4,7 +4,7 @@ using UnityEditor;
 [RequireComponent (typeof (Rigidbody))]
 [DisallowMultipleComponent]
 public class ViveGrip_Grabbable : ViveGrip_Highlight {
-  public enum RotationMode { Default, ApplyGrip, ApplyGripAndOrientation }
+  public enum RotationMode { Disabled, ApplyGrip, ApplyGripAndOrientation }
   [System.Serializable]
   public class Position {
     [Tooltip("Should the grip connect to the Local Anchor position?")]
@@ -54,7 +54,7 @@ public class ViveGrip_Grabbable : ViveGrip_Highlight {
   }
 
   public bool ApplyGripRotation() {
-    return rotation.mode != RotationMode.Default;
+    return rotation.mode != RotationMode.Disabled;
   }
 
   public bool SnapToOrientation() {
