@@ -32,9 +32,9 @@ public static class ViveGrip_JointFactory {
   }
 
   private static void SetLinearDrive(ConfigurableJoint joint, float mass) {
-    float gripStrength = 3000f * mass;
-    float gripSpeed = 10f * mass;
-    float maxPower = 70f * mass;
+    float gripStrength = 30000f * mass;
+    float gripSpeed = 100f * mass;
+    float maxPower = 700f * mass;
     JointDrive jointDrive = joint.xDrive;
     jointDrive.positionSpring = gripStrength;
     jointDrive.positionDamper = gripSpeed;
@@ -53,8 +53,8 @@ public static class ViveGrip_JointFactory {
   }
 
   private static void SetAngularDrive(ConfigurableJoint joint, float mass) {
-    float gripStrength = 30f * mass;
-    float gripSpeed = 1f * mass;
+    float gripStrength = 300f * mass;
+    float gripSpeed = 10f * mass;
     joint.rotationDriveMode = RotationDriveMode.XYAndZ;
     JointDrive jointDrive = joint.angularYZDrive;
     jointDrive.positionSpring = gripStrength;
