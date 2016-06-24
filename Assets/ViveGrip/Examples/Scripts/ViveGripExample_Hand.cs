@@ -34,20 +34,24 @@ public class ViveGripExample_Hand : MonoBehaviour {
   }
 
   IEnumerator FadeOut() {
-    Color color = GetComponent<Renderer>().material.color;
-    while (color.a > 0.1f) {
-      color.a -= fadeSpeed * Time.deltaTime;
-      GetComponent<Renderer>().material.color = color;
-      yield return null;
+    if(GetComponent<Renderer>() != null) {
+      Color color = GetComponent<Renderer>().material.color;
+      while (color.a > 0.1f) {
+        color.a -= fadeSpeed * Time.deltaTime;
+        GetComponent<Renderer>().material.color = color;
+        yield return null;
+      }
     }
   }
 
   IEnumerator FadeIn() {
-    Color color = GetComponent<Renderer>().material.color;
-    while (color.a < 1f) {
-      color.a += fadeSpeed * Time.deltaTime;
-      GetComponent<Renderer>().material.color = color;
-      yield return null;
+    if(GetComponent<Renderer>() != null) {
+      Color color = GetComponent<Renderer>().material.color;
+      while (color.a < 1f) {
+        color.a += fadeSpeed * Time.deltaTime;
+        GetComponent<Renderer>().material.color = color;
+        yield return null;
+      }
     }
   }
 }
