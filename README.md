@@ -1,6 +1,8 @@
 # Vive Grip
 
-See the [package directory](Assets/ViveGrip) for details.
+See the [package directory](Assets/ViveGrip) for package details and quick start instructions.
+
+See the [examples directory](Assets/ViveGrip/Examples) for example usage and scenes.
 
 ## [Support](http://u3d.as/t55)
 
