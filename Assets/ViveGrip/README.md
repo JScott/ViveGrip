@@ -1,8 +1,6 @@
 # Vive Grip
 
-The HTC Vive is an amazing platform that enables you to make amazing content. However, [SteamVR for Unity](https://www.assetstore.unity3d.com/en/#!/content/32647) leaves controller interaction up to you and has sparse documentation. Compounding this, Unity's [ConfigurableJoint](http://docs.unity3d.com/Manual/class-ConfigurableJoint.html) is the best way to simulate object grabbing but also lacks documentation for how complex it is.
-
-Vive Grip handles these for you. A few simple scripts let you create immersive interactions with game objects. It lets you worry about your awesome game logic instead of boilerplate interaction code.
+Vive Grip helps you to highlight, grab, and interact with game objects using the HTC Vive. It leverages Unity's physics engine with a simple interface that abstracts the powerful ConfigurableJoint component. Examples are included for creating weighted objects, levers, dials, guns, and more.
 
 ## Install
 
