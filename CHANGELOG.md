@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - `ViveGripHighlight*` methods renamed to `ViveGripTouch*` (**update your scripts!**)
 - Increased the grip position and rotation strength by x10 (**update your object mass!**)
+- Reworked the variables and defaults for `ViveGrip_Grabbable` to be clearer and more useful (**update your grabbables!**)
 
 ## [v1.2.0] - 2016-06-11
 ### Changed
