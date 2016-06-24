@@ -11,6 +11,7 @@ ModelImporter:
     3300000: //RootNode
     4300000: at rest
     4300002: at rest left
+    6400000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
