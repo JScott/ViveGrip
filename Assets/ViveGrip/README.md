@@ -15,7 +15,7 @@ Vive Grip helps you to highlight, grab, and interact with game objects using the
 4. Move the `Grip Point` to the local position of your grip
 5. Add `ViveGrip_Grabbable` and `ViveGrip_Interactable` to your objects
 
-Check out the [Demo Scene](Examples) for more detail and to see it in action.
+Look at the README in the [Examples directory](Examples) for more detail and to see it in action.
 
 ## Why use Vive Grip?
 
