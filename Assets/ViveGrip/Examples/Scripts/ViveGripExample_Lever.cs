@@ -4,6 +4,7 @@ using System.Collections;
 public class ViveGripExample_Lever : MonoBehaviour {
   private ViveGrip_ControllerHandler controller;
   private float oldXRotation;
+  private float VIBRATION_DURATION_IN_MILLISECONDS = 50;
   private float MAX_VIBRATION_STRENGTH = 0.7f;
   private float MAX_VIBRATION_ANGLE = 35f;
 
@@ -24,7 +25,7 @@ public class ViveGripExample_Lever : MonoBehaviour {
     if (controller != null) {
       float distance = Mathf.Min(Mathf.Abs(newXRotation - oldXRotation), MAX_VIBRATION_ANGLE);
       float vibrationStrength = (distance / MAX_VIBRATION_ANGLE) * MAX_VIBRATION_STRENGTH;
-      controller.Vibrate(50, vibrationStrength);
+      controller.Vibrate(VIBRATION_DURATION_IN_MILLISECONDS, vibrationStrength);
     }
     oldXRotation = newXRotation;
   }

@@ -4,6 +4,7 @@ using System.Collections;
 public class ViveGripExample_Slider : MonoBehaviour {
   private ViveGrip_ControllerHandler controller;
   private float oldX;
+  private float VIBRATION_DURATION_IN_MILLISECONDS = 50;
   private float MAX_VIBRATION_STRENGTH = 0.2f;
   private float MAX_VIBRATION_DISTANCE = 0.03f;
 
@@ -24,7 +25,7 @@ public class ViveGripExample_Slider : MonoBehaviour {
     if (controller != null) {
       float distance = Mathf.Min(Mathf.Abs(newX - oldX), MAX_VIBRATION_DISTANCE);
       float vibrationStrength = (distance / MAX_VIBRATION_DISTANCE) * MAX_VIBRATION_STRENGTH;
-      controller.Vibrate(50, vibrationStrength);
+      controller.Vibrate(VIBRATION_DURATION_IN_MILLISECONDS, vibrationStrength);
     }
     oldX = newX;
 	}

@@ -26,20 +26,24 @@ By playing with `Anchor.enabled` and `Rotation.mode` I can get different effects
 - `ViveGrip_Grabbable`
   - `Rotation.mode`
 - `Rigidbody`
+- `Vibrate`
 
 The slider is a cube with `ViveGrip_Grabbable` attached. It's `Rigidbody` is constrained to only move on one axis. To prevent it from going too far, I added two invisible objects with colliders at either end of its movement. The track is just for show and has no collider.
 
 I also set the rotation mode to `Disabled` so that it doesn't bother trying to rotate it with the controller. This isn't strictly necessary due to the constraints but is trivial enough that I might as well.
+
+To give some sense of weight to the slider as it moves, I leverage the `Vibrate` method on the grip point's controller. By providing the duration in milliseconds at the strength of the vibration (from 0 to 1), I provide some feedback based on how far the slider was moved.
 
 #### Button (intermediate)
 
 - `ViveGrip_Interactable`
 - `BoxCollider`
 - `ViveGripInteractionStart(ViveGrip_GripPoint gripPoint)`
+- `Vibrate`
 
 The button is a cube with `ViveGrip_Interactable` attached. It doesn't need to be picked up so it doesn't automatically add a `Rigidbody` and I use the default collider. Instead of being grabbable, any `ViveGripInteractionStart` methods in scripts attached to the object will be called when it's interacted with.
 
-In this case, the attached script will move the button in and back out when triggered. We also ignore the `ViveGrip_GripPoint` parameter because we don't need it for this.
+In this case, the attached script will move the button in and back out when triggered. We use the `ViveGrip_GripPoint` parameter to do give immediate haptic feedback.
 
 #### Dial and light (intermediate)
 
@@ -68,10 +72,13 @@ In order to give visual cues to the player, I change the hand mesh when an objec
   - `Anchor.localPosition`
 - `Rigidbody`
 - `HingeJoint`
+- `Vibrate`
 
 The lever is a model with `ViveGrip_Grabbable` attached. To make sure that it gets gripped by the handle, I set the anchor's local position appropriately. When I enable the anchor, a Gizmo in the Scene view gives me a visual cue as to where the anchor will be positioned.
 
 The lever needs to rotate when its pulled, which I achieve with a hinge joint. It behaves as you would expect by configuring the joint's anchor and axis appropriately and setting some `Rigidbody` constraints.
+
+A script also provides a sense of weight using vibrations, similar to the use in the Slider.
 
 #### Bubble gun (advanced)
 
@@ -81,7 +88,8 @@ The lever needs to rotate when its pulled, which I achieve with a hinge joint. I
 - `ViveGrip_Interactable`
 - `ViveGripInteractionStart(ViveGrip_GripPoint gripPoint)`
 - `ViveGripInteractionStop(ViveGrip_GripPoint gripPoint)`
+- `Vibrate`
 
 The bubbler gun is a mesh `ViveGrip_Grabbable` attached. It needs to be held properly by the controller so I enable the anchor and set the rotation mode to `Apply Grip and Orientation`. I can give the handle a comfortable grip by setting the local orientation to tilt it forward slightly. I also add `ViveGrip_Interactable` because I want to fire it by pulling the trigger.
 
-Any attached scripts will call `ViveGripInteractionStart` while the interaction button is held and `ViveGripInteractionStop` when we let go. I use this to toggle a boolean so that bubbles are made when the trigger is held. I also make sure that `gripPoint.SomethingHeld()` is true from the provided `ViveGrip_GripPoint` script so that it must be held to fire.
+Any attached scripts will call `ViveGripInteractionStart` while the interaction button is held and `ViveGripInteractionStop` when we let go. I use this to toggle a boolean so that bubbles are made when the trigger is held. I also make sure that `gripPoint.SomethingHeld()` is true from the provided `ViveGrip_GripPoint` script so that it must be held to fire. Haptic feedback is also triggered for each bubble fired.
