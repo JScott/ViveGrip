@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Door example
+
+### Fixed
+- Cleaned up repeated `ViveGrip_JointFactory` code
+
+### Changed
+- Decreased the grip position and rotation strength by half (**update your object mass!**)
 
 ## [v2.0.0] - 2016-06-28
 ### Fixed
