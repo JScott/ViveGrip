@@ -54,19 +54,19 @@ public static class ViveGrip_JointFactory {
   private static void SetLinearDrive(ConfigurableJoint joint, float mass) {
     float multiplier = ViveGrip_JointFactory.LINEAR_DRIVE_MULTIPLIER;
     float gripStrength = 3000f * mass * multiplier;
-    float gripSpeed = 10f * mass * multiplier;
-    float maxPower = 70f * mass * multiplier;
-    joint.xDrive = LinearJointDrive(gripStrength, gripSpeed, maxPower);
-    joint.yDrive = LinearJointDrive(gripStrength, gripSpeed, maxPower);
-    joint.zDrive = LinearJointDrive(gripStrength, gripSpeed, maxPower);
+    float gripDamper = 10f * mass * multiplier;
+    float maxForce = 70f * mass * multiplier;
+    joint.xDrive = LinearJointDrive(gripStrength, gripDamper, maxForce);
+    joint.yDrive = LinearJointDrive(gripStrength, gripDamper, maxForce);
+    joint.zDrive = LinearJointDrive(gripStrength, gripDamper, maxForce);
   }
 
   private static void SetAngularDrive(ConfigurableJoint joint, float mass) {
     float multiplier = ViveGrip_JointFactory.ANGULAR_DRIVE_MULTIPLIER;
     float gripStrength = 300f * mass * multiplier;
-    float gripSpeed = 10f * mass * multiplier;
+    float gripDamper = 10f * mass * multiplier;
     joint.rotationDriveMode = RotationDriveMode.XYAndZ;
-    joint.angularYZDrive = AngularJointDrive(joint.angularYZDrive, gripStrength, gripSpeed);
-    joint.angularXDrive = AngularJointDrive(joint.angularXDrive, gripStrength, gripSpeed);
+    joint.angularYZDrive = AngularJointDrive(joint.angularYZDrive, gripStrength, gripDamper);
+    joint.angularXDrive = AngularJointDrive(joint.angularXDrive, gripStrength, gripDamper);
   }
 }
