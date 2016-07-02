@@ -53,9 +53,9 @@ public static class ViveGrip_JointFactory {
 
   private static void SetLinearDrive(ConfigurableJoint joint, float mass) {
     float multiplier = LINEAR_DRIVE_MULTIPLIER;
-    float gripStrength = 30000f * mass * multiplier;
-    float gripDamper = 100f * mass * multiplier;
-    float maxForce = 700f * mass * multiplier;
+    float gripStrength = 15000f * mass * multiplier;
+    float gripDamper = 50f * mass * multiplier;
+    float maxForce = 350f * mass * multiplier;
     joint.xDrive = LinearJointDrive(gripStrength, gripDamper, maxForce);
     joint.yDrive = LinearJointDrive(gripStrength, gripDamper, maxForce);
     joint.zDrive = LinearJointDrive(gripStrength, gripDamper, maxForce);
