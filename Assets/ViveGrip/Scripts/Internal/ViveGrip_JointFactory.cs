@@ -36,26 +36,29 @@ public static class ViveGrip_JointFactory {
     joint.connectedAnchor = desiredObject.transform.InverseTransformVector(anchor);
   }
 
+  private static JointDrive LinearJointDrive(float strength, float damper, float maxForce) {
+    JointDrive jointDrive = new JointDrive();
+    jointDrive.positionSpring = strength;
+    jointDrive.positionDamper = damper;
+    jointDrive.maximumForce = maxForce;
+    return jointDrive;
+  }
+
+  private static JointDrive AngularJointDrive(JointDrive baseJointDrive, float strength, float damper) {
+    JointDrive jointDrive = baseJointDrive;
+    jointDrive.positionSpring = strength;
+    jointDrive.positionDamper = damper;
+    return jointDrive;
+  }
+
   private static void SetLinearDrive(ConfigurableJoint joint, float mass) {
     float multiplier = ViveGrip_JointFactory.LINEAR_DRIVE_MULTIPLIER;
     float gripStrength = 3000f * mass * multiplier;
     float gripSpeed = 10f * mass * multiplier;
     float maxPower = 70f * mass * multiplier;
-    JointDrive jointDrive = joint.xDrive;
-    jointDrive.positionSpring = gripStrength;
-    jointDrive.positionDamper = gripSpeed;
-    jointDrive.maximumForce = maxPower;
-    joint.xDrive = jointDrive;
-    jointDrive = joint.yDrive;
-    jointDrive.positionSpring = gripStrength;
-    jointDrive.positionDamper = gripSpeed;
-    jointDrive.maximumForce = maxPower;
-    joint.yDrive = jointDrive;
-    jointDrive = joint.zDrive;
-    jointDrive.positionSpring = gripStrength;
-    jointDrive.positionDamper = gripSpeed;
-    jointDrive.maximumForce = maxPower;
-    joint.zDrive = jointDrive;
+    joint.xDrive = LinearJointDrive(gripStrength, gripSpeed, maxPower);
+    joint.yDrive = LinearJointDrive(gripStrength, gripSpeed, maxPower);
+    joint.zDrive = LinearJointDrive(gripStrength, gripSpeed, maxPower);
   }
 
   private static void SetAngularDrive(ConfigurableJoint joint, float mass) {
@@ -63,13 +66,7 @@ public static class ViveGrip_JointFactory {
     float gripStrength = 300f * mass * multiplier;
     float gripSpeed = 10f * mass * multiplier;
     joint.rotationDriveMode = RotationDriveMode.XYAndZ;
-    JointDrive jointDrive = joint.angularYZDrive;
-    jointDrive.positionSpring = gripStrength;
-    jointDrive.positionDamper = gripSpeed;
-    joint.angularYZDrive = jointDrive;
-    jointDrive = joint.angularXDrive;
-    jointDrive.positionSpring = gripStrength;
-    jointDrive.positionDamper = gripSpeed;
-    joint.angularXDrive = jointDrive;
+    joint.angularYZDrive = AngularJointDrive(joint.angularYZDrive, gripStrength, gripSpeed);
+    joint.angularXDrive = AngularJointDrive(joint.angularXDrive, gripStrength, gripSpeed);
   }
 }
