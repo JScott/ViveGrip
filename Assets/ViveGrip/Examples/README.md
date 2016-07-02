@@ -80,6 +80,18 @@ The lever needs to rotate when its pulled, which I achieve with a hinge joint. I
 
 A script also provides a sense of weight using vibrations, similar to the use in the Slider.
 
+#### Door (advanced)
+
+- `ViveGrip_Grabbable`
+- `Rigidbody`
+- `HingeJoint`
+- `FixedJoint`
+- `ViveGrip_JointFactory.LINEAR_DRIVE_MULTIPLIER`
+
+The door is very similar to the Lever with some important distinctions. Instead of the whole object being the grabbable, the handle is grabbable and connected to the hinged body with a fixed joint.
+
+You may encounter slight jittering due to grip strength as the handle tries to go to your grip but stay attached to the door. A script handles the rotation by setting it manually based on the door's hinge rotation. Depending on your application, you might also adjust the positional strength of all grips with `ViveGrip_JointFactory.LINEAR_DRIVE_MULTIPLIER` to your preference.
+
 #### Bubble gun (advanced)
 
 - `ViveGrip_Grabbable`
