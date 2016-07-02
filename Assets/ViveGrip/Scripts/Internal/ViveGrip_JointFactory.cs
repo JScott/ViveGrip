@@ -1,6 +1,9 @@
 using UnityEngine;
 
 public static class ViveGrip_JointFactory {
+  public const float LINEAR_DRIVE_MULTIPLIER = 1f;
+  public const float ANGULAR_DRIVE_MULTIPLIER = 1f;
+
   public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject, Quaternion controllerRotation) {
     ViveGrip_Grabbable grabbable = desiredObject.gameObject.GetComponent<ViveGrip_Grabbable>();
     ConfigurableJoint joint = jointObject.AddComponent<ConfigurableJoint>();
@@ -32,9 +35,10 @@ public static class ViveGrip_JointFactory {
   }
 
   private static void SetLinearDrive(ConfigurableJoint joint, float mass) {
-    float gripStrength = 30000f * mass;
-    float gripSpeed = 100f * mass;
-    float maxPower = 700f * mass;
+    float multiplier = ViveGrip_JointFactory.LINEAR_DRIVE_MULTIPLIER;
+    float gripStrength = 3000f * mass * multiplier;
+    float gripSpeed = 10f * mass * multiplier;
+    float maxPower = 70f * mass * multiplier;
     JointDrive jointDrive = joint.xDrive;
     jointDrive.positionSpring = gripStrength;
     jointDrive.positionDamper = gripSpeed;
@@ -53,8 +57,9 @@ public static class ViveGrip_JointFactory {
   }
 
   private static void SetAngularDrive(ConfigurableJoint joint, float mass) {
-    float gripStrength = 300f * mass;
-    float gripSpeed = 10f * mass;
+    float multiplier = ViveGrip_JointFactory.ANGULAR_DRIVE_MULTIPLIER;
+    float gripStrength = 300f * mass * multiplier;
+    float gripSpeed = 10f * mass * multiplier;
     joint.rotationDriveMode = RotationDriveMode.XYAndZ;
     JointDrive jointDrive = joint.angularYZDrive;
     jointDrive.positionSpring = gripStrength;
