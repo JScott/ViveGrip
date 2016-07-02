@@ -1,0 +1,303 @@
+fileFormatVersion: 2
+guid: 254b06a7a223c67408316b75420c79e1
+timeCreated: 1467481518
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: doors
+    100004: frame
+    100006: Armature
+    100008: at rest left
+    100010: at rest right
+    100012: Boat
+    100014: BoatMesh
+    100016: Building
+    100018: Cube
+    100020: Cube.001
+    100022: Cube.002
+    100024: Cube.003
+    100026: Empty
+    100028: Empty.001
+    100030: Hand
+    100032: LanternMesh
+    100034: LeavesMesh
+    100036: Mailbox
+    100038: Middle0
+    100040: Middle1
+    100042: Middle2
+    100044: Middle3
+    100046: Middle3_end
+    100048: Pier
+    100050: PierMesh
+    100052: Pinkie0
+    100054: Pinkie1
+    100056: Pinkie2
+    100058: Pinkie3
+    100060: Pinkie3_end
+    100062: Pointer0
+    100064: Pointer1
+    100066: Pointer2
+    100068: Pointer3
+    100070: Pointer3_end
+    100072: Post1
+    100074: Post2
+    100076: Post3
+    100078: Post3Fragment
+    100080: Post4
+    100082: primed left
+    100084: primed right
+    100086: RampMesh
+    100088: Ring0
+    100090: Ring1
+    100092: Ring2
+    100094: Ring3
+    100096: Ring3_end
+    100098: RopeCirclePath
+    100100: RopeMesh
+    100102: SmallIsland
+    100104: StairMesh
+    100106: Stairs
+    100108: Statue
+    100110: StatueHead
+    100112: Thumb0
+    100114: Thumb1
+    100116: Thumb2
+    100118: Thumb2_end
+    100120: TinyTree
+    100122: Tree
+    100124: TrunkMesh
+    100126: Wrist
+    100128: Wrist_end
+    100130: DoorMesh
+    100132: HandleMesh
+    400000: //RootNode
+    400002: doors
+    400004: frame
+    400006: Armature
+    400008: at rest left
+    400010: at rest right
+    400012: Boat
+    400014: BoatMesh
+    400016: Building
+    400018: Cube
+    400020: Cube.001
+    400022: Cube.002
+    400024: Cube.003
+    400026: Empty
+    400028: Empty.001
+    400030: Hand
+    400032: LanternMesh
+    400034: LeavesMesh
+    400036: Mailbox
+    400038: Middle0
+    400040: Middle1
+    400042: Middle2
+    400044: Middle3
+    400046: Middle3_end
+    400048: Pier
+    400050: PierMesh
+    400052: Pinkie0
+    400054: Pinkie1
+    400056: Pinkie2
+    400058: Pinkie3
+    400060: Pinkie3_end
+    400062: Pointer0
+    400064: Pointer1
+    400066: Pointer2
+    400068: Pointer3
+    400070: Pointer3_end
+    400072: Post1
+    400074: Post2
+    400076: Post3
+    400078: Post3Fragment
+    400080: Post4
+    400082: primed left
+    400084: primed right
+    400086: RampMesh
+    400088: Ring0
+    400090: Ring1
+    400092: Ring2
+    400094: Ring3
+    400096: Ring3_end
+    400098: RopeCirclePath
+    400100: RopeMesh
+    400102: SmallIsland
+    400104: StairMesh
+    400106: Stairs
+    400108: Statue
+    400110: StatueHead
+    400112: Thumb0
+    400114: Thumb1
+    400116: Thumb2
+    400118: Thumb2_end
+    400120: TinyTree
+    400122: Tree
+    400124: TrunkMesh
+    400126: Wrist
+    400128: Wrist_end
+    400130: DoorMesh
+    400132: HandleMesh
+    2300000: doors
+    2300002: frame
+    2300004: at rest left
+    2300006: at rest right
+    2300008: BoatMesh
+    2300010: Building
+    2300012: Cube
+    2300014: Cube.001
+    2300016: Cube.002
+    2300018: Cube.003
+    2300020: Hand
+    2300022: LanternMesh
+    2300024: LeavesMesh
+    2300026: Mailbox
+    2300028: PierMesh
+    2300030: Post1
+    2300032: Post2
+    2300034: Post3
+    2300036: Post3Fragment
+    2300038: Post4
+    2300040: primed left
+    2300042: primed right
+    2300044: RampMesh
+    2300046: RopeCirclePath
+    2300048: RopeMesh
+    2300050: SmallIsland
+    2300052: StairMesh
+    2300054: StatueHead
+    2300056: TinyTree
+    2300058: TrunkMesh
+    2300060: //RootNode
+    2300062: DoorMesh
+    2300064: HandleMesh
+    3300000: doors
+    3300002: frame
+    3300004: at rest left
+    3300006: at rest right
+    3300008: BoatMesh
+    3300010: Building
+    3300012: Cube
+    3300014: Cube.001
+    3300016: Cube.002
+    3300018: Cube.003
+    3300020: Hand
+    3300022: LanternMesh
+    3300024: LeavesMesh
+    3300026: Mailbox
+    3300028: PierMesh
+    3300030: Post1
+    3300032: Post2
+    3300034: Post3
+    3300036: Post3Fragment
+    3300038: Post4
+    3300040: primed left
+    3300042: primed right
+    3300044: RampMesh
+    3300046: RopeCirclePath
+    3300048: RopeMesh
+    3300050: SmallIsland
+    3300052: StairMesh
+    3300054: StatueHead
+    3300056: TinyTree
+    3300058: TrunkMesh
+    3300060: //RootNode
+    3300062: DoorMesh
+    3300064: HandleMesh
+    4300000: doors
+    4300002: frame
+    4300004: Cube.003
+    4300006: primed right
+    4300008: Hand
+    4300010: at rest left
+    4300012: primed left
+    4300014: at rest right
+    4300016: TinyTree
+    4300018: StatueHead
+    4300020: LeavesMesh
+    4300022: TrunkMesh
+    4300024: Cube.001
+    4300026: Cube
+    4300028: RampMesh
+    4300030: StairMesh
+    4300032: BoatMesh
+    4300034: LanternMesh
+    4300036: RopeMesh
+    4300038: Post3Fragment
+    4300040: Post1
+    4300042: PierMesh
+    4300044: Post2
+    4300046: Post4
+    4300048: Post3
+    4300050: Building
+    4300052: SmallIsland
+    4300054: Mailbox
+    4300056: RopeCirclePath
+    4300058: Cube.002
+    4300060: DoorMesh
+    4300062: HandleMesh
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.25
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
