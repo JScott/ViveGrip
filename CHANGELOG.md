@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v2.1.1] - 2016-07-08
+### Fixed
+- Build no longer breaks on `import UnityEditor`
+
 ## [v2.1.0] - 2016-07-03
 ### Added
 - Door example
@@ -70,7 +74,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/JScott/ViveGrip/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/JScott/ViveGrip/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/JScott/ViveGrip/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/JScott/ViveGrip/compare/v1.1.0...v1.2.0
