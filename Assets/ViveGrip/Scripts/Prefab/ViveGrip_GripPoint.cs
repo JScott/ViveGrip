@@ -100,9 +100,9 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   void HandleFumbling() {
     if (HoldingSomething()) {
       float grabDistance = CalculateGrabDistance();
-      bool enteredRadius = grabDistance < holdRadius;
-      firmlyGrabbed = firmlyGrabbed || enteredRadius;
-      if (firmlyGrabbed && grabDistance > holdRadius) {
+      bool withinRadius = grabDistance <= holdRadius;
+      firmlyGrabbed = firmlyGrabbed || withinRadius;
+      if (firmlyGrabbed && !withinRadius) {
         DestroyConnection();
       }
     }
