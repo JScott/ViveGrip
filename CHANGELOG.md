@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.2.0] - 2016-07-14
 ### Added
 - Grip spheres now inherit the layer of the grip point that spawns them, enabling better collision control
 - `gripPoint.HeldObject()` to get the held GameObject
@@ -12,11 +14,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Clean up a few grip point variables
 
-## [v2.1.1] - 2016-07-08
+## [2.1.1] - 2016-07-08
 ### Fixed
 - Build no longer breaks on `import UnityEditor`
 
-## [v2.1.0] - 2016-07-03
+## [2.1.0] - 2016-07-03
 ### Added
 - Door example
 
@@ -26,7 +28,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Decreased the grip position and rotation strength by half (**update your object mass!**)
 
-## [v2.0.0] - 2016-06-28
+## [2.0.0] - 2016-06-28
 ### Fixed
 - Objects will highlight when letting go of them
 - Example hand will animate properly during edge cases
@@ -37,7 +39,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Reworked the variables and defaults for `ViveGrip_Grabbable` to be clearer and more useful (**update your grabbables!**)
 - Rewrote and improved large parts of documentation
 
-## [v1.2.0] - 2016-06-11
+## [1.2.0] - 2016-06-11
 ### Changed
 - `ViveGripInteractionHeld` is now `ViveGripInteractionStop` (**update your scripts!**)
 - All `ViveGripXStart` and `ViveGripXStop` scripts pass in the calling ViveGrip_GripPoint object
@@ -53,7 +55,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Honouring the `.enabled` flag on grabbable and interactable scripts
 
-## [v1.1.0] - 2016-06-03
+## [1.1.0] - 2016-06-03
 ### Fixed
 - Anchors were secretly kind of broken
 - Letting go of the grip will no longer grab
@@ -82,7 +84,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.1.1...HEAD
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/JScott/ViveGrip/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/JScott/ViveGrip/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/JScott/ViveGrip/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/JScott/ViveGrip/compare/v1.2.0...v2.0.0
