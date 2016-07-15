@@ -122,7 +122,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void DestroyConnection() {
-    GameObject lastObject = jointObject.GetComponent<ConfigurableJoint>().connectedBody.gameObject;
+    GameObject lastObject = HeldObject();
     Destroy(jointObject);
     anchored = false;
     Message("ViveGripGrabStop", lastObject);
@@ -163,6 +163,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
 
   public bool TouchingSomething() {
     return touch.NearestObject() != null;
+  }
+
+  public GameObject HeldObject() {
+    if (!HoldingSomething()) { return null; }
+    return jointObject.GetComponent<ConfigurableJoint>().connectedBody.gameObject;
   }
 
   GameObject TrackedObject() {
