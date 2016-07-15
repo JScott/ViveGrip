@@ -23,7 +23,6 @@ public class ViveGrip_Grabbable : ViveGrip_Highlight {
   }
   public Position anchor;
   public Rotation rotation;
-  private bool held = false;
   private Vector3 grabCentre;
 
   void Start() {}
@@ -50,14 +49,7 @@ public class ViveGrip_Grabbable : ViveGrip_Highlight {
 
   public void GrabFrom(Vector3 jointLocation) {
     grabCentre = anchor.enabled ? anchor.localPosition : (jointLocation - transform.position);
-    held = true;
   }
-
-  public void Drop() {
-    held = false;
-  }
-
-  public bool IsHeld() { return held; }
 
   public Vector3 WorldAnchorPosition() {
     return transform.position + (transform.rotation * grabCentre);
