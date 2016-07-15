@@ -13,11 +13,13 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   public bool inputIsToggle = false;
   [HideInInspector]
   public ViveGrip_ControllerHandler controller;
+  public const string GRIP_SPHERE_NAME = "ViveGrip Touch Sphere";
   private ViveGrip_TouchDetection touch;
   private Color highlightTint = new Color(0.2f, 0.2f, 0.2f);
   private ConfigurableJoint joint;
   private GameObject jointObject;
   private bool firmlyGrabbed = false;
+  private bool externalGrabTriggered = false;
   private Vector3 grabbedAt;
   private GameObject lastTouchedObject;
   private GameObject lastInteractedObject;
@@ -39,7 +41,8 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void HandleGrabbing(GameObject touchedObject) {
-    if (!GrabTriggered()) { return; }
+    if (!GrabTriggered() && !externalGrabTriggered) { return; }
+    externalGrabTriggered = false;
     if (HoldingSomething()) {
       if (touchedObject != null) {
         GetHighlight(touchedObject).Highlight(highlightTint);
@@ -155,7 +158,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     gripSphere.transform.SetParent(transform);
     gripSphere.AddComponent<Rigidbody>().isKinematic = true;
     gripSphere.layer = gameObject.layer;
-    gripSphere.name = "ViveGrip Touch Sphere";
+    gripSphere.name = GRIP_SPHERE_NAME;
     return gripSphere;
   }
 
@@ -170,6 +173,10 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   public GameObject HeldObject() {
     if (!HoldingSomething()) { return null; }
     return jointObject.GetComponent<ConfigurableJoint>().connectedBody.gameObject;
+  }
+
+  public void ToggleGrab() {
+    externalGrabTriggered = true;
   }
 
   GameObject TrackedObject() {
