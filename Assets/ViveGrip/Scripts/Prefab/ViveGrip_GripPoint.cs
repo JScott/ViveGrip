@@ -123,6 +123,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
 
   void DestroyConnection() {
     GameObject lastObject = HeldObject();
+    lastObject.GetComponent<ViveGrip_Grabbable>().Drop();
     Destroy(jointObject);
     anchored = false;
     Message("ViveGripGrabStop", lastObject);
