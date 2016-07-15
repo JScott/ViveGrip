@@ -154,6 +154,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     gripSphere.transform.position = transform.position;
     gripSphere.transform.SetParent(transform);
     gripSphere.AddComponent<Rigidbody>().isKinematic = true;
+    gripSphere.layer = gameObject.layer;
     gripSphere.name = "ViveGrip Touch Sphere";
     return gripSphere;
   }

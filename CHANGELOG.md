@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Grip spheres now inherit the layer of the grip point that spawns them, enabling better collision control
+- `gripPoint.HeldObject()` to get the held GameObject
+- `gripPoint.ToggleGrab()` to grab and release in script
+- `grabbable.IsHeld()` to determine if an object is held by a grip point
+
+### Fixed
+- Clean up a few grip point variables
 
 ## [v2.1.1] - 2016-07-08
 ### Fixed
