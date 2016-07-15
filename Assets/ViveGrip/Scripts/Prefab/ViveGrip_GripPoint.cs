@@ -17,7 +17,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   private Color highlightTint = new Color(0.2f, 0.2f, 0.2f);
   private ConfigurableJoint joint;
   private GameObject jointObject;
-  private bool anchored = false;
+  private bool firmlyGrabbed = false;
   private Vector3 grabbedAt;
   private GameObject lastTouchedObject;
   private GameObject lastInteractedObject;
@@ -100,9 +100,9 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   void HandleFumbling() {
     if (HoldingSomething()) {
       float grabDistance = CalculateGrabDistance();
-      bool pulledToMiddle = grabDistance < holdRadius;
-      anchored = anchored || pulledToMiddle;
-      if (anchored && grabDistance > holdRadius) {
+      bool enteredRadius = grabDistance < holdRadius;
+      firmlyGrabbed = firmlyGrabbed || enteredRadius;
+      if (firmlyGrabbed && grabDistance > holdRadius) {
         DestroyConnection();
       }
     }
@@ -125,7 +125,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     GameObject lastObject = HeldObject();
     lastObject.GetComponent<ViveGrip_Grabbable>().Drop();
     Destroy(jointObject);
-    anchored = false;
+    firmlyGrabbed = false;
     Message("ViveGripGrabStop", lastObject);
   }
 
