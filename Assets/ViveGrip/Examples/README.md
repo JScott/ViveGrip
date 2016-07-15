@@ -43,7 +43,7 @@ To give some sense of weight to the slider as it moves, I leverage the `Vibrate`
 
 The button is a cube with `ViveGrip_Interactable` attached. It doesn't need to be picked up so it doesn't automatically add a `Rigidbody` and I use the default collider. Instead of being grabbable, any `ViveGripInteractionStart` methods in scripts attached to the object will be called when it's interacted with.
 
-In this case, the attached script will move the button in and back out when triggered. We use the `ViveGrip_GripPoint` parameter to do give immediate haptic feedback.
+In this case, the attached script will move the button in and back out when triggered. I use the `ViveGrip_GripPoint` parameter to do give immediate haptic feedback.
 
 #### Dial and light (intermediate)
 
@@ -64,9 +64,9 @@ The attached script will read the rotation of the dial and use that to set the l
 
 The hands are a grip point and model attached to the controller tracked objects. To start things off I add a hand model sibling and adjust the grip point anchor to roughly match the palm of the hand.
 
-In order to give visual cues to the player, I change the hand mesh when an object is touched and the hand fades when we grab something. The logic is hooked into the methods that get called on the controller and all its children when starting or stopping a touch or grab. There are also a few edge cases that get handled around the hand-at-rest cue.
+In order to give visual cues to the player, I change the hand mesh when an object is touched and the hand fades when something is grabbed. The logic is hooked into the methods that get called on the controller and all its children when starting or stopping a touch or grab. There are also a few edge cases that get handled around the hand-at-rest cue.
 
-#### Lever (advanced)
+#### Lever (intermediate)
 
 - `ViveGrip_Grabbable`
   - `Anchor.localPosition`
@@ -92,6 +92,18 @@ The door is very similar to the Lever with some important distinctions. Instead 
 
 You may encounter slight jittering due to grip strength as the handle tries to go to your grip but stay attached to the door. A script handles the rotation by setting it manually based on the door's hinge rotation. Depending on your application, you might also adjust the positional strength of all grips with `ViveGrip_JointFactory.LINEAR_DRIVE_MULTIPLIER` to your preference.
 
+#### Tar ball (advanced)
+
+- `ViveGrip_Grabbable`
+- `ViveGripTouchStart(ViveGrip_GripPoint gripPoint)`
+- `ViveGrip_GripPoint.ToggleGrab()`
+- `ViveGrip_GripPoint.HoldingSomething()`
+- `ViveGrip_GripPoint.enabled`
+
+Sometimes you want an object that gets grabbed or dropped forcefully. The tar ball shows this off by sticking to any unoccupied grip point on touch and disabling it until it gets shaken off.
+
+When the touch method is triggered, I trigger `ToggleGrab()` which we know will grab the tar ball. To prevent the player from dropping it manually and ending up in a weird state, I store the grip point and disable it. During the update method I check if the speed reaches a certain threshold after being gripped. At that point I enable the grip point again and toggle the grab to drop the tar ball.
+
 #### Bubble gun (advanced)
 
 - `ViveGrip_Grabbable`
@@ -104,4 +116,4 @@ You may encounter slight jittering due to grip strength as the handle tries to g
 
 The bubbler gun is a mesh `ViveGrip_Grabbable` attached. It needs to be held properly by the controller so I enable the anchor and set the rotation mode to `Apply Grip and Orientation`. I can give the handle a comfortable grip by setting the local orientation to tilt it forward slightly. I also add `ViveGrip_Interactable` because I want to fire it by pulling the trigger.
 
-Any attached scripts will call `ViveGripInteractionStart` while the interaction button is held and `ViveGripInteractionStop` when we let go. I use this to toggle a boolean so that bubbles are made when the trigger is held. I also make sure that `gripPoint.SomethingHeld()` is true from the provided `ViveGrip_GripPoint` script so that it must be held to fire. Haptic feedback is also triggered for each bubble fired.
+Any attached scripts will call `ViveGripInteractionStart` while the interaction button is held and `ViveGripInteractionStop` when let go. I use this to toggle a boolean so that bubbles are made when the trigger is held. I also make sure that `gripPoint.SomethingHeld()` is true from the provided `ViveGrip_GripPoint` script so that it must be held to fire. Haptic feedback is also triggered for each bubble fired.
