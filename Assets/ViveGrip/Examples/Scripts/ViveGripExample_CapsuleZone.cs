@@ -12,8 +12,13 @@ public class ViveGripExample_CapsuleZone : MonoBehaviour {
   }
 
   void OnTriggerStay(Collider other) {
-    if (CapsuleNotSeated() && CapsuleObjectIs(other.gameObject)) { SetEnteredTo(true); }
-	}
+    if (CapsuleSeated()) {
+      SetEnteredTo(false);
+    }
+    else {
+      if (CapsuleObjectIs(other.gameObject)) { SetEnteredTo(true); }
+    }
+  }
 
   void OnTriggerExit(Collider other) {
     if (CapsuleObjectIs(other.gameObject)) { SetEnteredTo(false); }
@@ -28,7 +33,7 @@ public class ViveGripExample_CapsuleZone : MonoBehaviour {
     return gameObject.GetInstanceID() != capsule.gameObject.GetInstanceID();
   }
 
-  bool CapsuleNotSeated() {
-    return !capsule.gameObject.GetComponent<ViveGripExample_Capsule>().seated;
+  bool CapsuleSeated() {
+    return capsule.gameObject.GetComponent<ViveGripExample_Capsule>().seated;
   }
 }
