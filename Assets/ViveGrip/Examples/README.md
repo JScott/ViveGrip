@@ -80,6 +80,18 @@ The lever needs to rotate when its pulled, which I achieve with a hinge joint. I
 
 A script also provides a sense of weight using vibrations, similar to the use in the Slider.
 
+#### Tar ball (intermediate)
+
+- `ViveGrip_Grabbable`
+- `ViveGripTouchStart(ViveGrip_GripPoint gripPoint)`
+- `ViveGrip_GripPoint.ToggleGrab()`
+- `ViveGrip_GripPoint.HoldingSomething()`
+- `ViveGrip_GripPoint.enabled`
+
+Sometimes you want an object that gets grabbed or dropped forcefully. The tar ball shows this off by sticking to any unoccupied grip point on touch and disabling it until it gets shaken off.
+
+When the touch method is triggered, I trigger `ToggleGrab()` which we know will grab the tar ball. To prevent the player from dropping it manually and ending up in a weird state, I store the grip point and disable it. During the update method I check if the speed reaches a certain threshold after being gripped. At that point I enable the grip point again and toggle the grab to drop the tar ball.
+
 #### Door (advanced)
 
 - `ViveGrip_Grabbable`
@@ -92,17 +104,9 @@ The door is very similar to the Lever with some important distinctions. Instead 
 
 You may encounter slight jittering due to grip strength as the handle tries to go to your grip but stay attached to the door. A script handles the rotation by setting it manually based on the door's hinge rotation. Depending on your application, you might also adjust the positional strength of all grips with `ViveGrip_JointFactory.LINEAR_DRIVE_MULTIPLIER` to your preference.
 
-#### Tar ball (advanced)
+#### Floating Capsule (advanced)
 
-- `ViveGrip_Grabbable`
-- `ViveGripTouchStart(ViveGrip_GripPoint gripPoint)`
-- `ViveGrip_GripPoint.ToggleGrab()`
-- `ViveGrip_GripPoint.HoldingSomething()`
-- `ViveGrip_GripPoint.enabled`
-
-Sometimes you want an object that gets grabbed or dropped forcefully. The tar ball shows this off by sticking to any unoccupied grip point on touch and disabling it until it gets shaken off.
-
-When the touch method is triggered, I trigger `ToggleGrab()` which we know will grab the tar ball. To prevent the player from dropping it manually and ending up in a weird state, I store the grip point and disable it. During the update method I check if the speed reaches a certain threshold after being gripped. At that point I enable the grip point again and toggle the grab to drop the tar ball.
+todo
 
 #### Bubble gun (advanced)
 
