@@ -90,7 +90,7 @@ A script also provides a sense of weight using vibrations, similar to the use in
 
 Sometimes you want an object that gets grabbed or dropped forcefully. The tar ball shows this off by sticking to any unoccupied grip point on touch and disabling it until it gets shaken off.
 
-When the touch method is triggered, I trigger `ToggleGrab()` which we know will grab the tar ball. To prevent the player from dropping it manually and ending up in a weird state, I store the grip point and disable it. During the update method I check if the speed reaches a certain threshold after being gripped. At that point I enable the grip point again and toggle the grab to drop the tar ball.
+When the touch method is triggered, I trigger `ToggleGrab()` which I know will grab the tar ball. To prevent the player from dropping it manually and ending up in a weird state, I store the grip point and disable it. During the update method I check if the speed reaches a certain threshold after being gripped. At that point I enable the grip point again and toggle the grab to drop the tar ball.
 
 #### Door (advanced)
 
@@ -109,9 +109,9 @@ You may encounter slight jittering due to grip strength as the handle tries to g
 - `ViveGripGrabStart(ViveGrip_GripPoint gripPoint)`
 - `ViveGripGrabStop(ViveGrip_GripPoint gripPoint)`
 
-With just the grab messaging we can create drop zones that objects snap to when dropped, similar to what you see throughout Job Simulator. If you have particular placement of objects like a key in a lock or CD in a tray then this design technique can make a smooth experience.
+With just the grab messaging I create drop zones that objects snap to when dropped, similar to what you see throughout Job Simulator. If you have particular placement of objects like a key in a lock or CD in a tray then this design technique can make a smooth experience.
 
-We need a game object for both the grabbable and zone. The grabbable object is the same as the most simple usage except that we need to know if it's seated and in the zone. We use `seated` internally to determine if we should treat it appropriately and we use `inZone` externally to let the other object tell it if it should seat itself when dropped. The zone object 
+Two game objects are needed: the grabbable and it's zone. The grabbable object is the same as the most simple usage except variables to know if it's seated and in the zone. These are `seated`, used internally to float when seated, and `inZone`, modified externally to know if it should seat itself when dropped. The zone object exists to set `inZone` to true if the capsule isn't seated and is touching the zone. We also use its Mesh Renderer to visually indicate that dropping the capsule will seat it.
 
 #### Bubble gun (advanced)
 
