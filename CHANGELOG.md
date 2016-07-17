@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- A floating capsule example to show off snap zone functionality
 
 ## [2.2.0] - 2016-07-14
 ### Added

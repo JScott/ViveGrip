@@ -95,7 +95,6 @@ When the touch method is triggered, I trigger `ToggleGrab()` which we know will 
 #### Door (advanced)
 
 - `ViveGrip_Grabbable`
-- `Rigidbody`
 - `HingeJoint`
 - `FixedJoint`
 - `ViveGrip_JointFactory.LINEAR_DRIVE_MULTIPLIER`
@@ -106,7 +105,13 @@ You may encounter slight jittering due to grip strength as the handle tries to g
 
 #### Floating Capsule (advanced)
 
-todo
+- `ViveGrip_Grabbable`
+- `ViveGripGrabStart(ViveGrip_GripPoint gripPoint)`
+- `ViveGripGrabStop(ViveGrip_GripPoint gripPoint)`
+
+With just the grab messaging we can create drop zones that objects snap to when dropped, similar to what you see throughout Job Simulator. If you have particular placement of objects like a key in a lock or CD in a tray then this design technique can make a smooth experience.
+
+We need a game object for both the grabbable and zone. The grabbable object is the same as the most simple usage except that we need to know if it's seated and in the zone. We use `seated` internally to determine if we should treat it appropriately and we use `inZone` externally to let the other object tell it if it should seat itself when dropped. The zone object 
 
 #### Bubble gun (advanced)
 
