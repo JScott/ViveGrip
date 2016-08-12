@@ -15,8 +15,6 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   public ViveGrip_ControllerHandler controller;
   [HideInInspector]
   public ViveGrip_Grabber grabber;
-  [HideInInspector]
-  public Color tintColor = new Color(0.2f, 0.2f, 0.2f);
   private ViveGrip_TouchDetection touch;
   private const string GRIP_SPHERE_NAME = "ViveGrip Touch Sphere";
   private bool firmlyGrabbed = false;
