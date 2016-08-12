@@ -5,7 +5,7 @@ using UnityEditor;
 
 [RequireComponent (typeof (Rigidbody))]
 [DisallowMultipleComponent]
-public class ViveGrip_Grabbable : ViveGrip_Highlight {
+public class ViveGrip_Grabbable : MonoBehaviour {
   public enum RotationMode { Disabled, ApplyGrip, ApplyGripAndOrientation }
   [System.Serializable]
   public class Position {
@@ -25,7 +25,11 @@ public class ViveGrip_Grabbable : ViveGrip_Highlight {
   public Rotation rotation;
   private Vector3 grabCentre;
 
-  void Start() {}
+  void Start() {
+    if (GetComponent<ViveGrip_Highlighter>() == null) {
+      gameObject.AddComponent<ViveGrip_Highlighter>();
+    }
+  }
 
   // These are called this on the scripts of the attached object and children of the controller:
 

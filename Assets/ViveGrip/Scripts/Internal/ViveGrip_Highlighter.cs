@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class ViveGrip_Highlight : MonoBehaviour {
+public class ViveGrip_Highlighter : MonoBehaviour {
   private Queue<Color> oldColors = new Queue<Color>();
 
   public void Highlight(Color color) {
@@ -20,6 +20,14 @@ public class ViveGrip_Highlight : MonoBehaviour {
       material.color = oldColors.Dequeue();
     }
     oldColors.Clear();
+  }
+
+  void ViveGripHighlightStart(ViveGrip_GripPoint gripPoint) {
+    Highlight(gripPoint.tintColor);
+  }
+
+  void ViveGripHighlightStop() {
+    RemoveHighlighting();
   }
 
   void OnDestroy() {
