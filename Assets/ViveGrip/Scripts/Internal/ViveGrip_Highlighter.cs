@@ -4,6 +4,8 @@ using System.Collections.Generic;
 public class ViveGrip_Highlighter : MonoBehaviour {
   private Queue<Color> oldColors = new Queue<Color>();
 
+  void Start () {}
+
   public void Highlight(Color color) {
     RemoveHighlighting();
     foreach (Material material in GetComponent<Renderer>().materials) {

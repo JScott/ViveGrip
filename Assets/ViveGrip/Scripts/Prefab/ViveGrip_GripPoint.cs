@@ -16,22 +16,17 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   [HideInInspector]
   public ViveGrip_Grabber grabber;
   [HideInInspector]
-  public ConfigurableJoint joint;
-  [HideInInspector]
-  public GameObject jointObject; // TODO: belongs in the grabber now?...
-  [HideInInspector]
   public Color tintColor = new Color(0.2f, 0.2f, 0.2f);
-  public const string GRIP_SPHERE_NAME = "ViveGrip Touch Sphere";
   private ViveGrip_TouchDetection touch;
+  private const string GRIP_SPHERE_NAME = "ViveGrip Touch Sphere";
   private bool firmlyGrabbed = false;
   private bool externalGrabTriggered = false;
-  private Vector3 grabbedAt;
   private GameObject lastTouchedObject;
   private GameObject lastInteractedObject;
 
   void Start() {
     controller = GetComponent<ViveGrip_ControllerHandler>();
-    grabber = GetComponent<ViveGrip_Grabber>();
+    grabber = gameObject.AddComponent<ViveGrip_Grabber>();
     GameObject gripSphere = InstantiateTouchSphere();
     touch = gripSphere.AddComponent<ViveGrip_TouchDetection>();
     touch.radius = touchRadius;
@@ -49,7 +44,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   void HandleGrabbing(GameObject givenObject) {
     if (!GrabTriggered() && !externalGrabTriggered) { return; }
     externalGrabTriggered = false;
-    if (HoldingSomething()) {
+    if (grabber.HoldingSomething()) {
       if (givenObject != null) {
         Message("ViveGripHighlightStart");
       }
@@ -66,7 +61,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     if (inputIsToggle) {
       return controller.Pressed("grab");
     }
-    return HoldingSomething() ? controller.Released("grab") : controller.Pressed("grab");
+    return grabber.HoldingSomething() ? controller.Released("grab") : controller.Pressed("grab");
   }
 
   void DestroyConnection() {
@@ -75,7 +70,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void HandleFumbling() {
-    if (HoldingSomething()) {
+    if (grabber.HoldingSomething()) {
       float grabDistance = CalculateGrabDistance();
       bool withinRadius = grabDistance <= holdRadius;
       firmlyGrabbed = firmlyGrabbed || withinRadius;
@@ -86,14 +81,14 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   float CalculateGrabDistance() {
-    ViveGrip_Grabbable grabbable = joint.connectedBody.gameObject.GetComponent<ViveGrip_Grabbable>();
+    ViveGrip_Grabbable grabbable = grabber.ConnectedGameObject().GetComponent<ViveGrip_Grabbable>();
     Vector3 grabbedAnchorPosition = grabbable.WorldAnchorPosition();
     return Vector3.Distance(transform.position, grabbedAnchorPosition);
   }
 
   void HandleInteraction(GameObject givenObject) {
-    if (HoldingSomething()) {
-      givenObject = joint.connectedBody.gameObject;
+    if (grabber.HoldingSomething()) {
+      givenObject = grabber.ConnectedGameObject();
     }
     if (givenObject == null || givenObject.GetComponent<ViveGrip_Interactable>() == null) { return; }
     if (controller.Pressed("interact")) {
@@ -110,7 +105,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     if (GameObjectsEqual(lastTouchedObject, givenObject)) { return; }
     Message("ViveGripHighlightStop", lastTouchedObject);
     Message("ViveGripTouchStop", lastTouchedObject);
-    if (HoldingSomething()) { return; }
+    if (grabber.HoldingSomething()) { return; }
     Message("ViveGripHighlightStart");
     Message("ViveGripTouchStart");
   }
@@ -139,10 +134,6 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     return gripSphere;
   }
 
-  public bool HoldingSomething() {
-    return jointObject != null;
-  }
-
   public bool TouchingSomething() {
     return TouchedObject() != null;
   }
@@ -151,9 +142,13 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     return touch.NearestObject();
   }
 
+  public bool HoldingSomething() {
+    return grabber.HoldingSomething();
+  }
+
   public GameObject HeldObject() {
-    if (!HoldingSomething()) { return null; }
-    return jointObject.GetComponent<ConfigurableJoint>().connectedBody.gameObject;
+    if (!grabber.HoldingSomething()) { return null; }
+    return grabber.ConnectedGameObject();
   }
 
   public void ToggleGrab() {
