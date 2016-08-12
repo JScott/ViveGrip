@@ -13,4 +13,8 @@ public class ViveGrip_Interactable : MonoBehaviour {
   // Called when touched or grabbed and the interaction button is pressed and released, respectively
   //   void ViveGripInteractionStart(ViveGrip_GripPoint gripPoint) {}
   //   void ViveGripInteractionStop(ViveGrip_GripPoint gripPoint) {}
+
+  // Called when highlighting changes
+  //   void ViveGripHighlightStart(ViveGrip_GripPoint gripPoint) {}
+  //   void ViveGripHighlightStop(ViveGrip_GripPoint gripPoint) {}
 }

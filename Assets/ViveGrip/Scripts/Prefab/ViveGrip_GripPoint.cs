@@ -158,11 +158,9 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void Message(string name, GameObject objectToMessage = null) {
-    // Debug.Log(name + " -- " + TrackedObject());
     TrackedObject().BroadcastMessage(name, this, SendMessageOptions.DontRequireReceiver); // TODO: can I get away with Send here for something like the hands?
     objectToMessage = objectToMessage ?? TouchedObject();
     if (objectToMessage == null) { return; }
-    // Debug.Log(Time.time + "\t-- " + name + "\t-- " + objectToMessage);
     objectToMessage.SendMessage(name, this, SendMessageOptions.DontRequireReceiver);
   }
 }
