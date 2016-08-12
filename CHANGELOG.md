@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- `ViveGrip_GripPoint` is now solely responsible for messaging instead of acting on state change
+- Moved the tint color to `ViveGrip_Highlighter`
+
+### Added
+- `ViveGrip_Grabber` now does the grabbing functionality that the grip point used to do
 
 ## [2.3.0] - 2016-07-16
 ### Added
