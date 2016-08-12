@@ -15,12 +15,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   public ViveGrip_ControllerHandler controller;
   [HideInInspector]
   public ViveGrip_Grabber grabber;
-  private GameObject touchedObject; // TODO: replace with touch.NearestObject()?
   [HideInInspector]
   public ConfigurableJoint joint;
   [HideInInspector]
   public GameObject jointObject; // TODO: belongs in the grabber now?...
-  //[HideInInspector]
+  [HideInInspector]
   public Color tintColor = new Color(0.2f, 0.2f, 0.2f);
   public const string GRIP_SPHERE_NAME = "ViveGrip Touch Sphere";
   private ViveGrip_TouchDetection touch;
@@ -39,24 +38,24 @@ public class ViveGrip_GripPoint : MonoBehaviour {
 	}
 
   void Update() {
-    touchedObject = touch.NearestObject();
-    HandleHighlighting(touchedObject); // TODO: last touched is only needed here, cut the global state
+    GameObject touchedObject = TouchedObject();
+    HandleHighlighting(touchedObject);
     HandleGrabbing(touchedObject);
     HandleInteraction(touchedObject);
     HandleFumbling();
     lastTouchedObject = touchedObject;
   }
 
-  void HandleGrabbing(GameObject touchedObject) {
+  void HandleGrabbing(GameObject givenObject) {
     if (!GrabTriggered() && !externalGrabTriggered) { return; }
     externalGrabTriggered = false;
     if (HoldingSomething()) {
-      if (touchedObject != null) {
-        Message("ViveGripHighlightStart"); // TODO: necessary? wouldn't lastTouchedObject handle this in HandleHighlighting?
+      if (givenObject != null) {
+        Message("ViveGripHighlightStart");
       }
       DestroyConnection();
     }
-    else if (touchedObject != null && touchedObject.GetComponent<ViveGrip_Grabbable>() != null) {
+    else if (givenObject != null && givenObject.GetComponent<ViveGrip_Grabbable>() != null) {
       Message("ViveGripHighlightStop");
       Message("ViveGripGrabStart");
     }
@@ -68,6 +67,28 @@ public class ViveGrip_GripPoint : MonoBehaviour {
       return controller.Pressed("grab");
     }
     return HoldingSomething() ? controller.Released("grab") : controller.Pressed("grab");
+  }
+
+  void DestroyConnection() {
+    firmlyGrabbed = false;
+    Message("ViveGripGrabStop", HeldObject()); // TODO: what if I don't specify an object here?
+  }
+
+  void HandleFumbling() {
+    if (HoldingSomething()) {
+      float grabDistance = CalculateGrabDistance();
+      bool withinRadius = grabDistance <= holdRadius;
+      firmlyGrabbed = firmlyGrabbed || withinRadius;
+      if (firmlyGrabbed && !withinRadius) {
+        DestroyConnection();
+      }
+    }
+  }
+
+  float CalculateGrabDistance() {
+    ViveGrip_Grabbable grabbable = joint.connectedBody.gameObject.GetComponent<ViveGrip_Grabbable>();
+    Vector3 grabbedAnchorPosition = grabbable.WorldAnchorPosition();
+    return Vector3.Distance(transform.position, grabbedAnchorPosition);
   }
 
   void HandleInteraction(GameObject givenObject) {
@@ -100,28 +121,6 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     return first.GetInstanceID() == second.GetInstanceID();
   }
 
-  void HandleFumbling() {
-    if (HoldingSomething()) {
-      float grabDistance = CalculateGrabDistance();
-      bool withinRadius = grabDistance <= holdRadius;
-      firmlyGrabbed = firmlyGrabbed || withinRadius;
-      if (firmlyGrabbed && !withinRadius) {
-        DestroyConnection();
-      }
-    }
-  }
-
-  float CalculateGrabDistance() {
-    ViveGrip_Grabbable grabbable = joint.connectedBody.gameObject.GetComponent<ViveGrip_Grabbable>();
-    Vector3 grabbedAnchorPosition = grabbable.WorldAnchorPosition();
-    return Vector3.Distance(transform.position, grabbedAnchorPosition);
-  }
-
-  void DestroyConnection() {
-    firmlyGrabbed = false;
-    Message("ViveGripGrabStop", HeldObject()); // TODO: what if I don't specify an object here?
-  }
-
   GameObject InstantiateTouchSphere() {
     GameObject gripSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
     Renderer sphereRenderer = gripSphere.GetComponent<Renderer>();
@@ -145,11 +144,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   public bool TouchingSomething() {
-    return touch.NearestObject() != null;
+    return TouchedObject() != null;
   }
 
   public GameObject TouchedObject() {
-    return touchedObject;
+    return touch.NearestObject();
   }
 
   public GameObject HeldObject() {
@@ -168,7 +167,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   void Message(string name, GameObject objectToMessage = null) {
     // Debug.Log(name + " -- " + TrackedObject());
     TrackedObject().BroadcastMessage(name, this, SendMessageOptions.DontRequireReceiver); // TODO: can I get away with Send here for something like the hands?
-    objectToMessage = objectToMessage ?? touch.NearestObject();
+    objectToMessage = objectToMessage ?? TouchedObject();
     if (objectToMessage == null) { return; }
     // Debug.Log(Time.time + "\t-- " + name + "\t-- " + objectToMessage);
     objectToMessage.SendMessage(name, this, SendMessageOptions.DontRequireReceiver);
