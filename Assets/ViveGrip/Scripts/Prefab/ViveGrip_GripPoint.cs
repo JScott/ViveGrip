@@ -64,7 +64,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
 
   void DestroyConnection() {
     firmlyGrabbed = false;
-    Message("ViveGripGrabStop", HeldObject()); // TODO: what if I don't specify an object here?
+    Message("ViveGripGrabStop", HeldObject());
   }
 
   void HandleFumbling() {
