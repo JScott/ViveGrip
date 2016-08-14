@@ -1,4 +1,4 @@
-## Vive Grip Demo Scene
+# Vive Grip Demo Scene
 
 Load up the scene and press play. It'll give you an idea of what Vive Grip can do with little effort and almost no extra code.
 
@@ -8,9 +8,11 @@ Some things you might want to try:
 - Flipping the bubble gun 360 and catching it on the way down
 - Move the light box onto the heavy box without grabbing it
 
-### How to create the...
+See EXTENSIONS.md for examples on how to use code hooks to modify the behaviour of Vive Grip.
 
-#### Stack of boxes (easy)
+## How to create the...
+
+### Stack of boxes (easy)
 
 - `ViveGrip_Grabbable`
   - `Anchor.enabled`
@@ -21,7 +23,7 @@ The boxes are cubes with `ViveGrip_Grabbable` attached. This automatically adds 
 
 By playing with `Anchor.enabled` and `Rotation.mode` I can get different effects with the boxes. I enabled the anchor for the small box to make it feel more like a small object I am gripping in my palm. I also set the rotation mode to `Disabled` on the big box to give it a feeling of being unweildy or difficult to hold on to.
 
-#### Slider (easy)
+### Slider (easy)
 
 - `ViveGrip_Grabbable`
   - `Rotation.mode`
@@ -34,7 +36,7 @@ I also set the rotation mode to `Disabled` so that it doesn't bother trying to r
 
 To give some sense of weight to the slider as it moves, I leverage the `Vibrate` method on the grip point's controller. By providing the duration in milliseconds at the strength of the vibration (from 0 to 1), I provide some feedback based on how far the slider was moved.
 
-#### Button (intermediate)
+### Button (intermediate)
 
 - `ViveGrip_Interactable`
 - `BoxCollider`
@@ -45,7 +47,7 @@ The button is a cube with `ViveGrip_Interactable` attached. It doesn't need to b
 
 In this case, the attached script will move the button in and back out when triggered. I use the `ViveGrip_GripPoint` parameter to do give immediate haptic feedback.
 
-#### Dial and light (intermediate)
+### Dial and light (intermediate)
 
 - `ViveGrip_Grabbable`
 - `Rigidbody`
@@ -54,7 +56,7 @@ The dial is a cylinder with `ViveGrip_Grabbable` attached. The `Rigidbody` posit
 
 The attached script will read the rotation of the dial and use that to set the light's color.
 
-#### Hands (intermediate)
+### Hands (intermediate)
 
 - `ViveGrip_GripPoint`
 - `ViveGripTouchStart(ViveGrip_GripPoint gripPoint)`
@@ -66,7 +68,7 @@ The hands are a grip point and model attached to the controller tracked objects.
 
 In order to give visual cues to the player, I change the hand mesh when an object is touched and the hand fades when something is grabbed. The logic is hooked into the methods that get called on the controller and all its children when starting or stopping a touch or grab. There are also a few edge cases that get handled around the hand-at-rest cue.
 
-#### Lever (intermediate)
+### Lever (intermediate)
 
 - `ViveGrip_Grabbable`
   - `Anchor.localPosition`
@@ -80,7 +82,7 @@ The lever needs to rotate when its pulled, which I achieve with a hinge joint. I
 
 A script also provides a sense of weight using vibrations, similar to the use in the Slider.
 
-#### Tar ball (intermediate)
+### Tar ball (intermediate)
 
 - `ViveGrip_Grabbable`
 - `ViveGripTouchStart(ViveGrip_GripPoint gripPoint)`
@@ -92,7 +94,7 @@ Sometimes you want an object that gets grabbed or dropped forcefully. The tar ba
 
 When the touch method is triggered, I trigger `ToggleGrab()` which I know will grab the tar ball. To prevent the player from dropping it manually and ending up in a weird state, I store the grip point and disable it. During the update method I check if the speed reaches a certain threshold after being gripped. At that point I enable the grip point again and toggle the grab to drop the tar ball.
 
-#### Door (advanced)
+### Door (advanced)
 
 - `ViveGrip_Grabbable`
 - `HingeJoint`
@@ -103,7 +105,7 @@ The door is very similar to the Lever with some important distinctions. Instead 
 
 You may encounter slight jittering due to grip strength as the handle tries to go to your grip but stay attached to the door. A script handles the rotation by setting it manually based on the door's hinge rotation. Depending on your application, you might also adjust the positional strength of all grips with `ViveGrip_JointFactory.LINEAR_DRIVE_MULTIPLIER` to your preference.
 
-#### Floating Capsule (advanced)
+### Floating Capsule (advanced)
 
 - `ViveGrip_Grabbable`
 - `ViveGripGrabStart(ViveGrip_GripPoint gripPoint)`
@@ -113,7 +115,7 @@ With just the grab messaging I create drop zones that objects snap to when dropp
 
 Two game objects are needed: the grabbable and it's zone. The grabbable object is the same as the most simple usage except variables to know if it's seated and in the zone. These are `seated`, used internally to float when seated, and `inZone`, modified externally to know if it should seat itself when dropped. The zone object exists to set `inZone` to true if the capsule isn't seated and is touching the zone. We also use its Mesh Renderer to visually indicate that dropping the capsule will seat it.
 
-#### Bubble gun (advanced)
+### Bubble gun (advanced)
 
 - `ViveGrip_Grabbable`
   - `Snap to Orientation`
