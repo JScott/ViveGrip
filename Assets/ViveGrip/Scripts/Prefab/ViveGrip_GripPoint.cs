@@ -32,7 +32,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
 
   void Update() {
     GameObject touchedObject = TouchedObject();
-    HandleHighlighting(touchedObject);
+    HandleTouching(touchedObject);
     HandleGrabbing(touchedObject);
     HandleInteraction(touchedObject);
     HandleFumbling();
@@ -44,13 +44,13 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     externalGrabTriggered = false;
     if (grabber.HoldingSomething()) {
       if (givenObject != null) {
-        Message("ViveGripHighlightStart");
+        Message("ViveGripHighlightStart", givenObject);
       }
       DestroyConnection();
     }
     else if (givenObject != null && givenObject.GetComponent<ViveGrip_Grabbable>() != null) {
-      Message("ViveGripHighlightStop");
-      Message("ViveGripGrabStart");
+      Message("ViveGripHighlightStop", givenObject);
+      Message("ViveGripGrabStart", givenObject);
     }
   }
 
@@ -91,7 +91,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     if (givenObject == null || givenObject.GetComponent<ViveGrip_Interactable>() == null) { return; }
     if (controller.Pressed("interact")) {
       lastInteractedObject = givenObject;
-      Message("ViveGripInteractionStart");
+      Message("ViveGripInteractionStart", givenObject);
     }
     if (controller.Released("interact")) {
       Message("ViveGripInteractionStop", lastInteractedObject);
@@ -99,13 +99,17 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     }
   }
 
-  void HandleHighlighting(GameObject givenObject) {
+  void HandleTouching(GameObject givenObject) {
     if (GameObjectsEqual(lastTouchedObject, givenObject)) { return; }
-    Message("ViveGripHighlightStop", lastTouchedObject);
-    Message("ViveGripTouchStop", lastTouchedObject);
+    if (lastTouchedObject != null) {
+      Message("ViveGripHighlightStop", lastTouchedObject);
+      Message("ViveGripTouchStop", lastTouchedObject);
+    }
     if (grabber.HoldingSomething()) { return; }
-    Message("ViveGripHighlightStart");
-    Message("ViveGripTouchStart");
+    if (givenObject != null) {
+      Message("ViveGripHighlightStart", givenObject);
+      Message("ViveGripTouchStart", givenObject);
+    }
   }
 
   bool GameObjectsEqual(GameObject first, GameObject second) {
@@ -157,9 +161,8 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     return controller.trackedObject.gameObject;
   }
 
-  void Message(string name, GameObject objectToMessage = null) {
-    TrackedObject().BroadcastMessage(name, this, SendMessageOptions.DontRequireReceiver); // TODO: can I get away with Send here for something like the hands?
-    objectToMessage = objectToMessage ?? TouchedObject();
+  void Message(string name, GameObject objectToMessage) {
+    TrackedObject().BroadcastMessage(name, this, SendMessageOptions.DontRequireReceiver);
     if (objectToMessage == null) { return; }
     objectToMessage.SendMessage(name, this, SendMessageOptions.DontRequireReceiver);
   }

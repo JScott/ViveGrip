@@ -13,7 +13,7 @@ public class ViveGripExample_Hand : MonoBehaviour {
   }
 
   void ViveGripTouchStop(ViveGrip_GripPoint gripPoint) {
-    // We might move out of highlight range but still be holding something
+    // We might move out of touch range but still be holding something
     if (!gripPoint.HoldingSomething()) {
       GetComponent<MeshFilter>().mesh = rest;
     }
@@ -27,7 +27,7 @@ public class ViveGripExample_Hand : MonoBehaviour {
   void ViveGripGrabStop(ViveGrip_GripPoint gripPoint) {
     StopCoroutine("FadeOut");
     StartCoroutine("FadeIn");
-    // We often are touching something when we stop grabbing
+    // We're not always touching something when we stop grabbing
     if (!gripPoint.TouchingSomething()) {
       GetComponent<MeshFilter>().mesh = rest;
     }

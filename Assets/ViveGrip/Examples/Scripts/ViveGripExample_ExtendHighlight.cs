@@ -3,18 +3,21 @@ using System.Collections;
 
 public class ViveGripExample_ExtendHighlight : MonoBehaviour {
   public Transform objectToHighlight;
+  private Color baseColor;
+  private Renderer objectRenderer;
 
-  void Start () {
-    objectToHighlight.gameObject.AddComponent<ViveGrip_Highlighter>();
+  void Start() {
+    objectRenderer = objectToHighlight.GetComponent<Renderer>();
+    baseColor = objectRenderer.material.color;
   }
 
-	void ViveGripHighlightStart(ViveGrip_GripPoint gripPoint) {
-    GameObject touchedObject = gripPoint.TouchedObject();
-    touchedObject.GetComponent<ViveGrip_Highlighter>().RemoveHighlighting();
-    objectToHighlight.gameObject.SendMessage("ViveGripHighlightStart", gripPoint);
+  void ViveGripHighlightStart() {
+    if (!this.enabled) { return; }
+    objectRenderer.material.color = Color.Lerp(baseColor, Color.white, 0.5f);
   }
 
-  void ViveGripHighlightStop(ViveGrip_GripPoint gripPoint) {
-    objectToHighlight.gameObject.SendMessage("ViveGripHighlightStop", gripPoint);
+  void ViveGripHighlightStop() {
+    if (!this.enabled) { return; }
+    objectRenderer.material.color = baseColor;
   }
 }

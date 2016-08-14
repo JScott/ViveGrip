@@ -8,7 +8,7 @@ public class ViveGrip_Highlighter : MonoBehaviour {
   void Start () {}
 
   public void Highlight(Color color) {
-    RemoveHighlighting();
+    RemoveHighlight();
     foreach (Material material in GetComponent<Renderer>().materials) {
       Color currentColor = material.color;
       oldColors.Enqueue(currentColor);
@@ -17,7 +17,7 @@ public class ViveGrip_Highlighter : MonoBehaviour {
     }
   }
 
-  public void RemoveHighlighting() {
+  public void RemoveHighlight() {
     foreach (Material material in GetComponent<Renderer>().materials) {
       if (oldColors.Count == 0) { break; }
       material.color = oldColors.Dequeue();
@@ -36,10 +36,10 @@ public class ViveGrip_Highlighter : MonoBehaviour {
   }
 
   void ViveGripHighlightStop() {
-    RemoveHighlighting();
+    RemoveHighlight();
   }
 
   void OnDestroy() {
-    RemoveHighlighting();
+    RemoveHighlight();
   }
 }

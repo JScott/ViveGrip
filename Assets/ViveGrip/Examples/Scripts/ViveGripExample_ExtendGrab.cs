@@ -13,10 +13,12 @@ public class ViveGripExample_ExtendGrab : MonoBehaviour {
   }
 
   void ViveGripGrabStart() {
+    if (!this.enabled) { return; }
     counter = THRESHOLD;
   }
 
   void ViveGripGrabStop(ViveGrip_GripPoint gripPoint) {
+    if (!this.enabled) { return; }
     if (counter <= 0) { return; }
     gripPoint.ToggleGrab();
   }
