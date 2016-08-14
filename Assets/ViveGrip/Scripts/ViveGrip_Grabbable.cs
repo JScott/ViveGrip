@@ -26,9 +26,7 @@ public class ViveGrip_Grabbable : MonoBehaviour {
   private Vector3 grabCentre;
 
   void Start() {
-    if (GetComponent<ViveGrip_Highlighter>() == null) {
-      gameObject.AddComponent<ViveGrip_Highlighter>();
-    }
+    ViveGrip_Highlighter.AddTo(gameObject);
   }
 
   // These are called this on the scripts of the attached object and children of the controller:

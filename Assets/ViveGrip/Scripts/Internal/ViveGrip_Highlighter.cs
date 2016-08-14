@@ -25,6 +25,12 @@ public class ViveGrip_Highlighter : MonoBehaviour {
     oldColors.Clear();
   }
 
+  public static void AddTo(GameObject gameObject) {
+    if (gameObject.GetComponent<ViveGrip_Highlighter>() == null) {
+      gameObject.AddComponent<ViveGrip_Highlighter>();
+    }
+  }
+
   void ViveGripHighlightStart() {
     Highlight(tintColor);
   }
