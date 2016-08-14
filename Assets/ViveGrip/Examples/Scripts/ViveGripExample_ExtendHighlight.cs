@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// See EXTENSIONS.md for more information
+
 public class ViveGripExample_ExtendHighlight : MonoBehaviour {
-  public Transform objectToHighlight;
-  private Color baseColor;
   private Renderer objectRenderer;
+  private Color baseColor;
 
   void Start() {
-    objectRenderer = objectToHighlight.GetComponent<Renderer>();
+    objectRenderer = GameObject.Find("Right Hand").GetComponent<Renderer>();
     baseColor = objectRenderer.material.color;
   }
 

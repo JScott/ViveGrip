@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// See EXTENSIONS.md for more information
+
 public class ViveGripExample_ExtendGrab : MonoBehaviour {
   float counter;
   const float THRESHOLD = 0.2f;
