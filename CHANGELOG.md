@@ -6,7 +6,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - `ViveGrip_GripPoint` is now solely responsible for messaging instead of acting on state change
 - Moved the tint color to `ViveGrip_Highlighter`
-- TODO: Modified `ViveGripExample_Hand` to use highlight triggers instead of touch
 
 ### Added
 - `ViveGripHighlightStart` and `ViveGripHighlightStop`
