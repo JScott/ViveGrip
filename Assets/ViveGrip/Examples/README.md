@@ -8,7 +8,7 @@ Some things you might want to try:
 - Flipping the bubble gun 360 and catching it on the way down
 - Move the light box onto the heavy box without grabbing it
 
-See EXTENSIONS.md for examples on how to use code hooks to modify the behaviour of Vive Grip.
+See EXTENSIONS.md for more examples on how to use code hooks to modify the behaviour of Vive Grip.
 
 ## How to create the...
 
@@ -113,7 +113,7 @@ You may encounter slight jittering due to grip strength as the handle tries to g
 
 With just the grab messaging I create drop zones that objects snap to when dropped, similar to what you see throughout Job Simulator. If you have particular placement of objects like a key in a lock or CD in a tray then this design technique can make a smooth experience.
 
-Two game objects are needed: the grabbable and it's zone. The grabbable object is the same as the most simple usage except variables to know if it's seated and in the zone. These are `seated`, used internally to float when seated, and `inZone`, modified externally to know if it should seat itself when dropped. The zone object exists to set `inZone` to true if the capsule isn't seated and is touching the zone. We also use its Mesh Renderer to visually indicate that dropping the capsule will seat it.
+Two game objects are needed: the grabbable and it's zone. The grabbable object is the same as the most simple usage except variables to know if it's seated and in the zone. These are `seated`, used internally to float when seated, and `inZone`, modified externally to know if it should seat itself when dropped. The zone object exists to set `inZone` to true if the capsule isn't seated and is touching the zone. I also use its Mesh Renderer to visually indicate that dropping the capsule will seat it.
 
 ### Bubble gun (advanced)
 

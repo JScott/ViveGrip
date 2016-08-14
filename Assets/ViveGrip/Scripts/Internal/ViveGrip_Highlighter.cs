@@ -26,6 +26,7 @@ public class ViveGrip_Highlighter : MonoBehaviour {
   }
 
   public static void AddTo(GameObject gameObject) {
+    if (gameObject.GetComponent<Renderer>() == null) { return; }
     if (gameObject.GetComponent<ViveGrip_Highlighter>() == null) {
       gameObject.AddComponent<ViveGrip_Highlighter>();
     }

@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.4.0] - 2016-08-14
 ### Changed
 - `ViveGrip_GripPoint` is now solely responsible for messaging instead of acting on state change
 - Moved the tint color to `ViveGrip_Highlighter`
@@ -10,6 +12,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - `ViveGripHighlightStart` and `ViveGripHighlightStop`
 - `ViveGrip_Grabber` now does the grabbing functionality that the grip point used to do
+- EXTENSIONS.md and example extensions to better explain how event messaging works
+
+### Fixed
+- Don't add a highlighter if there's no renderer to work with
 
 ## [2.3.0] - 2016-07-16
 ### Added
@@ -95,7 +101,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.3.0...HEAD
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.4.0...HEAD
+[2.3.0]: https://github.com/JScott/ViveGrip/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/JScott/ViveGrip/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/JScott/ViveGrip/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/JScott/ViveGrip/compare/v2.1.0...v2.1.1

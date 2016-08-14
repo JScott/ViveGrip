@@ -11,7 +11,7 @@ The methods are called on the acting controller, its children, and the scene obj
 - `ViveGripGrabStart(ViveGrip_GripPoint gripPoint)`
 - `ViveGripGrabStop(ViveGrip_GripPoint gripPoint)`
 
-This is sent whenever an object is grabbed or released. `ViveGripExample_ExtendGrab` uses this to enable a toggling grab. If the grip is started and released within the threshold, we manually toggle the grab so that the object isn't dropped.
+This is sent whenever an object is grabbed or released. `ViveGripExample_ExtendGrab` uses this to enable a toggling grab. If the grip is started and released within the threshold, I manually toggle the grab so that the object isn't dropped.
 
 ### Highlighting
 
