@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- API.md to try to map out all the bits whether they have examples or not
 
 ## [2.4.0] - 2016-08-14
 ### Changed

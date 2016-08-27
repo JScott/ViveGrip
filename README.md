@@ -6,6 +6,8 @@ See the [package directory](Assets/ViveGrip) for package details and quick start
 
 See the [examples directory](Assets/ViveGrip/Examples) for example usage and scenes.
 
+See the [API doc](Assets/ViveGrip/API.md) for the code tools summarized.
+
 ## Why use Vive Grip?
 
 - Fully supports Unity's physics systems for realistic interactions
