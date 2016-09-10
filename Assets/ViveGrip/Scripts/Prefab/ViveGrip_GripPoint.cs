@@ -28,7 +28,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     GameObject gripSphere = InstantiateTouchSphere();
     touch = gripSphere.AddComponent<ViveGrip_TouchDetection>();
     touch.radius = touchRadius;
-	}
+  }
 
   void Update() {
     GameObject touchedObject = TouchedObject();

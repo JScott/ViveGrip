@@ -5,7 +5,7 @@ public class ViveGrip_Grabber : MonoBehaviour {
   public GameObject jointObject;
   public ConfigurableJoint joint;
 
-	void Start () {}
+  void Start () {}
 
   void ViveGripGrabStart(ViveGrip_GripPoint gripPoint) {
     jointObject = InstantiateJointParent();

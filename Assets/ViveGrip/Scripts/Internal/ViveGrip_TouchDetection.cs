@@ -5,9 +5,9 @@ public class ViveGrip_TouchDetection : MonoBehaviour {
   public float radius = 1f;
   private List<GameObject> collidingObjects = new List<GameObject>();
 
-	void Start () {
+  void Start () {
     GetComponent<SphereCollider>().isTrigger = true;
-	}
+  }
 
   void OnTriggerEnter(Collider other) {
     collidingObjects.Add(other.gameObject);

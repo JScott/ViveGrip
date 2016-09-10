@@ -9,6 +9,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Made `gripPoint.controller.Device()` public for ease of use
 
+### Fixed
+- Converted errant tabs into spaces
+
 ## [2.4.0] - 2016-08-14
 ### Changed
 - `ViveGrip_GripPoint` is now solely responsible for messaging instead of acting on state change
