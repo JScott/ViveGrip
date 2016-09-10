@@ -6,6 +6,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - API.md to try to map out all the bits whether they have examples or not
 
+### Changed
+- Made `gripPoint.controller.Device()` public for ease of use
+
 ## [2.4.0] - 2016-08-14
 ### Changed
 - `ViveGrip_GripPoint` is now solely responsible for messaging instead of acting on state change

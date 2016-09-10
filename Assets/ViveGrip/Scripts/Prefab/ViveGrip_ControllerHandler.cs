@@ -40,7 +40,7 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
     return Decode(input);
   }
 
-  SteamVR_Controller.Device Device() {
+  public SteamVR_Controller.Device Device() {
     return SteamVR_Controller.Input((int)trackedObject.index);
   }
 

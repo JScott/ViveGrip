@@ -17,6 +17,7 @@ ViveGrip_GripPoint.TrackedObject()
 ```
 ViveGrip_GripPoint.controller
 ViveGrip_GripPoint.controller.trackedObject
+ViveGrip_GripPoint.controller.Device()
 ViveGrip_GripPoint.controller.Pressed(["grab"|"interact"])
 ViveGrip_GripPoint.controller.Released(["grab"|"interact"])
 ViveGrip_GripPoint.controller.Holding(["grab"|"interact"])
