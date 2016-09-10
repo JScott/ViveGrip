@@ -2,8 +2,8 @@
 
 ## Install
 
-1. Import the [SteamVR Plugin](https://www.assetstore.unity3d.com/en/#!/content/32647) and place their prefab rig in your scene
-2. Import the latest [Vive Grip release](https://github.com/JScott/ViveGrip/releases/latest)
+1. Import the [SteamVR Plugin](https://www.assetstore.unity3d.com/en/#!/content/32647)
+2. Import [Vive Grip](https://www.assetstore.unity3d.com/en/#!/content/62324)
 
 ## Quick Start
 
@@ -13,7 +13,7 @@
 4. Move the `Grip Point` to the local position of your grip
 5. Add `ViveGrip_Grabbable` to your objects
 
-Look at the README in the [Examples directory](Examples) for more detail and to see it in action.
+Look at the README in the Examples directory for more detail and to see it in action.
 
 ## Tutorials
 
