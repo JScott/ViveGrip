@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - API.md to try to map out all the bits whether they have examples or not
+- Links to the tutorial videos in the README
 
 ### Changed
 - Made `gripPoint.controller.Device()` public for ease of use

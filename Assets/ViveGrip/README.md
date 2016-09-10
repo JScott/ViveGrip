@@ -14,3 +14,8 @@
 5. Add `ViveGrip_Grabbable` to your objects
 
 Look at the README in the [Examples directory](Examples) for more detail and to see it in action.
+
+## Tutorial
+
+[Basic grabbing](https://www.youtube.com/watch?v=NyKWBeC_pSI)
+[Interaction scripting](https://www.youtube.com/watch?v=kKnO8BSdpZQ)
