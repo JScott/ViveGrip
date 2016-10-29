@@ -8,11 +8,13 @@ public class ViveGrip_Grabber : MonoBehaviour {
   void Start () {}
 
   void ViveGripGrabStart(ViveGrip_GripPoint gripPoint) {
+    if (!this.enabled) { return; }
     jointObject = InstantiateJointParent();
     GrabWith(gripPoint);
   }
 
   void ViveGripGrabStop(ViveGrip_GripPoint gripPoint) {
+    if (!this.enabled) { return; }
     Destroy(jointObject);
   }
 

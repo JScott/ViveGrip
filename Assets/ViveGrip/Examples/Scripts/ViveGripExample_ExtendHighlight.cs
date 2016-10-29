@@ -1,24 +1,46 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 // See EXTENSIONS.md for more information
 
 public class ViveGripExample_ExtendHighlight : MonoBehaviour {
-  private Renderer objectRenderer;
-  private Color baseColor;
+  Color highlightColor = Color.blue;
+  private Queue<Color> oldColors = new Queue<Color>();
 
-  void Start() {
-    objectRenderer = GameObject.Find("Right Hand").GetComponent<Renderer>();
-    baseColor = objectRenderer.material.color;
+  void Start() {}
+
+  void Update() {
+    DisableDefaultHighlighter();
   }
 
   void ViveGripHighlightStart() {
     if (!this.enabled) { return; }
-    objectRenderer.material.color = Color.Lerp(baseColor, Color.white, 0.5f);
+    Highlight();
   }
 
   void ViveGripHighlightStop() {
     if (!this.enabled) { return; }
-    objectRenderer.material.color = baseColor;
+    RemoveHighlight();
+  }
+
+  void DisableDefaultHighlighter() {
+    ViveGrip_Highlighter highlighter = GetComponent<ViveGrip_Highlighter>();
+    if (highlighter != null) highlighter.enabled = false;
+  }
+
+  void Highlight() {
+    foreach (Material material in GetComponent<Renderer>().materials) {
+      Color currentColor = material.color;
+      oldColors.Enqueue(currentColor);
+      material.color = highlightColor;
+    }
+  }
+
+  void RemoveHighlight() {
+    foreach (Material material in GetComponent<Renderer>().materials) {
+      if (oldColors.Count == 0) { break; }
+      material.color = oldColors.Dequeue();
+    }
+    oldColors.Clear();
   }
 }

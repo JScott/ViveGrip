@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class ViveGrip_Highlighter : MonoBehaviour {
-  private Color tintColor = new Color(0.2f, 0.2f, 0.2f);
+  Color tintColor = Color.white;
+  float tintRatio = 0.2f;
   private Queue<Color> oldColors = new Queue<Color>();
 
   void Start () {}
@@ -12,8 +13,7 @@ public class ViveGrip_Highlighter : MonoBehaviour {
     foreach (Material material in GetComponent<Renderer>().materials) {
       Color currentColor = material.color;
       oldColors.Enqueue(currentColor);
-      Color tintedColor = currentColor + color;
-      material.color = tintedColor;
+      material.color = Color.Lerp(currentColor, color, tintRatio);
     }
   }
 
@@ -33,10 +33,12 @@ public class ViveGrip_Highlighter : MonoBehaviour {
   }
 
   void ViveGripHighlightStart() {
+    if (!this.enabled) { return; }
     Highlight(tintColor);
   }
 
   void ViveGripHighlightStop() {
+    if (!this.enabled) { return; }
     RemoveHighlight();
   }
 
