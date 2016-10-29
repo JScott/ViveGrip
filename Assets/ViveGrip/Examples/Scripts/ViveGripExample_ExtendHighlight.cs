@@ -4,8 +4,8 @@ using System.Collections.Generic;
 // See EXTENSIONS.md for more information
 
 public class ViveGripExample_ExtendHighlight : MonoBehaviour {
-  Color highlightColor = Color.blue;
-  private Queue<Color> oldColors = new Queue<Color>();
+  public Texture highlightTexture;
+  private Queue<Texture> oldTextures = new Queue<Texture>();
 
   void Start() {}
 
@@ -30,17 +30,17 @@ public class ViveGripExample_ExtendHighlight : MonoBehaviour {
 
   void Highlight() {
     foreach (Material material in GetComponent<Renderer>().materials) {
-      Color currentColor = material.color;
-      oldColors.Enqueue(currentColor);
-      material.color = highlightColor;
+      Texture currentTexture = material.mainTexture;
+      oldTextures.Enqueue(currentTexture);
+      material.mainTexture = highlightTexture;
     }
   }
 
   void RemoveHighlight() {
     foreach (Material material in GetComponent<Renderer>().materials) {
-      if (oldColors.Count == 0) { break; }
-      material.color = oldColors.Dequeue();
+      if (oldTextures.Count == 0) { break; }
+      material.mainTexture = oldTextures.Dequeue();
     }
-    oldColors.Clear();
+    oldTextures.Clear();
   }
 }

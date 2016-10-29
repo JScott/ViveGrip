@@ -94,6 +94,19 @@ Sometimes you want an object that gets grabbed or dropped forcefully. The tar ba
 
 When the touch method is triggered, I trigger `ToggleGrab()` which I know will grab the tar ball. To prevent the player from dropping it manually and ending up in a weird state, I store the grip point and disable it. During the update method I check if the speed reaches a certain threshold after being gripped. At that point I enable the grip point again and toggle the grab to drop the tar ball.
 
+### Extension Cube (advanced)
+
+- `ViveGripExample_ExtendGrab`
+- `ViveGripExample_ExtendHighlight`
+- `ViveGrip_GripPoint.ToggleGrab()`
+- `ViveGrip_Highlighter.enabled`
+
+As the extension documentation explains, you can adjust core functionality with scripts that hook into Vive Grip events. This cube has scripts that use these events to transform the default grab setting into a toggle for the cube and change how the cube is highlighted.
+
+For the grab, we simply toggle the grab when the object is released, similar to what we see for the tar ball. There's also a small countdown to make sure that simply releasing the grab after some time won't toggle it.
+
+The highlight disables the default behaviour by disabling `ViveGrip_Highlighter`. It then replaces it with its own logic that modifies the renderer's textures instead of its colours.
+
 ### Door (advanced)
 
 - `ViveGrip_Grabbable`
