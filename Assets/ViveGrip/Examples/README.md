@@ -36,12 +36,19 @@ I also set the rotation mode to `Disabled` so that it doesn't bother trying to r
 
 To give some sense of weight to the slider as it moves, I leverage the `Vibrate` method on the grip point's controller. By providing the duration in milliseconds at the strength of the vibration (from 0 to 1), I provide some feedback based on how far the slider was moved.
 
-### Extension Bridge Cube (easy)
+### Switch (easy)
 
 - `ViveGrip_Interactable`
-- `ViveGrip_ExtensionBridge`
+- `BoxCollider`
+- `ViveGrip_EventBridge`
 
-Remember to add the ViveGrip_Interactable script!
+The switch leverages the power of Vive Grip events from the comfort of Unity's Inspector. To keep things simple, I'm simply going to trigger the `Flip()` method on the switch to toggle its rotation.
+
+By adding the `ViveGrip_Interactable` script, I allow the object to be highlighted and interacted with. It doesn't need to be picked up so a `Rigidbody` won't be automatically added. Instead, I use the default collider.
+
+Adding the `ViveGrip_EventBridge` script let's me bridge Vive Grip events to custom methods through the Inspector. In this case I select the objects and methods to flip the switch and attach it to an "Interaction Start". You can read EXTENSIONS.md for more detailed information on the events available.
+
+The Button and Bubble Gun examples show when you may want to create an interaction in code instead of through Unity's Inspector.
 
 ### Button (intermediate)
 
@@ -50,9 +57,9 @@ Remember to add the ViveGrip_Interactable script!
 - `ViveGripInteractionStart(ViveGrip_GripPoint gripPoint)`
 - `Vibrate`
 
-The button is a cube with `ViveGrip_Interactable` attached. It doesn't need to be picked up so it doesn't automatically add a `Rigidbody` and I use the default collider. Instead of being grabbable, any `ViveGripInteractionStart` methods in scripts attached to the object will be called when it's interacted with.
+The button is a cube with `ViveGrip_Interactable` attached. As with the Switch, I use the default collider instead of a `Rigidbody`.
 
-In this case, the attached script will move the button in and back out when triggered. I use the `ViveGrip_GripPoint` parameter to do give immediate haptic feedback.
+The attached script will move the button in and out when triggered. Since it's done in code, I can use the `ViveGrip_GripPoint` parameter to give immediate haptic feedback to the correct controller with `gripPoint.Vibrate(duration, strength)`.
 
 ### Dial and light (intermediate)
 
@@ -110,7 +117,7 @@ When the touch method is triggered, I trigger `ToggleGrab()` which I know will g
 
 As the extension documentation explains, you can adjust core functionality with scripts that hook into Vive Grip events. This cube has scripts that use these events to transform the default grab setting into a toggle for the cube and change how the cube is highlighted.
 
-For the grab, we simply toggle the grab when the object is released, similar to what we see for the tar ball. There's also a small countdown to make sure that simply releasing the grab after some time won't toggle it.
+For the grab, I simply toggle the grab when the object is released, similar to the tar ball. There's also a small countdown to make sure that simply releasing the grab after some time won't toggle it.
 
 The highlight disables the default behaviour by disabling `ViveGrip_Highlighter`. It then replaces it with its own logic that modifies the renderer's textures instead of its colours.
 
