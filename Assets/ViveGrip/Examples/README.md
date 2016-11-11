@@ -36,6 +36,13 @@ I also set the rotation mode to `Disabled` so that it doesn't bother trying to r
 
 To give some sense of weight to the slider as it moves, I leverage the `Vibrate` method on the grip point's controller. By providing the duration in milliseconds at the strength of the vibration (from 0 to 1), I provide some feedback based on how far the slider was moved.
 
+### Extension Bridge Cube (easy)
+
+- `ViveGrip_Interactable`
+- `ViveGrip_ExtensionBridge`
+
+Remember to add the ViveGrip_Interactable script!
+
 ### Button (intermediate)
 
 - `ViveGrip_Interactable`
