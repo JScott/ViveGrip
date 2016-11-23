@@ -21,22 +21,28 @@ public class ViveGrip_TouchDetection : MonoBehaviour {
     float closestDistance = radius + 1f;
     GameObject touchedObject = null;
     foreach (GameObject gameObject in collidingObjects) {
-      if (!ActiveViveGripObject(gameObject)) { continue; }
-      float distance = Vector3.Distance(transform.position, gameObject.transform.position);
-      if (distance < closestDistance) {
-        touchedObject = gameObject;
-        closestDistance = distance;
+      GameObject activeGameObject = ActiveViveGripObject(gameObject);
+      if (activeGameObject!=null)
+      {
+        float distance = Vector3.Distance(transform.position, gameObject.transform.position);
+        if (distance < closestDistance)
+        {
+          touchedObject = activeGameObject;
+          closestDistance = distance;
+        }
       }
     }
     return touchedObject;
   }
 
-  bool ActiveViveGripObject(GameObject gameObject) {
-    if (gameObject == null) { return false; } // Happens with Destroy() sometimes
-    ViveGrip_Grabbable grabbable = gameObject.GetComponent<ViveGrip_Grabbable>();
-    ViveGrip_Interactable interactable = gameObject.GetComponent<ViveGrip_Interactable>();
+  GameObject ActiveViveGripObject(GameObject gameObject) {
+    if (gameObject == null) { return null; } // Happens with Destroy() sometimes
+    ViveGrip_Grabbable grabbable = gameObject.GetComponentInParent<ViveGrip_Grabbable>();
     bool validGrabbable = grabbable != null && grabbable.enabled;
+    if (validGrabbable) return grabbable.gameObject;
+    ViveGrip_Interactable interactable = gameObject.GetComponentInParent<ViveGrip_Interactable>();
     bool validInteractable = interactable != null && interactable.enabled;
-    return validGrabbable || validInteractable;
+    if (validInteractable) return interactable.gameObject;
+    return null;
   }
 }
