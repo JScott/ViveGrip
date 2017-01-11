@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.6.1] - 2017-01-10
+### Fixed
+- `ViveGrip_ControllerHandler.Device()` will return null when the device isn't ready
+
 ## [2.6.0] - 2016-11-11
 ### Added
 - `ViveGrip_EventBridge` lets you connect methods to Vive Grip events through the Inspector
@@ -123,7 +127,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.6.0...HEAD
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.6.1...HEAD
+[2.6.1]: https://github.com/JScott/ViveGrip/compare/v2.6.0...v2.6.1
 [2.6.0]: https://github.com/JScott/ViveGrip/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/JScott/ViveGrip/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/JScott/ViveGrip/compare/v2.3.0...v2.4.0

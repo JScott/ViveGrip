@@ -22,16 +22,19 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
 
   public bool Pressed(string action) {
     ulong rawInput = ConvertString(action);
+    if (Device() == null) { return false; }
     return Device().GetPressDown(rawInput);
   }
 
   public bool Released(string action) {
     ulong rawInput = ConvertString(action);
+    if (Device() == null) { return false; }
     return Device().GetPressUp(rawInput);
   }
 
   public bool Holding(string action) {
     ulong rawInput = ConvertString(action);
+    if (Device() == null) { return false; }
     return Device().GetPress(rawInput);
   }
 
@@ -41,6 +44,7 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
   }
 
   public SteamVR_Controller.Device Device() {
+    if (trackedObject.index == SteamVR_TrackedObject.EIndex.None) { return null; }
     return SteamVR_Controller.Input((int)trackedObject.index);
   }
 
