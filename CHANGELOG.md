@@ -4,6 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.7.0] - 2017-02-20
+### Changed
+- `ViveGrip_GripPoint.controller.Vibrate(int milliseconds, float strength [0.0-1.0])`
+- Minor code improvements
+### Added
+- `ViveGrip_GripPoint.UpdateRadius(float touch, float hold)`
+
 ## [2.6.1] - 2017-01-10
 ### Fixed
 - `ViveGrip_ControllerHandler.Device()` will return null when the device isn't ready
@@ -127,7 +134,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.6.1...HEAD
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.7.0...HEAD
+[2.7.0]: https://github.com/JScott/ViveGrip/compare/v2.6.1...v2.7.0
 [2.6.1]: https://github.com/JScott/ViveGrip/compare/v2.6.0...v2.6.1
 [2.6.0]: https://github.com/JScott/ViveGrip/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/JScott/ViveGrip/compare/v2.4.0...v2.5.0

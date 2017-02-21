@@ -12,6 +12,7 @@ ViveGrip_GripPoint.HoldingSomething()
 ViveGrip_GripPoint.HeldObject()
 ViveGrip_GripPoint.ToggleGrab()
 ViveGrip_GripPoint.TrackedObject()
+ViveGrip_GripPoint.UpdateRadius(float touchRadius, float holdRadius)
 ```
 
 ```
@@ -21,7 +22,7 @@ ViveGrip_GripPoint.controller.Device()
 ViveGrip_GripPoint.controller.Pressed(["grab"|"interact"])
 ViveGrip_GripPoint.controller.Released(["grab"|"interact"])
 ViveGrip_GripPoint.controller.Holding(["grab"|"interact"])
-ViveGrip_GripPoint.controller.Vibrate(float milliseconds, float strength)
+ViveGrip_GripPoint.controller.Vibrate(int milliseconds, float strength [0.0-1.0])
 ```
 
 # Event message calling

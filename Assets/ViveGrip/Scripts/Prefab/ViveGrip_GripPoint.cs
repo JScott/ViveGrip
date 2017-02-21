@@ -27,7 +27,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     grabber = gameObject.AddComponent<ViveGrip_Grabber>();
     GameObject gripSphere = InstantiateTouchSphere();
     touch = gripSphere.AddComponent<ViveGrip_TouchDetection>();
-    touch.radius = touchRadius;
+    UpdateRadius(touchRadius, holdRadius);
   }
 
   void Update() {
@@ -127,7 +127,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
       sphereRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
       sphereRenderer.receiveShadows = false;
     }
-    gripSphere.transform.localScale = Vector3.one * touchRadius;
+    gripSphere.transform.localScale = Vector3.one;
     gripSphere.transform.position = transform.position;
     gripSphere.transform.SetParent(transform);
     gripSphere.AddComponent<Rigidbody>().isKinematic = true;
@@ -159,6 +159,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
 
   public GameObject TrackedObject() {
     return controller.trackedObject.gameObject;
+  }
+
+  public void UpdateRadius(float touch, float hold) {
+    this.touch.transform.localScale = Vector3.one * touch;
+    holdRadius = hold;
   }
 
   void Message(string name, GameObject objectToMessage) {

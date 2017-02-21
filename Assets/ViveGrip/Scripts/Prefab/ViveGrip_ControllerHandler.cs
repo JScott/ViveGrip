@@ -72,7 +72,8 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
     }
   }
 
-  public void Vibrate(float milliseconds, float strength) {
+  // strength is a value from 0-1
+  public void Vibrate(int milliseconds, float strength) {
     float seconds = milliseconds / 1000f;
     StartCoroutine(LongVibration(seconds, strength));
   }
