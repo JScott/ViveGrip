@@ -5,7 +5,7 @@ public class ViveGripExample_Button : MonoBehaviour {
   private const float SPEED = 0.1f;
   private float distance;
   private int direction = 1;
-  private float VIBRATION_DURATION_IN_MILLISECONDS = 25;
+  private int VIBRATION_DURATION_IN_MILLISECONDS = 25;
   private float VIBRATION_STRENGTH = 0.4f;
 
   void Start () {
