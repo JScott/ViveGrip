@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- [Compound Colliders](https://docs.unity3d.com/Manual/class-Rigidbody.html) are supported (PR-15)
 
 ## [2.7.0] - 2017-02-20
 ### Changed
