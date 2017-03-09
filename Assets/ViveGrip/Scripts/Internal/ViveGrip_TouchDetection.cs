@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 public class ViveGrip_TouchDetection : MonoBehaviour {
-  public float radius = 1f;
   private List<GameObject> collidingObjects = new List<GameObject>();
 
   void Start () {
