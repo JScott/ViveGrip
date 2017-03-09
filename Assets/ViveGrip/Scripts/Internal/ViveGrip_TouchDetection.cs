@@ -42,14 +42,6 @@ public class ViveGrip_TouchDetection : MonoBehaviour {
   }
 
   T FindAnyValid<T>(GameObject gameObject) where T : class {
-    // var component = gameObject.GetComponent<T>();
-    // if (component != null && Enabled<T>(component)) { return component; }
-    // Transform parent = gameObject.transform.parent;
-    // if (parent != null) {
-    //   component = parent.GetComponent<T>();
-    //   if (component != null && Enabled<T>(component)) { return component; }
-    // }
-    // return null;
     T component = FindValid<T>(gameObject.transform);
     if (component == null) {
       component = FindValid<T>(gameObject.transform.parent);
