@@ -89,12 +89,15 @@ In order to give visual cues to the player, I change the hand mesh when an objec
 - `Rigidbody`
 - `HingeJoint`
 - `Vibrate`
+- `BoxCollider`
 
 The lever is a model with `ViveGrip_Grabbable` attached. To make sure that it gets gripped by the handle, I set the anchor's local position appropriately. When I enable the anchor, a Gizmo in the Scene view gives me a visual cue as to where the anchor will be positioned.
 
 The lever needs to rotate when its pulled, which I achieve with a hinge joint. It behaves as you would expect by configuring the joint's anchor and axis appropriately and setting some `Rigidbody` constraints.
 
 A script also provides a sense of weight using vibrations, similar to the use in the Slider.
+
+Unlike the other examples with a mesh, this uses Compound Colliders (see: https://docs.unity3d.com/Manual/class-Rigidbody.html) to create the collisions from primitive meshes. Everything is handled for you when the Vive Grip scripts are in the parent of the collider game objects.
 
 ### Tar ball (intermediate)
 
