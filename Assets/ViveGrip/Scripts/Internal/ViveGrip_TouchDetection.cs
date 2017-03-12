@@ -34,35 +34,22 @@ public class ViveGrip_TouchDetection : MonoBehaviour {
 
   GameObject ActiveViveGripObject(GameObject gameObject) {
     if (gameObject == null) { return null; } // Happens with Destroy() sometimes
-    ViveGrip_Grabbable grabbable = FindAnyValid<ViveGrip_Grabbable>(gameObject);
-    if (grabbable != null) { return grabbable.gameObject; }
-    ViveGrip_Interactable interactable = FindAnyValid<ViveGrip_Interactable>(gameObject);
-    if (interactable != null) { return interactable.gameObject; }
-    return null;
-  }
-
-  T FindAnyValid<T>(GameObject gameObject) where T : class {
-    T component = FindValid<T>(gameObject.transform);
+    MonoBehaviour component = ValidComponent(gameObject.transform);
     if (component == null) {
-      component = FindValid<T>(gameObject.transform.parent);
+      component = ValidComponent(gameObject.transform.parent);
     }
-    return component;
-  }
-
-  T FindValid<T>(Transform transform) where T : class {
-    if (transform == null) { return null; }
-    T component = transform.GetComponent<T>();
-    if (component != null && Enabled<T>(component)) { return component; }
+    if (component != null) {
+      return component.gameObject;
+    }
     return null;
   }
 
-  bool Enabled<T>(T component) {
-    if (component is ViveGrip_Grabbable) {
-      return (component as ViveGrip_Grabbable).enabled;
-    }
-    if (component is ViveGrip_Interactable) {
-      return (component as ViveGrip_Interactable).enabled;
-    }
-    return false;
+  MonoBehaviour ValidComponent(Transform transform) {
+    if (transform == null) { return null; }
+    MonoBehaviour component = transform.GetComponent<ViveGrip_Grabbable>();
+    if (component != null && component.enabled) { return component; }
+    component = transform.GetComponent<ViveGrip_Interactable>();
+    if (component != null && component.enabled) { return component; }
+    return null;
   }
 }
