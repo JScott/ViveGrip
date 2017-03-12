@@ -3,8 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.8.0] - 2017-03-12
 ### Added
-- [Compound Colliders](https://docs.unity3d.com/Manual/class-Rigidbody.html) are supported (PR-15)
+- [Compound Colliders](https://docs.unity3d.com/Manual/class-Rigidbody.html) are supported (PR 15)
 
 ## [2.7.0] - 2017-02-20
 ### Changed
@@ -136,7 +138,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.7.0...HEAD
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.8.0...HEAD
+[2.8.0]: https://github.com/JScott/ViveGrip/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/JScott/ViveGrip/compare/v2.6.1...v2.7.0
 [2.6.1]: https://github.com/JScott/ViveGrip/compare/v2.6.0...v2.6.1
 [2.6.0]: https://github.com/JScott/ViveGrip/compare/v2.5.0...v2.6.0
