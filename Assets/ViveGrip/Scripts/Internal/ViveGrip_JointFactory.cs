@@ -3,8 +3,8 @@ using UnityEngine;
 public static class ViveGrip_JointFactory {
   // Change these in code if you need a stronger or weaker grip
   // The default values are what I've found to be most effective in my experience
-  public const float LINEAR_DRIVE_MULTIPLIER = 1f;
-  public const float ANGULAR_DRIVE_MULTIPLIER = 1f;
+  public static float LINEAR_DRIVE_MULTIPLIER = 1f;
+  public static float ANGULAR_DRIVE_MULTIPLIER = 1f;
 
   public static ConfigurableJoint JointToConnect(GameObject jointObject, Rigidbody desiredObject, Quaternion controllerRotation) {
     ViveGrip_Grabbable grabbable = desiredObject.gameObject.GetComponent<ViveGrip_Grabbable>();
