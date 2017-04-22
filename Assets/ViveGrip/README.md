@@ -2,8 +2,8 @@
 
 ## Install
 
-1. Import the [SteamVR Plugin](https://www.assetstore.unity3d.com/en/#!/content/32647)
-2. Import [Vive Grip](https://www.assetstore.unity3d.com/en/#!/content/62324)
+1. Import the [SteamVR Plugin](http://u3d.as/cjo)
+2. Import [Vive Grip](http://u3d.as/t55)
 
 ## Quick Start
 
@@ -15,8 +15,15 @@
 
 Look at the README in the Examples directory for more detail and to see it in action.
 
+If your controllers don't show up in-game then you may have to add `SteamVR_UpdatePoses` to `Camera (eye)`.
+It's a known issue with Unity 5.6 and the SteamVR Plugin: http://answers.unity3d.com/questions/1299567/vive-controllers-not-tracking-in-unity-560b3.html
+
 ## Tutorials
 
-[Basic grabbing](https://www.youtube.com/watch?v=NyKWBeC_pSI)
+[Basic grabbing](https://youtu.be/NyKWBeC_pSI)
 
-[Interaction scripting](https://www.youtube.com/watch?v=kKnO8BSdpZQ)
+[Interaction scripting](https://youtu.be/kKnO8BSdpZQ)
+
+[Custom hands](https://youtu.be/peq1WFkxyus)
+
+[The playlist](https://www.youtube.com/playlist?list=PLwU6y1S7ew46AkeqEMwalgkvjXTKNYUQh)
