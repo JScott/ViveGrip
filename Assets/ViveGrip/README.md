@@ -16,14 +16,13 @@
 Look at the README in the Examples directory for more detail and to see it in action.
 
 If your controllers don't show up in-game then you may have to add `SteamVR_UpdatePoses` to `Camera (eye)`.
-It's a known issue with Unity 5.6 and the SteamVR Plugin: http://answers.unity3d.com/questions/1299567/vive-controllers-not-tracking-in-unity-560b3.html
+It's a known issue with Unity 5.6 and the SteamVR Plugin:
+http://answers.unity3d.com/questions/1299567/vive-controllers-not-tracking-in-unity-560b3.html
 
 ## Tutorials
 
-[Basic grabbing](https://youtu.be/NyKWBeC_pSI)
-
-[Interaction scripting](https://youtu.be/kKnO8BSdpZQ)
-
-[Custom hands](https://youtu.be/peq1WFkxyus)
-
 [The playlist](https://www.youtube.com/playlist?list=PLwU6y1S7ew46AkeqEMwalgkvjXTKNYUQh)
+
+- [Basic grabbing](https://youtu.be/NyKWBeC_pSI)
+- [Interaction scripting](https://youtu.be/kKnO8BSdpZQ)
+- [Custom hands](https://youtu.be/peq1WFkxyus)
