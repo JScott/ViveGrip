@@ -71,7 +71,6 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
         return func(ButtonMaskFor(ViveInput.Trigger));
       case ViveInput.Both:
         return BothInputPerformed(func);
-        // return dualInput.Performed(func);// func(ButtonMaskFor(ViveInput.Grip)) || func(ButtonMaskFor(ViveInput.Trigger));
       case ViveInput.None:
       default:
         return false;

@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- "grab" and "interact" are now proper enums instead of strings
+- Exposed ViveGrip_GripPoint.GRIP_SPHERE_NAME
+- ViveGrip_ControllerHandler grab and interact variable names and options
 
 ## [2.8.1] - 2017-04-22
 ### Fixed
