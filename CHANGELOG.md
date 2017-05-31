@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.9.0] - 2017-05-31
 ### Changed
 - "grab" and "interact" are now proper enums instead of strings
 - Exposed ViveGrip_GripPoint.GRIP_SPHERE_NAME
@@ -149,7 +151,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.8.1...HEAD
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.9.0...HEAD
+[2.9.0]: https://github.com/JScott/ViveGrip/compare/v2.8.1...v2.9.0
 [2.8.1]: https://github.com/JScott/ViveGrip/compare/v2.8.0...v2.8.1
 [2.8.0]: https://github.com/JScott/ViveGrip/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/JScott/ViveGrip/compare/v2.6.1...v2.7.0
