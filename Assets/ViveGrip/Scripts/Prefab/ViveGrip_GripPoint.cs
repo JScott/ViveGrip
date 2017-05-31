@@ -57,9 +57,9 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   bool GrabTriggered() {
     if (controller == null) { return false; }
     if (inputIsToggle) {
-      return controller.Pressed("grab");
+      return controller.Pressed(ViveGrip_ControllerHandler.Action.Grab);
     }
-    return grabber.HoldingSomething() ? controller.Released("grab") : controller.Pressed("grab");
+    return grabber.HoldingSomething() ? controller.Released(ViveGrip_ControllerHandler.Action.Grab) : controller.Pressed(ViveGrip_ControllerHandler.Action.Grab);
   }
 
   void DestroyConnection() {
@@ -89,11 +89,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
       givenObject = grabber.ConnectedGameObject();
     }
     if (givenObject == null || givenObject.GetComponent<ViveGrip_Interactable>() == null) { return; }
-    if (controller.Pressed("interact")) {
+    if (controller.Pressed(ViveGrip_ControllerHandler.Action.Interact)) {
       lastInteractedObject = givenObject;
       Message("ViveGripInteractionStart", givenObject);
     }
-    if (controller.Released("interact")) {
+    if (controller.Released(ViveGrip_ControllerHandler.Action.Interact)) {
       Message("ViveGripInteractionStop", lastInteractedObject);
       lastInteractedObject = null;
     }

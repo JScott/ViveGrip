@@ -6,7 +6,11 @@ using UnityEditor;
 [RequireComponent (typeof (Rigidbody))]
 [DisallowMultipleComponent]
 public class ViveGrip_Grabbable : MonoBehaviour {
-  public enum RotationMode { Disabled, ApplyGrip, ApplyGripAndOrientation }
+  public enum RotationMode {
+    Disabled,
+    ApplyGrip,
+    ApplyGripAndOrientation
+  }
   [System.Serializable]
   public class Position {
     [Tooltip("Should the grip connect to the Local Anchor position?")]
