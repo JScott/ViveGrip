@@ -51,7 +51,7 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
     return InputPerformed(input, Device().GetPressUp);
   }
 
-  public bool Holding(Action action) {
+  public bool Holding+(Action action) {
     if (Device() == null) { return false; }
     ViveInput input = InputFor(action);
     return InputPerformed(input, Device().GetPress);
@@ -84,7 +84,7 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
 
   bool BothInputPerformed(InputFunction func) {
     switch (func.Method.Name) {
-      case "GetPressDown":
+      case "GetPressDown": // Technically inaccurate but close enough for most
       case "GetPress":
         return holdingGripOrTrigger;
       case "GetPressUp":
