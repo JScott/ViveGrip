@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Valve.VR;
 
+delegate bool InputFunction(ulong key);
+
 [DisallowMultipleComponent]
 public class ViveGrip_ControllerHandler : MonoBehaviour {
   public enum ViveInput {
@@ -21,21 +23,19 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
   public ViveInput grabInput = ViveInput.Grip;
   [Tooltip("The button used for interacting.")]
   public ViveInput interactInput = ViveInput.Trigger;
-  private DualInputTracker dualInput;
+  private bool holdingGripOrTrigger = false;
   private const float MAX_VIBRATION_STRENGTH = 3999f;
-  private delegate bool InputFunction(ulong key);
-  void Start() {
-    dualInput = new DualInputTracker();
-  }
+
+  void Start() {}
 
   void Update() {
     if (InputPerformed(ViveInput.Grip, Device().GetPressDown) ||
         InputPerformed(ViveInput.Trigger, Device().GetPressDown)) {
-      dualInput.Increment();
+      holdingGripOrTrigger = true;
     }
-    if (InputPerformed(ViveInput.Grip, Device().GetPressUp) ||
-        InputPerformed(ViveInput.Trigger, Device().GetPressUp)) {
-      dualInput.Decrement();
+    if (!InputPerformed(ViveInput.Grip, Device().GetPress) &&
+        !InputPerformed(ViveInput.Trigger, Device().GetPress)) {
+      holdingGripOrTrigger = false;
     }
   }
 
@@ -50,12 +50,6 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
     ViveInput input = InputFor(action);
     return InputPerformed(input, Device().GetPressUp);
   }
-
-  // public bool Holding(Action action) {
-  //   if (Device() == null) { return false; }
-  //   ViveInput input = InputFor(action);
-  //   return InputPerformed(input, Device().GetPress);
-  // }
 
   ViveInput InputFor(Action action) {
     switch (action) {
@@ -76,12 +70,22 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
       case ViveInput.Trigger:
         return func(ButtonMaskFor(ViveInput.Trigger));
       case ViveInput.Both:
-        // return dualInput.Actually
-        return func(ButtonMaskFor(ViveInput.Grip)) || func(ButtonMaskFor(ViveInput.Trigger));
+        return BothInputPerformed(func);
+        // return dualInput.Performed(func);// func(ButtonMaskFor(ViveInput.Grip)) || func(ButtonMaskFor(ViveInput.Trigger));
       case ViveInput.None:
       default:
         return false;
     }
+  }
+
+  bool BothInputPerformed(InputFunction func) {
+    if (func.Method.Name.Contains("GetPressDown")) {
+      return holdingGripOrTrigger;
+    }
+    if (func.Method.Name.Contains("GetPressUp")) {
+      return !holdingGripOrTrigger;
+    }
+    return false;
   }
 
   ulong ButtonMaskFor(ViveInput input) {
@@ -114,30 +118,5 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
       Device().TriggerHapticPulse((ushort)Mathf.Lerp(0, MAX_VIBRATION_STRENGTH, strength));
       yield return null;
     }
-  }
-}
-
-class DualInputTracker {
-  private int inputCounter = 0;
-  private bool incrementing = false;
-
-  public DualInputTracker() {}
-
-  public void Increment() {
-      inputCounter++;
-      incrementing = true;
-  }
-
-  public void Decrement() {
-      inputCounter--;
-      incrementing = false;
-  }
-
-  public bool ActuallyPressed() {
-    return inputCounter == 1 && incrementing;
-  }
-
-  public bool ActuallyReleased() {
-    return inputCounter == 0;
   }
 }

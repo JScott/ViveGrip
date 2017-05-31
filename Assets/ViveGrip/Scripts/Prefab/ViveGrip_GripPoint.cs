@@ -15,8 +15,8 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   public ViveGrip_ControllerHandler controller;
   [HideInInspector]
   public ViveGrip_Grabber grabber;
+  public const string GRIP_SPHERE_NAME = "ViveGrip Touch Sphere";
   private ViveGrip_TouchDetection touch;
-  private const string GRIP_SPHERE_NAME = "ViveGrip Touch Sphere";
   private bool firmlyGrabbed = false;
   private bool externalGrabTriggered = false;
   private GameObject lastTouchedObject;

@@ -6,6 +6,7 @@ ViveGrip_GripPoint.touchRadius
 ViveGrip_GripPoint.holdRadius
 ViveGrip_GripPoint.visible
 ViveGrip_GripPoint.inputIsToggle
+ViveGrip_GripPoint.GRIP_SPHERE_NAME
 ViveGrip_GripPoint.TouchingSomething()
 ViveGrip_GripPoint.TouchedObject()
 ViveGrip_GripPoint.HoldingSomething()
