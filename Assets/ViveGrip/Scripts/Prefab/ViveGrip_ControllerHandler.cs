@@ -51,6 +51,12 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
     return InputPerformed(input, Device().GetPressUp);
   }
 
+  public bool Held(Action action) {
+    if (Device() == null) { return false; }
+    ViveInput input = InputFor(action);
+    return InputPerformed(input, Device().GetPress);
+  }
+
   ViveInput InputFor(Action action) {
     switch (action) {
       case Action.Grab:
@@ -62,7 +68,6 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
     }
   }
 
-  // THEN we need to have a counter to only actually trigger if we hit 0/2 for both
   bool InputPerformed(ViveInput input, InputFunction func) {
     switch (input) {
       case ViveInput.Grip:
@@ -78,13 +83,15 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
   }
 
   bool BothInputPerformed(InputFunction func) {
-    if (func.Method.Name.Contains("GetPressDown")) {
-      return holdingGripOrTrigger;
+    switch (func.Method.Name) {
+      case "GetPressDown":
+      case "GetPress":
+        return holdingGripOrTrigger;
+      case "GetPressUp":
+        return !holdingGripOrTrigger;
+      default:
+        return false;
     }
-    if (func.Method.Name.Contains("GetPressUp")) {
-      return !holdingGripOrTrigger;
-    }
-    return false;
   }
 
   ulong ButtonMaskFor(ViveInput input) {
