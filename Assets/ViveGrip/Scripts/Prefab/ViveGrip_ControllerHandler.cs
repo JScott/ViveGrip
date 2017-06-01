@@ -23,19 +23,22 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
   public ViveInput grabInput = ViveInput.Grip;
   [Tooltip("The button used for interacting.")]
   public ViveInput interactInput = ViveInput.Trigger;
-  private bool holdingGripOrTrigger = false;
+  private bool gripOrTriggerHeld = false;
+  private bool gripOrTriggerPressed = false;
   private const float MAX_VIBRATION_STRENGTH = 3999f;
 
   void Start() {}
 
   void Update() {
-    if (InputPerformed(ViveInput.Grip, Device().GetPressDown) ||
-        InputPerformed(ViveInput.Trigger, Device().GetPressDown)) {
-      holdingGripOrTrigger = true;
+    if (InputPerformed(ViveInput.Grip, Device().GetPress) ||
+        InputPerformed(ViveInput.Trigger, Device().GetPress)) {
+      gripOrTriggerPressed = !gripOrTriggerHeld;
+      gripOrTriggerHeld = true;
     }
     if (!InputPerformed(ViveInput.Grip, Device().GetPress) &&
         !InputPerformed(ViveInput.Trigger, Device().GetPress)) {
-      holdingGripOrTrigger = false;
+      gripOrTriggerPressed = false;
+      gripOrTriggerHeld = false;
     }
   }
 
@@ -84,11 +87,12 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
 
   bool BothInputPerformed(InputFunction func) {
     switch (func.Method.Name) {
-      case "GetPressDown": // Technically inaccurate but close enough for most
+      case "GetPressDown":
+        return gripOrTriggerPressed;
       case "GetPress":
-        return holdingGripOrTrigger;
+        return gripOrTriggerHeld;
       case "GetPressUp":
-        return !holdingGripOrTrigger;
+        return !gripOrTriggerHeld;
       default:
         return false;
     }
