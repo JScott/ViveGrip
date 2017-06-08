@@ -2,7 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [2.10.0] - 2017-06-07
+### Added
+- Support for SteamVR's Interaction System
+
+### Changed
+- `TrackedObject()` was moved to `ViveGrip_ControllerHandler`
+- `TrackedObject()` on `ViveGrip_GripPoint` will stop working in the next version
 
 ## [2.9.1] - 2017-06-01
 ### Fixed
@@ -155,7 +161,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.9.1...HEAD
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/JScott/ViveGrip/compare/v2.9.1...v3.0.0
 [2.9.1]: https://github.com/JScott/ViveGrip/compare/v2.9.0...v2.9.1
 [2.9.0]: https://github.com/JScott/ViveGrip/compare/v2.8.1...v2.9.0
 [2.8.1]: https://github.com/JScott/ViveGrip/compare/v2.8.0...v2.8.1

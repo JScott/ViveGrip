@@ -157,12 +157,9 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     externalGrabTriggered = true;
   }
 
+  // Deprecated. Will be removed in the next major version.
   public GameObject TrackedObject() {
-    SteamVR_TrackedObject trackedObject = controller.trackedObject;
-    if (trackedObject == null) {
-      return transform.parent.gameObject;
-    }
-    return trackedObject.gameObject;
+    return controller.TrackedObject();
   }
 
   public void UpdateRadius(float touch, float hold) {

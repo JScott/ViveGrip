@@ -143,4 +143,11 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
       yield return null;
     }
   }
+
+  public GameObject TrackedObject() {
+    if (trackedObject == null) {
+      return transform.parent.gameObject;
+    }
+    return trackedObject.gameObject;
+  }
 }
