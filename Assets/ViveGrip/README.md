@@ -19,6 +19,12 @@ If your controllers don't show up in-game then you may have to add `SteamVR_Upda
 It's a known issue with Unity 5.6 and the SteamVR Plugin:
 http://answers.unity3d.com/questions/1299567/vive-controllers-not-tracking-in-unity-560b3.html
 
+## SteamVR's Interaction System
+
+Vive Grip also works with the Interaction System. Simply place the `Grip Point`
+prefab as a child of the hand objects. Leave the `Tracked Object` variable blank
+in the Inspector and Vive Grip will handle setting the rest up for you.
+
 ## Tutorials
 
 [The playlist](https://www.youtube.com/playlist?list=PLwU6y1S7ew46AkeqEMwalgkvjXTKNYUQh)

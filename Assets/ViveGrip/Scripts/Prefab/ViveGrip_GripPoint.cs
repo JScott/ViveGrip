@@ -158,7 +158,11 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   public GameObject TrackedObject() {
-    return controller.trackedObject.gameObject;
+    SteamVR_TrackedObject trackedObject = controller.trackedObject;
+    if (trackedObject == null) {
+      return transform.parent.gameObject;
+    }
+    return trackedObject.gameObject;
   }
 
   public void UpdateRadius(float touch, float hold) {

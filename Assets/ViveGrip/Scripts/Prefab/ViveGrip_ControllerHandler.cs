@@ -25,11 +25,16 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
   public ViveInput interactInput = ViveInput.Trigger;
   private bool gripOrTriggerHeld = false;
   private bool gripOrTriggerPressed = false;
+  // NOTE: deviceIndex may be set without having a trackedObject
+  private int deviceIndex = -1;
   private const float MAX_VIBRATION_STRENGTH = 3999f;
 
-  void Start() {}
+  void Start() {
+    if (trackedObject) { deviceIndex = (int)trackedObject.index; }
+  }
 
   void Update() {
+    if (Device() == null) { return; }
     if (InputPerformed(ViveInput.Grip, Device().GetPress) ||
         InputPerformed(ViveInput.Trigger, Device().GetPress)) {
       gripOrTriggerPressed = !gripOrTriggerHeld;
@@ -40,6 +45,11 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
       gripOrTriggerPressed = false;
       gripOrTriggerHeld = false;
     }
+  }
+
+  // Support for SteamVR's Interaction System (see Hand#InitController)
+  void OnHandInitialized(int index) {
+    deviceIndex = index;
   }
 
   public bool Pressed(Action action) {
@@ -113,8 +123,9 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
   }
 
   public SteamVR_Controller.Device Device() {
-    if (trackedObject.index == SteamVR_TrackedObject.EIndex.None) { return null; }
-    return SteamVR_Controller.Input((int)trackedObject.index);
+    if (deviceIndex == -1) { return null; }
+    if (deviceIndex == (int)SteamVR_TrackedObject.EIndex.None) { return null; }
+    return SteamVR_Controller.Input(deviceIndex);
   }
 
   // strength is a value from 0-1
@@ -125,7 +136,10 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
 
   IEnumerator LongVibration(float length, float strength) {
     for(float i = 0; i < length; i += Time.deltaTime) {
-      Device().TriggerHapticPulse((ushort)Mathf.Lerp(0, MAX_VIBRATION_STRENGTH, strength));
+      if (Device() != null) {
+        ushort vibration = (ushort)Mathf.Lerp(0, MAX_VIBRATION_STRENGTH, strength);
+        Device().TriggerHapticPulse(vibration);
+      }
       yield return null;
     }
   }
