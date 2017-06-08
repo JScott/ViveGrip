@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - `TrackedObject()` was moved to `ViveGrip_ControllerHandler`
 - `TrackedObject()` on `ViveGrip_GripPoint` will stop working in the next version
+- A more natural example hand grip for Oculus Touch
 
 ## [2.9.1] - 2017-06-01
 ### Fixed
