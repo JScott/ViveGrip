@@ -2,9 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.10.0] - 2017-06-07
+## [2.10.0] - 2017-06-10
 ### Added
 - Support for SteamVR's Interaction System
+- A variable to disable the highlight on a grabbable or interactable from the Inspector
+- API documentation for grabbables and interactables
+- An example Manager class
 
 ### Changed
 - `TrackedObject()` was moved to `ViveGrip_ControllerHandler`

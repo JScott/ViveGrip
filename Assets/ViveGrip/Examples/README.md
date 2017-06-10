@@ -50,6 +50,19 @@ Adding the `ViveGrip_EventBridge` script let's me bridge Vive Grip events to cus
 
 The Button and Bubble Gun examples show when you may want to create an interaction in code instead of through Unity's Inspector.
 
+### Manager (easy)
+
+- `ViveGrip_JointFactory.LINEAR_DRIVE_MULTIPLIER`
+- `ViveGrip_JointFactory.ANGULAR_DRIVE_MULTIPLIER`
+- `ViveGrip_Grabbable.disableHighlight`
+- `ViveGrip_Interactable.disableHighlight`
+
+Vive Grip exposes a few variables that you may want to take advantage of for the whole scene instead of an object-to-object basis. For example, here I change the grip strength and object highlighting.
+
+The grip strength is divided into the "linear" and "angular" drive. In simpler terms, these are the positional and rotational strength of all your grips. By changing these variables, we change the strength of each subsequent grab. The defaults are what have been found to be useful in most situations but there can be many benefits to changing this for your unique needs.
+
+Disabling a highlight is usually useful on a per-object basis. However, you may want to disable it on everything, usually when you're substituting it with your own highlighting. I achieve this here by setting `disableHighlight` on every grabbable and interactable in the Scene.
+
 ### Button (intermediate)
 
 - `ViveGrip_Interactable`

@@ -26,6 +26,18 @@ ViveGrip_GripPoint.controller.Vibrate(int milliseconds, float strength [0.0-1.0]
 ViveGrip_GripPoint.controller.TrackedObject()
 ```
 
+```
+ViveGrip_Grabbable.anchor.enabled
+ViveGrip_Grabbable.anchor.localPosition
+ViveGrip_Grabbable.rotation.mode
+ViveGrip_Grabbable.rotation.localOrientation
+ViveGrip_Grabbable.disableHighlight
+```
+
+```
+ViveGrip_Interactable.disableHighlight
+```
+
 # Event message calling
 
 These methods get called if they're in the scripts of the attached object or children of the triggering grip point's tracked controller.

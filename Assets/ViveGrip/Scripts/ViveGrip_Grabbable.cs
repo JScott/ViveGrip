@@ -27,10 +27,16 @@ public class ViveGrip_Grabbable : MonoBehaviour {
   }
   public Position anchor;
   public Rotation rotation;
+  [Tooltip("Should the highlighting on this object be turned off?")]
+  public bool disableHighlight = false;
   private Vector3 grabCentre;
 
   void Start() {
     ViveGrip_Highlighter.AddTo(gameObject);
+  }
+
+  void Update() {
+    GetComponent<ViveGrip_Highlighter>().enabled = !disableHighlight;
   }
 
   // These are called this on the scripts of the attached object and children of the controller:
