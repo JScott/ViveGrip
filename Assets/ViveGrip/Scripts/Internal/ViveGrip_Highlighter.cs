@@ -27,10 +27,11 @@ public class ViveGrip_Highlighter : MonoBehaviour {
     oldColors.Clear();
   }
 
-  public static void AddTo(GameObject gameObject) {
+  public static ViveGrip_Highlighter AddTo(GameObject gameObject) {
     if (gameObject.GetComponent<ViveGrip_Highlighter>() == null) {
       gameObject.AddComponent<ViveGrip_Highlighter>();
     }
+    return gameObject.GetComponent<ViveGrip_Highlighter>();
   }
 
   void ViveGripHighlightStart() {
