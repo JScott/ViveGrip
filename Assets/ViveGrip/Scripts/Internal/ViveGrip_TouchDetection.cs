@@ -1,55 +1,63 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ViveGrip_TouchDetection : MonoBehaviour {
-  private List<GameObject> collidingObjects = new List<GameObject>();
+  private List<ViveGrip_Object> collidingObjects = new List<ViveGrip_Object>();
 
   void Start () {
     GetComponent<SphereCollider>().isTrigger = true;
   }
 
   void OnTriggerEnter(Collider other) {
-    collidingObjects.Add(other.gameObject);
+    ViveGrip_Object component = ActiveComponent(other.gameObject);
+    if (component == null) { return; }
+    collidingObjects.Add(component);
+    component.Remember(this);
   }
 
   void OnTriggerExit(Collider other) {
-    collidingObjects.Remove(other.gameObject);
+    ViveGrip_Object component = ActiveComponent(other.gameObject);
+    if (component == null) { return; }
+    collidingObjects.Remove(component);
+    component.Forget(this);
   }
 
   public GameObject NearestObject() {
     float closestDistance = Mathf.Infinity;
     GameObject touchedObject = null;
-    foreach (GameObject gameObject in collidingObjects) {
-      GameObject activeGameObject = ActiveViveGripObject(gameObject);
-      if (activeGameObject!=null) {
-        float distance = Vector3.Distance(transform.position, gameObject.transform.position);
-        if (distance < closestDistance) {
-          touchedObject = activeGameObject;
-          closestDistance = distance;
-        }
+    foreach (GameObject gameObject in TouchingGameObjects()) {
+      float distance = Vector3.Distance(transform.position, gameObject.transform.position);
+      if (distance < closestDistance) {
+        touchedObject = gameObject;
+        closestDistance = distance;
       }
     }
     return touchedObject;
   }
 
-  GameObject ActiveViveGripObject(GameObject gameObject) {
+  ViveGrip_Object ActiveComponent(GameObject gameObject) {
     if (gameObject == null) { return null; } // Happens with Destroy() sometimes
-    MonoBehaviour component = ValidComponent(gameObject.transform);
+    ViveGrip_Object component = ValidComponent(gameObject.transform);
     if (component == null) {
       component = ValidComponent(gameObject.transform.parent);
     }
     if (component != null) {
-      return component.gameObject;
+      return component;
     }
     return null;
   }
 
-  MonoBehaviour ValidComponent(Transform transform) {
+  ViveGrip_Object ValidComponent(Transform transform) {
     if (transform == null) { return null; }
-    MonoBehaviour component = transform.GetComponent<ViveGrip_Grabbable>();
+    ViveGrip_Object component = transform.GetComponent<ViveGrip_Grabbable>();
     if (component != null && component.enabled) { return component; }
     component = transform.GetComponent<ViveGrip_Interactable>();
     if (component != null && component.enabled) { return component; }
     return null;
+  }
+
+  GameObject[] TouchingGameObjects() {
+    return collidingObjects.Select(obj => obj.gameObject).ToArray();
   }
 }

@@ -1,17 +1,13 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class ViveGrip_Interactable : MonoBehaviour {
-  [Tooltip("Should the highlighting on this object be turned off?")]
-  public bool disableHighlight = false;
-  private ViveGrip_Highlighter highlighter;
-
+public class ViveGrip_Interactable : ViveGrip_Object {
   void Start() {
-    highlighter = ViveGrip_Highlighter.AddTo(gameObject);
+    base.Start();
   }
 
   void Update() {
-    highlighter.enabled = !disableHighlight;
+    base.Update();
   }
 
   // These are called this on the scripts of the attached object and children of the controller:

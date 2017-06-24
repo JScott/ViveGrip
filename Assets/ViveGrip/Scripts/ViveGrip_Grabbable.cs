@@ -5,7 +5,7 @@ using UnityEditor;
 
 [RequireComponent (typeof (Rigidbody))]
 [DisallowMultipleComponent]
-public class ViveGrip_Grabbable : MonoBehaviour {
+public class ViveGrip_Grabbable : ViveGrip_Object {
   public enum RotationMode {
     Disabled,
     ApplyGrip,
@@ -27,17 +27,14 @@ public class ViveGrip_Grabbable : MonoBehaviour {
   }
   public Position anchor;
   public Rotation rotation;
-  [Tooltip("Should the highlighting on this object be turned off?")]
-  public bool disableHighlight = false;
   private Vector3 grabCentre;
-  private ViveGrip_Highlighter highlighter;
 
   void Start() {
-    highlighter = ViveGrip_Highlighter.AddTo(gameObject);
+    base.Start();
   }
 
   void Update() {
-    highlighter.enabled = !disableHighlight;
+    base.Update();
   }
 
   // These are called this on the scripts of the attached object and children of the controller:
