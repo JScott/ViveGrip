@@ -8,6 +8,7 @@ public class ViveGrip_Highlighter : MonoBehaviour {
   void Start () {}
 
   public void Highlight(Color color) {
+    if (gameObject.GetComponent<Renderer>() == null) { return; }
     RemoveHighlight();
     foreach (Material material in GetComponent<Renderer>().materials) {
       Color currentColor = material.color;
@@ -18,6 +19,7 @@ public class ViveGrip_Highlighter : MonoBehaviour {
   }
 
   public void RemoveHighlight() {
+    if (gameObject.GetComponent<Renderer>() == null) { return; }
     foreach (Material material in GetComponent<Renderer>().materials) {
       if (oldColors.Count == 0) { break; }
       material.color = oldColors.Dequeue();
@@ -26,7 +28,6 @@ public class ViveGrip_Highlighter : MonoBehaviour {
   }
 
   public static void AddTo(GameObject gameObject) {
-    if (gameObject.GetComponent<Renderer>() == null) { return; }
     if (gameObject.GetComponent<ViveGrip_Highlighter>() == null) {
       gameObject.AddComponent<ViveGrip_Highlighter>();
     }
