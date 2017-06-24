@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 
 public class ViveGrip_TouchDetection : MonoBehaviour {
   private List<ViveGrip_Object> collidingObjects = new List<ViveGrip_Object>();
@@ -26,10 +25,10 @@ public class ViveGrip_TouchDetection : MonoBehaviour {
   public GameObject NearestObject() {
     float closestDistance = Mathf.Infinity;
     GameObject touchedObject = null;
-    foreach (GameObject gameObject in TouchingGameObjects()) {
-      float distance = Vector3.Distance(transform.position, gameObject.transform.position);
+    foreach (ViveGrip_Object component in collidingObjects) {
+      float distance = Vector3.Distance(transform.position, component.transform.position);
       if (distance < closestDistance) {
-        touchedObject = gameObject;
+        touchedObject = component.gameObject;
         closestDistance = distance;
       }
     }
@@ -55,9 +54,5 @@ public class ViveGrip_TouchDetection : MonoBehaviour {
     component = transform.GetComponent<ViveGrip_Interactable>();
     if (component != null && component.enabled) { return component; }
     return null;
-  }
-
-  GameObject[] TouchingGameObjects() {
-    return collidingObjects.Select(obj => obj.gameObject).ToArray();
   }
 }
