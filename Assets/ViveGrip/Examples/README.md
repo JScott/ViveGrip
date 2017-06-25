@@ -59,7 +59,7 @@ The Button and Bubble Gun examples show when you may want to create an interacti
 
 Vive Grip exposes a few variables that you may want to take advantage of for the whole scene instead of an object-to-object basis. For example, here I change the grip strength and object highlighting.
 
-The grip strength is divided into the "linear" and "angular" drive. In simpler terms, these are the positional and rotational strength of all your grips. By changing these variables, we change the strength of each subsequent grab. The defaults are what have been found to be useful in most situations but there can be many benefits to changing this for your unique needs.
+The grip strength is divided into the "linear" and "angular" drive. In simpler terms, these are the positional and rotational strength of all your grips. By changing these variables, I change the strength of each subsequent grab. The defaults are what have been found to be useful in most situations but there can be many benefits to changing this for your unique needs.
 
 Disabling a highlight is usually useful on a per-object basis. However, you may want to disable it on everything, usually when you're substituting it with your own highlighting. I achieve this here by setting `disableHighlight` on every grabbable and interactable in the Scene.
 
@@ -129,13 +129,14 @@ When the touch method is triggered, I trigger `ToggleGrab()` which I know will g
 - `ViveGripExample_ExtendGrab`
 - `ViveGripExample_ExtendHighlight`
 - `ViveGrip_GripPoint.ToggleGrab()`
-- `ViveGrip_Highlighter.enabled`
+- `ViveGrip_Object.disableHighlight`
+- `ViveGrip_Highlighter`
 
 As the extension documentation explains, you can adjust core functionality with scripts that hook into Vive Grip events. This cube has scripts that use these events to transform the default grab setting into a toggle for the cube and change how the cube is highlighted.
 
 For the grab, I simply toggle the grab when the object is released, similar to the tar ball. There's also a small countdown to make sure that simply releasing the grab after some time won't toggle it.
 
-The highlight disables the default behaviour by disabling `ViveGrip_Highlighter`. It then replaces it with its own logic that modifies the renderer's textures instead of its colours.
+I disable the highlight through the `ViveGrip_Object.disableHighlight` which always determines whether or not the `ViveGrip_Highlighter` is enabled. Then I create a subclass of `ViveGrip_Highlighter` that replaces the `Highlight()` and `RemoveHighlight()` methods to do something different and add it to the object, letting Vive Grip take care of the rest. You could use `ViveGripHighlightStart` and `ViveGripHighlightStop` but this saves you from having to reimplement a lot of standard highlighting functionality.
 
 ### Door (advanced)
 
