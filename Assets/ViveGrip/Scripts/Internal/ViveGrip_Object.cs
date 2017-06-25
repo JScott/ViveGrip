@@ -13,4 +13,16 @@ public class ViveGrip_Object : MonoBehaviour {
   public void Update() {
     highlighter.enabled = !disableHighlight;
   }
+
+  void OnDisable() {
+    ViveGrip_Highlighter highlighter = GetComponent<ViveGrip_Highlighter>();
+    if (highlighter == null) { return; }
+    highlighter.RemoveHighlight();
+  }
+
+  void OnEnable() {
+    ViveGrip_Highlighter highlighter = GetComponent<ViveGrip_Highlighter>();
+    if (highlighter == null) { return; }
+    highlighter.Highlight();
+  }
 }

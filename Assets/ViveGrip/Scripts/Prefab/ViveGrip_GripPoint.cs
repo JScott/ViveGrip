@@ -141,14 +141,17 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   public GameObject TouchedObject() {
+    if (touch == null) { return null; }
     return touch.NearestObject();
   }
 
   public bool HoldingSomething() {
+    if (grabber == null) { return false; }
     return grabber.HoldingSomething();
   }
 
   public GameObject HeldObject() {
+    if (grabber == null) { return null; }
     if (!grabber.HoldingSomething()) { return null; }
     return grabber.ConnectedGameObject();
   }
@@ -171,5 +174,19 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     TrackedObject().BroadcastMessage(name, this, SendMessageOptions.DontRequireReceiver);
     if (objectToMessage == null) { return; }
     objectToMessage.SendMessage(name, this, SendMessageOptions.DontRequireReceiver);
+  }
+
+  void OnDisable() {
+    if (!TouchingSomething()) { return; }
+    ViveGrip_Highlighter highlighter = TouchedObject().GetComponent<ViveGrip_Highlighter>();
+    if (highlighter == null) { return; }
+    highlighter.RemoveHighlight();
+  }
+
+  void OnEnable() {
+    if (!TouchingSomething()) { return; }
+    ViveGrip_Highlighter highlighter = TouchedObject().GetComponent<ViveGrip_Highlighter>();
+    if (highlighter == null) { return; }
+    highlighter.Highlight();
   }
 }

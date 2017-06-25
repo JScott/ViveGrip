@@ -32,12 +32,10 @@ ViveGrip_Grabbable.anchor.localPosition
 ViveGrip_Grabbable.rotation.mode
 ViveGrip_Grabbable.rotation.localOrientation
 ViveGrip_Grabbable.disableHighlight
-ViveGrip_Grabbable.TouchedCount()
 ```
 
 ```
 ViveGrip_Interactable.disableHighlight
-ViveGrip_Interactable.TouchedCount()
 ```
 
 # Event message calling

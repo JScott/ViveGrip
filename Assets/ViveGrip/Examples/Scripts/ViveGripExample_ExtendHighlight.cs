@@ -10,7 +10,7 @@ public class ViveGripExample_ExtendHighlight : MonoBehaviour {
   void Start() {}
 
   void Update() {
-    DisableDefaultHighlighter();
+    GetComponent<ViveGrip_Object>().disableHighlight = true;
   }
 
   void ViveGripHighlightStart() {
@@ -21,11 +21,6 @@ public class ViveGripExample_ExtendHighlight : MonoBehaviour {
   void ViveGripHighlightStop() {
     if (!this.enabled) { return; }
     RemoveHighlight();
-  }
-
-  void DisableDefaultHighlighter() {
-    ViveGrip_Highlighter highlighter = GetComponent<ViveGrip_Highlighter>();
-    if (highlighter != null) highlighter.enabled = false;
   }
 
   void Highlight() {

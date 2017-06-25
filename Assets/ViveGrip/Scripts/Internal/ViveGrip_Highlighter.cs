@@ -47,32 +47,15 @@ public class ViveGrip_Highlighter : MonoBehaviour {
     return gameObject.GetComponent<ViveGrip_Highlighter>();
   }
 
-  // void ViveGripHighlightStart() {
-  //   if (!this.enabled) { return; }
-  //   Highlight(tintColor);
-  // }
   void ViveGripHighlightStart(ViveGrip_GripPoint gripPoint) {
     if (!this.enabled) { return; }
     grips.Add(gripPoint);
   }
 
-  // void ViveGripHighlightStop() {
-  //   if (!this.enabled) { return; }
-  //   RemoveHighlight();
-  // }
-
   void ViveGripHighlightStop(ViveGrip_GripPoint gripPoint) {
     if (!this.enabled) { return; }
     grips.Remove(gripPoint);
-    // }
   }
-
-  // void ViveGripGrabStop(ViveGrip_GripPoint gripPoint) {
-  //   if (!this.enabled) { return; }
-  //   if (!gripPoint.TouchingSomething()) {
-  //     grips.Remove(gripPoint);
-  //   }
-  // }
 
   void OnDisable() {
     RemoveHighlight();
