@@ -50,7 +50,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     }
     else if (givenObject != null && givenObject.GetComponent<ViveGrip_Grabbable>() != null) {
       Message("ViveGripGrabStart", givenObject);
-      RemoveHighlight();
+      Message("ViveGripHighlightStop", givenObject);
     }
   }
 
@@ -65,12 +65,6 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   void DestroyConnection() {
     firmlyGrabbed = false;
     Message("ViveGripGrabStop", HeldObject());
-  }
-
-  void RemoveHighlight() {
-    if (lastTouchedObject.GetComponent<ViveGrip_Object>().NotTouched()) {
-      Message("ViveGripHighlightStop", lastTouchedObject);
-    }
   }
 
   void HandleFumbling() {
@@ -109,7 +103,7 @@ public class ViveGrip_GripPoint : MonoBehaviour {
     if (GameObjectsEqual(lastTouchedObject, givenObject)) { return; }
     if (lastTouchedObject != null) {
       Message("ViveGripTouchStop", lastTouchedObject);
-      RemoveHighlight();
+      Message("ViveGripHighlightStop", lastTouchedObject);
     }
     if (grabber.HoldingSomething()) { return; }
     if (givenObject != null) {

@@ -12,14 +12,12 @@ public class ViveGrip_TouchDetection : MonoBehaviour {
     ViveGrip_Object component = ActiveComponent(other.gameObject);
     if (component == null) { return; }
     collidingObjects.Add(component);
-    component.Remember(this);
   }
 
   void OnTriggerExit(Collider other) {
     ViveGrip_Object component = ActiveComponent(other.gameObject);
     if (component == null) { return; }
     collidingObjects.Remove(component);
-    component.Forget(this);
   }
 
   public GameObject NearestObject() {
