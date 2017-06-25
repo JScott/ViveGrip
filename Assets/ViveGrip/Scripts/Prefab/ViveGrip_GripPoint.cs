@@ -23,7 +23,6 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   private GameObject lastInteractedObject;
 
   void Start() {
-    controller = GetComponent<ViveGrip_ControllerHandler>();
     grabber = gameObject.AddComponent<ViveGrip_Grabber>();
     GameObject gripSphere = InstantiateTouchSphere();
     touch = gripSphere.AddComponent<ViveGrip_TouchDetection>();
@@ -31,12 +30,18 @@ public class ViveGrip_GripPoint : MonoBehaviour {
   }
 
   void Update() {
+    CheckController();
     GameObject touchedObject = TouchedObject();
     HandleTouching(touchedObject);
     HandleGrabbing(touchedObject);
     HandleInteraction(touchedObject);
     HandleFumbling();
     lastTouchedObject = touchedObject;
+  }
+
+  void CheckController() {
+    if (controller != null) { return; }
+    controller = GetComponent<ViveGrip_ControllerHandler>();
   }
 
   void HandleGrabbing(GameObject givenObject) {

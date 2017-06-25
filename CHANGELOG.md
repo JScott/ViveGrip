@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Changed
+- Overhauled `ViveGrip_Highlighter` and adjacent code
+- A shared `ViveGrip_Object` class for Grabbables and Interactables
+
+### Fixed
+- Things falling apart when there's no `Renderer` on an Object
+- Highlighting now accounts for two controllers being used at once
+
 ## [2.10.0] - 2017-06-10
 ### Added
 - Support for SteamVR's Interaction System
@@ -165,8 +174,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v3.0.0...HEAD
-[3.0.0]: https://github.com/JScott/ViveGrip/compare/v2.9.1...v3.0.0
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.10.0...HEAD
+[2.10.0]: https://github.com/JScott/ViveGrip/compare/v2.9.1...v2.10.0
 [2.9.1]: https://github.com/JScott/ViveGrip/compare/v2.9.0...v2.9.1
 [2.9.0]: https://github.com/JScott/ViveGrip/compare/v2.8.1...v2.9.0
 [2.8.1]: https://github.com/JScott/ViveGrip/compare/v2.8.0...v2.8.1
