@@ -72,8 +72,8 @@ Mostly used by other scripts. Many are either easier to access from core APIs or
 
 ```
 ViveGrip_Highlighter
-ViveGrip_Highlighter.Highlight(Color color)
-ViveGrip_Highlighter.RemoveHighlight()
+ViveGrip_Highlighter.Highlight(Color color) *
+ViveGrip_Highlighter.RemoveHighlight() *
 ViveGrip_Highlighter.AddTo(GameObject gameObject) *
 ```
 
