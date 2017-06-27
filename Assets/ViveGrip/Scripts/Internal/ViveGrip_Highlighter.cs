@@ -9,6 +9,7 @@ public interface ViveGrip_HighlightEffect {
 }
 
 public class ViveGrip_Highlighter : MonoBehaviour {
+  public bool disabled = false;
   private ViveGrip_HighlightEffect highlight = null;
   private bool highlighted = false;
   private HashSet<ViveGrip_GripPoint> grips = new HashSet<ViveGrip_GripPoint>();
@@ -46,6 +47,10 @@ public class ViveGrip_Highlighter : MonoBehaviour {
     } else {
       Debug.LogError(effectType + " does not implement the ViveGrip_HighlightEffect interface");
     }
+    return highlight;
+  }
+
+  public ViveGrip_HighlightEffect CurrentEffect() {
     return highlight;
   }
 

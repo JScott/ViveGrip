@@ -9,17 +9,18 @@ public class ViveGripExample_Manager : MonoBehaviour {
   public float gripRotationMultiplier = 1f;
 
   void Update() {
-    SetHighlighting(disableAllHighlighting);
-    ViveGrip_JointFactory.LINEAR_DRIVE_MULTIPLIER = gripStrengthMultiplier;
-    ViveGrip_JointFactory.ANGULAR_DRIVE_MULTIPLIER = gripRotationMultiplier;
+    SetHighlighting();
+    SetGripStrength();
   }
 
-  void SetHighlighting(bool value) {
-    foreach(ViveGrip_Grabbable grabbable in FindObjectsOfType<ViveGrip_Grabbable>()) {
-      // grabbable.disableHighlight = value;
+  void SetHighlighting() {
+    foreach(ViveGrip_Highlighter highlighter in FindObjectsOfType<ViveGrip_Highlighter>()) {
+      highlighter.enabled = !disableAllHighlighting;
     }
-    foreach(ViveGrip_Interactable interactable in FindObjectsOfType<ViveGrip_Interactable>()) {
-      // interactable.disableHighlight = value;
-    }
+  }
+
+  void SetGripStrength() {
+    ViveGrip_JointFactory.LINEAR_DRIVE_MULTIPLIER = gripStrengthMultiplier;
+    ViveGrip_JointFactory.ANGULAR_DRIVE_MULTIPLIER = gripRotationMultiplier;
   }
 }
