@@ -75,7 +75,6 @@ ViveGrip_Highlighter
 ViveGrip_Highlighter.effect *
 ViveGrip_Highlighter.Highlight() *
 ViveGrip_Highlighter.RemoveHighlight() *
-ViveGrip_Highlighter.AddTo(GameObject gameObject) *
 ```
 
 ```

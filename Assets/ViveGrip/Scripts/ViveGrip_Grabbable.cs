@@ -29,12 +29,8 @@ public class ViveGrip_Grabbable : ViveGrip_Object {
   public Rotation rotation;
   private Vector3 grabCentre;
 
-  void Start() {
-    base.Start();
-  }
-
-  void Update() {
-    base.Update();
+  void Awake() {
+    base.Awake();
   }
 
   // These are called this on the scripts of the attached object and children of the controller:

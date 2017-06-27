@@ -30,16 +30,8 @@ class ViveGripExample_NewHighlight : ViveGrip_HighlightEffect {
 public class ViveGripExample_ExtendHighlight : MonoBehaviour {
   public Texture highlightTexture;
 
-  void Start() {}
-
-  void Update() {
-    // GetComponent<ViveGrip_Object>().disableHighlight = true;
-    // AddNewHighlighter();
-  }
-
-  void AddNewHighlighter() {
-    // if (GetComponent<ViveGripExample_NewHighlight>() != null) { return; }
-    // ViveGripExample_NewHighlight newHighlighter = gameObject.AddComponent<ViveGripExample_NewHighlight>();
-    // newHighlighter.highlightTexture = highlightTexture;
+  void Start() {
+    ViveGrip_HighlightEffect effect = GetComponent<ViveGrip_Highlighter>().UpdateEffect(typeof(ViveGripExample_NewHighlight));
+    (effect as ViveGripExample_NewHighlight).highlightTexture = highlightTexture;
   }
 }

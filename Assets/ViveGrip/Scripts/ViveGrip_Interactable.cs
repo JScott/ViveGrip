@@ -2,12 +2,8 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 public class ViveGrip_Interactable : ViveGrip_Object {
-  void Start() {
-    base.Start();
-  }
-
-  void Update() {
-    base.Update();
+  void Awake() {
+    base.Awake();
   }
 
   // These are called this on the scripts of the attached object and children of the controller:

@@ -9,21 +9,11 @@ public interface ViveGrip_HighlightEffect {
 }
 
 public class ViveGrip_Highlighter : MonoBehaviour {
-  // // TODO: tooltip
-  // [ClassImplements(typeof(ViveGrip_HighlightEffect))]
-  // public ClassTypeReference effect = typeof(ViveGrip_TintEffect); // can be null
-  [HideInInspector]
-  public ViveGrip_HighlightEffect highlight = null;
+  private ViveGrip_HighlightEffect highlight = null;
   private bool highlighted = false;
   private HashSet<ViveGrip_GripPoint> grips = new HashSet<ViveGrip_GripPoint>();
 
-  void Start() {
-    // UpdateEffect(effect.Type);
-    // if (effect.Type == null) {
-    //   highlight = null;
-    // } else {
-    //   highlight = System.Activator.CreateInstance(effect) as ViveGrip_HighlightEffect;
-  }
+  void Start() {}
 
   void Update() {
     if (highlighted && grips.Count == 0) {
@@ -46,7 +36,7 @@ public class ViveGrip_Highlighter : MonoBehaviour {
     highlighted = true;
   }
 
-  public void UpdateEffect(System.Type effectType) {
+  public ViveGrip_HighlightEffect UpdateEffect(System.Type effectType) {
     if (effectType == null) {
       if (highlight != null) { highlight.Stop(this); }
       highlight = null;
@@ -56,13 +46,7 @@ public class ViveGrip_Highlighter : MonoBehaviour {
     } else {
       Debug.LogError(effectType + " does not implement the ViveGrip_HighlightEffect interface");
     }
-  }
-
-  public static ViveGrip_Highlighter AddTo(GameObject gameObject) {
-    if (gameObject.GetComponent<ViveGrip_Highlighter>() == null) {
-      gameObject.AddComponent<ViveGrip_Highlighter>();
-    }
-    return gameObject.GetComponent<ViveGrip_Highlighter>();
+    return highlight;
   }
 
   void ViveGripHighlightStart(ViveGrip_GripPoint gripPoint) {

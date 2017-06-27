@@ -3,30 +3,28 @@ using ViveGrip.TypeReferences;
 
 [DisallowMultipleComponent]
 public class ViveGrip_Object : MonoBehaviour {
-  [Tooltip("somethin!")]
+  // [Tooltip("The highlight effect used by the object's highlighter. Use ViveGrip_Highlighter.UpdateEffect to update this from code.")]
   [ClassImplements(typeof(ViveGrip_HighlightEffect))]
-  public ClassTypeReference highlightEffect = typeof(ViveGrip_TintEffect); // can be null
+  public ClassTypeReference highlightEffect = typeof(ViveGrip_TintEffect);
   private ViveGrip_Highlighter highlighter;
 
-  public void Start() {
-    highlighter = ViveGrip_Highlighter.AddTo(gameObject);
+  public void Awake() {
+    highlighter = gameObject.AddComponent<ViveGrip_Highlighter>();
     highlighter.UpdateEffect(highlightEffect.Type);
-    // highlighter.UpdateEffect(null);
-  }
-
-  public void Update() {
-    // highlighter.enabled = !disableHighlight;
   }
 
   void OnDisable() {
-    ViveGrip_Highlighter highlighter = GetComponent<ViveGrip_Highlighter>();
     if (highlighter == null) { return; }
     highlighter.RemoveHighlight();
   }
 
   void OnEnable() {
-    ViveGrip_Highlighter highlighter = GetComponent<ViveGrip_Highlighter>();
     if (highlighter == null) { return; }
     highlighter.Highlight();
+  }
+
+  void OnValidate() {
+    if (highlighter == null) { return; }
+    highlighter.UpdateEffect(highlightEffect.Type);
   }
 }
