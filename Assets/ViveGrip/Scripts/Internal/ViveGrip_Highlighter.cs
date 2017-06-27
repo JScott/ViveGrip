@@ -4,8 +4,8 @@ using ViveGrip.TypeReferences;
 using System.Reflection;
 
 public interface ViveGrip_HighlightEffect {
-  void Start(ViveGrip_Highlighter highlighter);
-  void Stop(ViveGrip_Highlighter highlighter);
+  void Start(GameObject gameObject);
+  void Stop(GameObject gameObject);
 }
 
 public class ViveGrip_Highlighter : MonoBehaviour {
@@ -27,22 +27,22 @@ public class ViveGrip_Highlighter : MonoBehaviour {
 
   public void RemoveHighlight() {
     if (highlight == null) { return; }
-    highlight.Stop(this);
+    highlight.Stop(gameObject);
     highlighted = false;
   }
 
   public void Highlight() {
     if (highlight == null) { return; }
-    highlight.Start(this);
+    highlight.Start(gameObject);
     highlighted = true;
   }
 
   public ViveGrip_HighlightEffect UpdateEffect(System.Type effectType) {
     if (effectType == null) {
-      if (highlight != null) { highlight.Stop(this); }
+      if (highlight != null) { highlight.Stop(gameObject); }
       highlight = null;
     } else if (typeof(ViveGrip_HighlightEffect).IsAssignableFrom(effectType)) {
-      if (highlight != null) { highlight.Stop(this); }
+      if (highlight != null) { highlight.Stop(gameObject); }
       highlight = System.Activator.CreateInstance(effectType) as ViveGrip_HighlightEffect;
     } else {
       Debug.LogError(effectType + " does not implement the ViveGrip_HighlightEffect interface");
@@ -76,17 +76,17 @@ public class ViveGrip_TintEffect : ViveGrip_HighlightEffect {
   private Color tintColor = new Color(0.2f, 0.2f, 0.2f);
   private Queue<Color> oldColors = new Queue<Color>();
 
-  public void Start(ViveGrip_Highlighter highlighter) {
-    Renderer renderer = highlighter.GetComponent<Renderer>();
+  public void Start(GameObject gameObject) {
+    Renderer renderer = gameObject.GetComponent<Renderer>();
     if (renderer == null) { return; }
-    Stop(highlighter);
+    Stop(gameObject);
     foreach (Material material in Materials(renderer)) {
       StashColor(material);
     }
   }
 
-  public void Stop(ViveGrip_Highlighter highlighter) {
-    Renderer renderer = highlighter.GetComponent<Renderer>();
+  public void Stop(GameObject gameObject) {
+    Renderer renderer = gameObject.GetComponent<Renderer>();
     if (renderer == null) { return; }
     foreach (Material material in Materials(renderer)) {
       if (oldColors.Count == 0) { break; }
@@ -120,3 +120,4 @@ public class ViveGrip_RecursiveTintEffect : ViveGrip_TintEffect {
     return materials.ToArray();
   }
 }
+

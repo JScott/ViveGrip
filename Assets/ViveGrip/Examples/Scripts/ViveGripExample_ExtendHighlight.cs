@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-class ViveGripExample_NewHighlight : ViveGrip_HighlightEffect {
+// TODO: DOCUMENT that it needs to be public to show up on the list
+public class ViveGripExample_NewHighlight : ViveGrip_HighlightEffect {
   public Texture highlightTexture;
   private Queue<Texture> oldTextures = new Queue<Texture>();
 
-  public void Start(ViveGrip_Highlighter highlighter) {
-    Renderer renderer = highlighter.GetComponent<Renderer>();
+  public void Start(GameObject gameObject) {
+    Renderer renderer = gameObject.GetComponent<Renderer>();
     if (renderer == null) { return; }
-    Stop(highlighter);
+    Stop(gameObject);
     foreach (Material material in renderer.materials) {
       Texture currentTexture = material.mainTexture;
       oldTextures.Enqueue(currentTexture);
@@ -16,8 +17,8 @@ class ViveGripExample_NewHighlight : ViveGrip_HighlightEffect {
     }
   }
 
-  public void Stop(ViveGrip_Highlighter highlighter) {
-    Renderer renderer = highlighter.GetComponent<Renderer>();
+  public void Stop(GameObject gameObject) {
+    Renderer renderer = gameObject.GetComponent<Renderer>();
     if (renderer == null) { return; }
     foreach (Material material in renderer.materials) {
       if (oldTextures.Count == 0) { break; }
@@ -31,7 +32,8 @@ public class ViveGripExample_ExtendHighlight : MonoBehaviour {
   public Texture highlightTexture;
 
   void Start() {
-    ViveGrip_HighlightEffect effect = GetComponent<ViveGrip_Highlighter>().UpdateEffect(typeof(ViveGripExample_NewHighlight));
-    (effect as ViveGripExample_NewHighlight).highlightTexture = highlightTexture;
+    ViveGrip_Highlighter highlighter = GetComponent<ViveGrip_Highlighter>();
+    ViveGripExample_NewHighlight effect = highlighter.UpdateEffect(typeof(ViveGripExample_NewHighlight)) as ViveGripExample_NewHighlight;
+    effect.highlightTexture = highlightTexture;
   }
 }

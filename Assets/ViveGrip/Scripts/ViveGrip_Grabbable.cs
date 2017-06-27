@@ -30,6 +30,7 @@ public class ViveGrip_Grabbable : ViveGrip_Object {
   private Vector3 grabCentre;
 
   void Awake() {
+    // TODO: can we just remove this and it'll inherit?
     base.Awake();
   }
 
