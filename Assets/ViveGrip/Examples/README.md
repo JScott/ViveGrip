@@ -129,14 +129,13 @@ When the touch method is triggered, I trigger `ToggleGrab()` which I know will g
 - `ViveGripExample_ExtendGrab`
 - `ViveGripExample_ExtendHighlight`
 - `ViveGrip_GripPoint.ToggleGrab()`
-- `ViveGrip_Object.disableHighlight`
-- `ViveGrip_Highlighter`
+- `ViveGrip_HighlightEffect`
 
 As the extension documentation explains, you can adjust core functionality with scripts that hook into Vive Grip events. This cube has scripts that use these events to transform the default grab setting into a toggle for the cube and change how the cube is highlighted.
 
 For the grab, I simply toggle the grab when the object is released, similar to the tar ball. There's also a small countdown to make sure that simply releasing the grab after some time won't toggle it.
 
-I disable the highlight through the `ViveGrip_Object.disableHighlight` which always determines whether or not the `ViveGrip_Highlighter` is enabled. Then I create a subclass of `ViveGrip_Highlighter` that replaces the `Highlight()` and `RemoveHighlight()` methods to do something different and add it to the object, letting Vive Grip take care of the rest. You could use `ViveGripHighlightStart` and `ViveGripHighlightStop` but this saves you from having to reimplement a lot of standard highlighting functionality.
+I create a new highlight effect by implementing `ViveGrip_HighlightEffect`. The implementation will have methods to take the highlighted `GameObject` to `Start` and `Stop` the effect. This could be selected from the Inspector but I replace it in code here. The `ViveGrip_Highlighter` handles the rest.
 
 ### Door (advanced)
 

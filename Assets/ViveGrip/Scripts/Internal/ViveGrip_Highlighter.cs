@@ -10,7 +10,7 @@ public interface ViveGrip_HighlightEffect {
 
 public class ViveGrip_Highlighter : MonoBehaviour {
   public bool disabled = false;
-  private ViveGrip_HighlightEffect highlight = null;
+  private ViveGrip_HighlightEffect effect = null;
   private bool highlighted = false;
   private HashSet<ViveGrip_GripPoint> grips = new HashSet<ViveGrip_GripPoint>();
 
@@ -26,32 +26,32 @@ public class ViveGrip_Highlighter : MonoBehaviour {
   }
 
   public void RemoveHighlight() {
-    if (highlight == null) { return; }
-    highlight.Stop(gameObject);
+    if (effect == null) { return; }
+    effect.Stop(gameObject);
     highlighted = false;
   }
 
   public void Highlight() {
-    if (highlight == null) { return; }
-    highlight.Start(gameObject);
+    if (effect == null) { return; }
+    effect.Start(gameObject);
     highlighted = true;
   }
 
   public ViveGrip_HighlightEffect UpdateEffect(System.Type effectType) {
     if (effectType == null) {
-      if (highlight != null) { highlight.Stop(gameObject); }
-      highlight = null;
+      if (effect != null) { effect.Stop(gameObject); }
+      effect = null;
     } else if (typeof(ViveGrip_HighlightEffect).IsAssignableFrom(effectType)) {
-      if (highlight != null) { highlight.Stop(gameObject); }
-      highlight = System.Activator.CreateInstance(effectType) as ViveGrip_HighlightEffect;
+      if (effect != null) { effect.Stop(gameObject); }
+      effect = System.Activator.CreateInstance(effectType) as ViveGrip_HighlightEffect;
     } else {
       Debug.LogError(effectType + " does not implement the ViveGrip_HighlightEffect interface");
     }
-    return highlight;
+    return effect;
   }
 
   public ViveGrip_HighlightEffect CurrentEffect() {
-    return highlight;
+    return effect;
   }
 
   void ViveGripHighlightStart(ViveGrip_GripPoint gripPoint) {

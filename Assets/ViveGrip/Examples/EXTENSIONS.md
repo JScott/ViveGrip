@@ -18,9 +18,9 @@ This is sent whenever an object is grabbed or released. `ViveGripExample_ExtendG
 - `ViveGripHighlightStart(ViveGrip_GripPoint gripPoint)`
 - `ViveGripHighlightStop(ViveGrip_GripPoint gripPoint)`
 
-This is sent whenever object highlighting starts or stops. `ViveGripExample_ExtendHighlight` uses this to highlight the controller as well as the object. It simply captures the base color on starting and lightens it when the controller highlights an object. Note that `ViveGripHighlightStop` is called when the object is grabbed.
+This is sent whenever object highlighting starts or stops. Note that `ViveGripHighlightStop` is called when the object is grabbed.
 
-Another option would be to manually add `ViveGrip_Highlighter` as it leverages these methods to do the default highlighting for objects. However, it doesn't play nice with the way I fade the example hands in and out. It may be useful to try this in your scene if the conditions are right.
+If you want to do custom highlighting effects, look at `ViveGrip_HighlightEffect`. By implementing this, as `ViveGripExample_ExtendHighlight` does, you can choose it as a highlight effect on a grabbable or interactable. Be sure to make your implementation `public` so that the Inspector dropdown can use it.
 
 ### Touching
 

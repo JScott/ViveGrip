@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-// TODO: DOCUMENT that it needs to be public to show up on the list
 public class ViveGripExample_NewHighlight : ViveGrip_HighlightEffect {
   public Texture highlightTexture;
   private Queue<Texture> oldTextures = new Queue<Texture>();

@@ -31,11 +31,13 @@ ViveGrip_Grabbable.anchor.enabled
 ViveGrip_Grabbable.anchor.localPosition
 ViveGrip_Grabbable.rotation.mode
 ViveGrip_Grabbable.rotation.localOrientation
-ViveGrip_Grabbable.disableHighlight
 ```
 
 ```
-ViveGrip_Interactable.disableHighlight
+ViveGrip_Highlighter
+ViveGrip_Highlighter.effect
+ViveGrip_Highlighter.Highlight()
+ViveGrip_Highlighter.RemoveHighlight()
 ```
 
 # Event message calling
@@ -66,16 +68,9 @@ void ViveGripHighlightStart(ViveGrip_GripPoint gripPoint) {}
 void ViveGripHighlightStop(ViveGrip_GripPoint gripPoint) {}
 ```
 
-# Internal APIs
+# Other APIs
 
 Mostly used by other scripts. Many are either easier to access from core APIs or prone to unexpected behaviour. I put an asterisk (*) next to the ones that might be interesting to you.
-
-```
-ViveGrip_Highlighter
-ViveGrip_Highlighter.effect *
-ViveGrip_Highlighter.Highlight() *
-ViveGrip_Highlighter.RemoveHighlight() *
-```
 
 ```
 ViveGrip_JointFactory
