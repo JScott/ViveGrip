@@ -16,10 +16,10 @@ public class ViveGripExample_Manager : MonoBehaviour {
 
   void SetHighlighting(bool value) {
     foreach(ViveGrip_Grabbable grabbable in FindObjectsOfType<ViveGrip_Grabbable>()) {
-      grabbable.disableHighlight = value;
+      // grabbable.disableHighlight = value;
     }
     foreach(ViveGrip_Interactable interactable in FindObjectsOfType<ViveGrip_Interactable>()) {
-      interactable.disableHighlight = value;
+      // interactable.disableHighlight = value;
     }
   }
 }

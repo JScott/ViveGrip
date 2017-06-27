@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using ViveGrip.TypeReferences;
+using System.Reflection;
 
 public interface ViveGrip_HighlightEffect {
   void Start(ViveGrip_Highlighter highlighter);
@@ -8,15 +9,16 @@ public interface ViveGrip_HighlightEffect {
 }
 
 public class ViveGrip_Highlighter : MonoBehaviour {
-  // TODO: tooltip
-  [ClassImplements(typeof(ViveGrip_HighlightEffect))]
-  public ClassTypeReference effect = typeof(ViveGrip_TintEffect); // can be null
-  private ViveGrip_HighlightEffect highlight = null;
+  // // TODO: tooltip
+  // [ClassImplements(typeof(ViveGrip_HighlightEffect))]
+  // public ClassTypeReference effect = typeof(ViveGrip_TintEffect); // can be null
+  [HideInInspector]
+  public ViveGrip_HighlightEffect highlight = null;
   private bool highlighted = false;
   private HashSet<ViveGrip_GripPoint> grips = new HashSet<ViveGrip_GripPoint>();
 
   void Start() {
-    UpdateEffect(effect.Type);
+    // UpdateEffect(effect.Type);
     // if (effect.Type == null) {
     //   highlight = null;
     // } else {
@@ -30,7 +32,6 @@ public class ViveGrip_Highlighter : MonoBehaviour {
     if (!highlighted && grips.Count != 0) {
       Highlight();
     }
-    PollEffectChange();
   }
 
   public void RemoveHighlight() {
@@ -45,18 +46,15 @@ public class ViveGrip_Highlighter : MonoBehaviour {
     highlighted = true;
   }
 
-  void PollEffectChange() {
-    if (effect.Type != highlight.GetType()) {
-      UpdateEffect(effect.Type);
-    }
-  }
-
   public void UpdateEffect(System.Type effectType) {
-    if (effectType.IsSubclassOf(typeof(ViveGrip_HighlightEffect))) {
+    if (effectType == null) {
+      if (highlight != null) { highlight.Stop(this); }
+      highlight = null;
+    } else if (typeof(ViveGrip_HighlightEffect).IsAssignableFrom(effectType)) {
       if (highlight != null) { highlight.Stop(this); }
       highlight = System.Activator.CreateInstance(effectType) as ViveGrip_HighlightEffect;
     } else {
-      Debug.Log("UpdateEffect: effectType must be a subclass of ViveGrip_HighlightEffect");
+      Debug.LogError(effectType + " does not implement the ViveGrip_HighlightEffect interface");
     }
   }
 

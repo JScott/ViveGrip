@@ -1,17 +1,21 @@
 using UnityEngine;
+using ViveGrip.TypeReferences;
 
 [DisallowMultipleComponent]
 public class ViveGrip_Object : MonoBehaviour {
-  [Tooltip("Should the highlighting on this object be turned off?")]
-  public bool disableHighlight = false;
+  [Tooltip("somethin!")]
+  [ClassImplements(typeof(ViveGrip_HighlightEffect))]
+  public ClassTypeReference highlightEffect = typeof(ViveGrip_TintEffect); // can be null
   private ViveGrip_Highlighter highlighter;
 
   public void Start() {
     highlighter = ViveGrip_Highlighter.AddTo(gameObject);
+    highlighter.UpdateEffect(highlightEffect.Type);
+    // highlighter.UpdateEffect(null);
   }
 
   public void Update() {
-    highlighter.enabled = !disableHighlight;
+    // highlighter.enabled = !disableHighlight;
   }
 
   void OnDisable() {
