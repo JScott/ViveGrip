@@ -5,7 +5,7 @@ using Valve.VR;
 public class ViveGrip_GripPoint : MonoBehaviour {
   [Tooltip("The distance at which you can touch objects.")]
   public float touchRadius = 0.2f;
-  [Tooltip("The distance at which objects will automatically drop.")]
+  [Tooltip("The distance at which objects will automatically drop.\nUse UpdateRadius to modify in code.")]
   public float holdRadius = 0.3f;
   [Tooltip("Is the touch radius visible? (Good for debugging)")]
   public bool visible = false;
