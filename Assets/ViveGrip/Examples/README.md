@@ -132,6 +132,13 @@ Sometimes you want an object that gets grabbed or dropped forcefully. The tar ba
 
 When the touch method is triggered, I trigger `ToggleGrab()` which I know will grab the tar ball. To prevent the player from dropping it manually and ending up in a weird state, I store the grip point and disable it. During the update method I check if the speed reaches a certain threshold after being gripped. At that point I enable the grip point again and toggle the grab to drop the tar ball.
 
+### Teleporter (intermediate)
+
+- `ViveGrip_GripPoint.HoldingSomething()`
+- `ViveGrip_GripPoint.HeldObject()`
+
+Often people need to teleport while holding an object. This can get complicated, depending on how you teleport, but the idea will be the same as this simple example. `ViveGripExample_Teleporter` will use grip point methods to find held objects and move them when the player moves.
+
 ### Extension Cube (advanced)
 
 - `ViveGripExample_ExtendGrab`

@@ -1,7 +1,6 @@
 using UnityEngine;
 using ViveGrip.TypeReferences;
 
-[DisallowMultipleComponent]
 public class ViveGrip_Object : MonoBehaviour {
   // [Tooltip("The highlight effect used by the object's highlighter. Use ViveGrip_Highlighter.UpdateEffect to update this from code.")]
   [ClassImplements(typeof(ViveGrip_HighlightEffect))]

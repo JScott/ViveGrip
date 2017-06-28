@@ -6,7 +6,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - `ViveGrip_HighlightEffect` for custom highlight effects
 - `ViveGrip_TintEffect` and `ViveGrip_TintChildrenEffect`
-- Composite Toy on the demo scene
+- Composite Toy in the demo scene
+- Teleporter in the demo scene
 
 ### Changed
 - Overhauled `ViveGrip_Highlighter` and adjacent code
