@@ -139,6 +139,8 @@ When the touch method is triggered, I trigger `ToggleGrab()` which I know will g
 
 Often people need to teleport while holding an object. This can get complicated, depending on how you teleport, but the idea will be the same as this simple example. `ViveGripExample_Teleporter` will use grip point methods to find held objects and move them when the player moves.
 
+I also make sure that I always teleport the teleporter for the sake of the demo so that the player doesn't lose it by accident.
+
 ### Extension Cube (advanced)
 
 - `ViveGripExample_ExtendGrab`

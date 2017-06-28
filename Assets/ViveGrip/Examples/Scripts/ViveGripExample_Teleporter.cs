@@ -9,8 +9,9 @@ public class ViveGripExample_Teleporter : MonoBehaviour {
 	void Start () {}
 
 	void ViveGripInteractionStart() {
-		List<Transform> subjects = new List<Transform>();
+		HashSet<Transform> subjects = new HashSet<Transform>();
 		subjects.Add(player);
+		subjects.Add(transform);
 		foreach(ViveGrip_GripPoint gripPoint in GripPoints()) {
 			if (gripPoint.HoldingSomething()) {
 				subjects.Add(gripPoint.HeldObject().transform);
