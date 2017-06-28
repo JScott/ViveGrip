@@ -15,8 +15,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `ViveGripExample_Manager` lets you change the highlight effects scene-wide at runtime
 
 ### Fixed
-- Things falling apart when there's no `Renderer` on an Object
-- Highlighting now accounts for two controllers being used at once
+- Highlighting no longer fall apart when there's no `Renderer` on an Object
+- Highlighting now accounts for multiple controllers being used at once
+- Tint highlighting works with transparency
 
 ## [2.10.0] - 2017-06-10
 ### Added

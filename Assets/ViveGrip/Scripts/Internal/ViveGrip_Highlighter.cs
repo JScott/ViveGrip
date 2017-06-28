@@ -78,7 +78,7 @@ public class ViveGrip_Highlighter : MonoBehaviour {
 // ======================
 
 public class ViveGrip_TintEffect : ViveGrip_HighlightEffect {
-  private Color tintColor = new Color(0.2f, 0.2f, 0.2f);
+  private Color tintColor = new Color(0.2f, 0.2f, 0.2f, 0f);
   private Queue<Color> oldColors = new Queue<Color>();
 
   public void Start(GameObject gameObject) {
