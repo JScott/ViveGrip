@@ -23,6 +23,14 @@ The boxes are cubes with `ViveGrip_Grabbable` attached. This automatically adds 
 
 By playing with `Anchor.enabled` and `Rotation.mode` I can get different effects with the boxes. I enabled the anchor for the small box to make it feel more like a small object I am gripping in my palm. I also set the rotation mode to `Disabled` on the big box to give it a feeling of being unweildy or difficult to hold on to.
 
+### Composite Toy (easy)
+
+- `ViveGrip_Grabbable`
+- `ViveGrip_Highlighter`
+- `ViveGrip_TintChildrenEffect`
+
+Sometimes objects need to be made of multiple renderers or colliders as children. Grabbable will handle "Compound Colliders" by looking in a Collider's parent for a grabbable or interactable if it can't find one in its own object. However, I need to tell Vive Grip to highlight the children of the object as well. I do this by selecting the `ViveGrip_TintChildrenEffect` highlight effect on the grabbable from the Inspector.
+
 ### Slider (easy)
 
 - `ViveGrip_Grabbable`

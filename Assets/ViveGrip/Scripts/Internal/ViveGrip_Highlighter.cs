@@ -107,7 +107,7 @@ public class ViveGrip_TintEffect : ViveGrip_HighlightEffect {
   }
 }
 
-public class ViveGrip_CompositeTintEffect : ViveGrip_TintEffect {
+public class ViveGrip_TintChildrenEffect : ViveGrip_TintEffect {
   public override Renderer[] RenderersIn(GameObject gameObject) {
     // NOTE: GetComponentsInChildren is guaranteed to always return in the same order
     return gameObject.GetComponentsInChildren<Renderer>();

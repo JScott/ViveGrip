@@ -5,10 +5,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - `ViveGrip_HighlightEffect` for custom highlight effects
+- `ViveGrip_TintEffect` and `ViveGrip_TintChildrenEffect`
+- Composite Toy on the demo scene
 
 ### Changed
 - Overhauled `ViveGrip_Highlighter` and adjacent code
-- A shared `ViveGrip_Object` class for Grabbables and Interactables
+- Grabbables and Interactables now subclass a `ViveGrip_Object` class
 
 ### Fixed
 - Things falling apart when there's no `Renderer` on an Object

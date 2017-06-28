@@ -47,9 +47,7 @@ public class ViveGrip_TouchDetection : MonoBehaviour {
 
   ViveGrip_Object ValidComponent(Transform transform) {
     if (transform == null) { return null; }
-    ViveGrip_Object component = transform.GetComponent<ViveGrip_Grabbable>();
-    if (component != null && component.enabled) { return component; }
-    component = transform.GetComponent<ViveGrip_Interactable>();
+    ViveGrip_Object component = transform.GetComponent<ViveGrip_Object>();
     if (component != null && component.enabled) { return component; }
     return null;
   }
