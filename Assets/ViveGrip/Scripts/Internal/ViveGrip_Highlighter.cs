@@ -35,12 +35,9 @@ public class ViveGrip_Highlighter : MonoBehaviour {
   }
 
   public ViveGrip_HighlightEffect UpdateEffect(System.Type effectType) {
-    if (effectType == null) {
+    if (effectType == null || typeof(ViveGrip_HighlightEffect).IsAssignableFrom(effectType)) {
       if (effect != null) { effect.Stop(gameObject); }
-      effect = null;
-    } else if (typeof(ViveGrip_HighlightEffect).IsAssignableFrom(effectType)) {
-      if (effect != null) { effect.Stop(gameObject); }
-      effect = System.Activator.CreateInstance(effectType) as ViveGrip_HighlightEffect;
+      AssignEffect(effectType);
     } else {
       Debug.LogError(effectType + " does not implement the ViveGrip_HighlightEffect interface");
     }
@@ -49,6 +46,17 @@ public class ViveGrip_Highlighter : MonoBehaviour {
 
   public ViveGrip_HighlightEffect CurrentEffect() {
     return effect;
+  }
+
+  void AssignEffect(System.Type effectType) {
+    if (effectType == null) {
+      effect = null;
+    } else {
+      effect = System.Activator.CreateInstance(effectType) as ViveGrip_HighlightEffect;
+    }
+    foreach (ViveGrip_Object obj in GetComponents<ViveGrip_Object>()) {
+      obj.highlightEffect = effectType;
+    }
   }
 
   void ViveGripHighlightStart(ViveGrip_GripPoint gripPoint) {
@@ -98,7 +106,9 @@ public class ViveGrip_TintEffect : ViveGrip_HighlightEffect {
   }
 
   public virtual Renderer[] RenderersIn(GameObject gameObject) {
-    return new Renderer[]{ gameObject.GetComponent<Renderer>() };
+    Renderer renderer = gameObject.GetComponent<Renderer>();
+    if (renderer == null) { return new Renderer[0]; }
+    return new Renderer[]{ renderer };
   }
 
   public virtual Material[] MaterialsFrom(Renderer[] renderers) {

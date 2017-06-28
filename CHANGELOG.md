@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Overhauled `ViveGrip_Highlighter` and adjacent code
 - Grabbables and Interactables now subclass a `ViveGrip_Object` class
+- `ViveGripExample_Manager` lets you change the highlight effects scene-wide at runtime
 
 ### Fixed
 - Things falling apart when there's no `Renderer` on an Object
