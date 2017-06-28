@@ -9,12 +9,9 @@ public interface ViveGrip_HighlightEffect {
 }
 
 public class ViveGrip_Highlighter : MonoBehaviour {
-  public bool disabled = false;
   private ViveGrip_HighlightEffect effect = null;
   private bool highlighted = false;
   private HashSet<ViveGrip_GripPoint> grips = new HashSet<ViveGrip_GripPoint>();
-
-  void Start() {}
 
   void Update() {
     if (highlighted && grips.Count == 0) {
@@ -77,18 +74,14 @@ public class ViveGrip_TintEffect : ViveGrip_HighlightEffect {
   private Queue<Color> oldColors = new Queue<Color>();
 
   public void Start(GameObject gameObject) {
-    Renderer renderer = gameObject.GetComponent<Renderer>();
-    if (renderer == null) { return; }
     Stop(gameObject);
-    foreach (Material material in Materials(renderer)) {
+    foreach (Material material in MaterialsFrom(RenderersIn(gameObject))) {
       StashColor(material);
     }
   }
 
   public void Stop(GameObject gameObject) {
-    Renderer renderer = gameObject.GetComponent<Renderer>();
-    if (renderer == null) { return; }
-    foreach (Material material in Materials(renderer)) {
+    foreach (Material material in MaterialsFrom(RenderersIn(gameObject))) {
       if (oldColors.Count == 0) { break; }
       PopColor(material);
     }
@@ -104,15 +97,23 @@ public class ViveGrip_TintEffect : ViveGrip_HighlightEffect {
     material.color = oldColors.Dequeue();
   }
 
-  protected virtual Material[] Materials(Renderer renderer) {
-    return renderer.materials;
+  public virtual Renderer[] RenderersIn(GameObject gameObject) {
+    return new Renderer[]{ gameObject.GetComponent<Renderer>() };
+  }
+
+  public virtual Material[] MaterialsFrom(Renderer[] renderers) {
+    if (renderers.Length == 0) { return new Material[0]; }
+    return renderers[0].materials;
   }
 }
 
-public class ViveGrip_RecursiveTintEffect : ViveGrip_TintEffect {
-  protected override Material[] Materials(Renderer renderer) {
+public class ViveGrip_CompositeTintEffect : ViveGrip_TintEffect {
+  public override Renderer[] RenderersIn(GameObject gameObject) {
     // NOTE: GetComponentsInChildren is guaranteed to always return in the same order
-    Renderer[] renderers = renderer.gameObject.GetComponentsInChildren<Renderer>();
+    return gameObject.GetComponentsInChildren<Renderer>();
+  }
+
+  public override Material[] MaterialsFrom(Renderer[] renderers) {
     List<Material> materials = new List<Material>();
     foreach (Renderer family in renderers) {
       materials.AddRange(family.materials);

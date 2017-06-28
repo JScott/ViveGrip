@@ -9,7 +9,10 @@ public class ViveGrip_Object : MonoBehaviour {
   private ViveGrip_Highlighter highlighter;
 
   public void Awake() {
-    highlighter = gameObject.AddComponent<ViveGrip_Highlighter>();
+    highlighter = GetComponent<ViveGrip_Highlighter>();
+    if (highlighter == null) {
+      highlighter = gameObject.AddComponent<ViveGrip_Highlighter>();
+    }
     highlighter.UpdateEffect(highlightEffect.Type);
   }
 

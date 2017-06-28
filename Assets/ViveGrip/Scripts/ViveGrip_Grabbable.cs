@@ -29,11 +29,6 @@ public class ViveGrip_Grabbable : ViveGrip_Object {
   public Rotation rotation;
   private Vector3 grabCentre;
 
-  void Awake() {
-    // TODO: can we just remove this and it'll inherit?
-    base.Awake();
-  }
-
   // These are called this on the scripts of the attached object and children of the controller:
 
   // Called when touched and moved away from, respectively
