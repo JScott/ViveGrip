@@ -27,3 +27,4 @@ sysinfo.txt
 
 .vs
 .vscode
+*.sublime-*

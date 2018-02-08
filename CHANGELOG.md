@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.11.0] - 2017-06-28
 ### Added
 - `ViveGrip_HighlightEffect` for custom highlight effects
 - `ViveGrip_TintEffect` and `ViveGrip_TintChildrenEffect`
@@ -182,7 +184,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.10.0...HEAD
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.11.0...HEAD
+[2.11.0]: https://github.com/JScott/ViveGrip/compare/v2.10.1...v2.11.0
 [2.10.0]: https://github.com/JScott/ViveGrip/compare/v2.9.1...v2.10.0
 [2.9.1]: https://github.com/JScott/ViveGrip/compare/v2.9.0...v2.9.1
 [2.9.0]: https://github.com/JScott/ViveGrip/compare/v2.8.1...v2.9.0
