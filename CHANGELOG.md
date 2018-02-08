@@ -4,6 +4,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.11.1] - 2018-02-08
+### Added
+- Support for Unity 2017.3
+- Support for SteamVR v1.2.3
+
+### Removed
+- ViveGrip_Object highlighting OnEnable()
+
+### Fixed
+- Handling Destroy() interference in ViveGrip_TouchDetection loop
+- Repeat objects in ViveGrip_TouchDetection
+
 ## [2.11.0] - 2017-06-28
 ### Added
 - `ViveGrip_HighlightEffect` for custom highlight effects
@@ -184,7 +196,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.11.0...HEAD
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.11.1...HEAD
+[2.11.1]: https://github.com/JScott/ViveGrip/compare/v2.11.0...v2.11.1
 [2.11.0]: https://github.com/JScott/ViveGrip/compare/v2.10.1...v2.11.0
 [2.10.0]: https://github.com/JScott/ViveGrip/compare/v2.9.1...v2.10.0
 [2.9.1]: https://github.com/JScott/ViveGrip/compare/v2.9.0...v2.9.1
