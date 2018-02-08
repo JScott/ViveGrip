@@ -19,11 +19,6 @@ public class ViveGrip_Object : MonoBehaviour {
     highlighter.RemoveHighlight();
   }
 
-  void OnEnable() {
-    if (highlighter == null) { return; }
-    highlighter.Highlight();
-  }
-
   void OnValidate() {
     if (highlighter == null) { return; }
     highlighter.UpdateEffect(highlightEffect.Type);
