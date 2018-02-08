@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 public class ViveGrip_TouchDetection : MonoBehaviour {
-  private List<ViveGrip_Object> collidingObjects = new List<ViveGrip_Object>();
+  private HashSet<ViveGrip_Object> collidingObjects = new HashSet<ViveGrip_Object>();
 
   void Start () {
     GetComponent<SphereCollider>().isTrigger = true;
