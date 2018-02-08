@@ -24,6 +24,7 @@ public class ViveGrip_TouchDetection : MonoBehaviour {
     float closestDistance = Mathf.Infinity;
     GameObject touchedObject = null;
     foreach (ViveGrip_Object component in collidingObjects) {
+      if (component == null) { continue; } // Can happen after Destroy()
       float distance = Vector3.Distance(transform.position, component.transform.position);
       if (distance < closestDistance) {
         touchedObject = component.gameObject;
