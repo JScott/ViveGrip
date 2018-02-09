@@ -10,11 +10,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Support for SteamVR v1.2.3
 
 ### Removed
-- ViveGrip_Object highlighting OnEnable()
+- `ViveGrip_Object` highlighting `OnEnable()`
 
 ### Fixed
-- Handling Destroy() interference in ViveGrip_TouchDetection loop
-- Repeat objects in ViveGrip_TouchDetection
+- Handling `Destroy()` interference in `ViveGrip_TouchDetection` loop
+- Repeat objects in `ViveGrip_TouchDetection`
 
 ## [2.11.0] - 2017-06-28
 ### Added
