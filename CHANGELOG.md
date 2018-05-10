@@ -9,6 +9,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `ViveGrip_Grabbable.AttachedGripPoints()`
 - `ViveGrip_Grabber.RebuildJoint()`
 
+### Changed
+- Updated documentation (SteamVR supports WinMR now)
+
 ## [2.11.1] - 2018-02-08
 ### Added
 - Support for Unity 2017.3

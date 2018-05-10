@@ -31,7 +31,7 @@ This is similar to highlighting but doesn't change when objects are grabbed.
 
 ### Interacting
 
-- `ViveGripInteractStart(ViveGrip_GripPoint gripPoint)`
-- `ViveGripInteractStop(ViveGrip_GripPoint gripPoint)`
+- `ViveGripInteractionStart(ViveGrip_GripPoint gripPoint)`
+- `ViveGripInteractionStop(ViveGrip_GripPoint gripPoint)`
 
 Vive Grip doesn't do anything before sending these messages. You have full control over what happens when using the interaction button.

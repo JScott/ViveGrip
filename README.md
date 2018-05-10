@@ -1,6 +1,6 @@
 # Vive Grip
 
-Vive Grip helps you to highlight, grab, and interact with game objects using the HTC Vive. It leverages Unity's physics engine with a simple interface that abstracts the powerful ConfigurableJoint component. Examples are included for creating weighted objects, levers, dials, guns, and more.
+Vive Grip helps you to highlight, grab, and interact with game objects using SteamVR. It leverages Unity's physics engine with a simple interface that abstracts the powerful ConfigurableJoint component. Examples are included for creating weighted objects, levers, dials, guns, and more.
 
 See the [package directory](Assets/ViveGrip) for package details, quick start instructions, and tutorials.
 
@@ -14,6 +14,7 @@ See the [Releases directory](Releases) for unitypackage files.
 
 - Fully supports Unity's physics systems for realistic interactions
 - [Intuitive set up with plenty of configurable Inspector options](https://www.youtube.com/watch?v=NyKWBeC_pSI)
+- Supports HTC Vive, Oculus Rift, Windows Mixed Reality, and more
 - Extensive plugin system to do custom logic on interactions and grab events
 - Joyful experience for both devs and players
 
