@@ -43,4 +43,10 @@ public class ViveGrip_Grabber : MonoBehaviour {
   public bool HoldingSomething() {
     return jointObject != null;
   }
+
+  public void RebuildJoint() {
+    ViveGrip_GripPoint gripPoint = GetComponent<ViveGrip_GripPoint>();
+    ViveGripGrabStop(gripPoint);
+    ViveGripGrabStart(gripPoint);
+  }
 }

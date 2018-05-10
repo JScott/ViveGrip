@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.12.0] - 2018-05-10
+### Added
+- `ViveGrip_Grabbable.AttachedGripPoints()`
+- `ViveGrip_Grabber.RebuildJoint()`
+
 ## [2.11.1] - 2018-02-08
 ### Added
 - Support for Unity 2017.3
@@ -196,7 +201,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.11.1...HEAD
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.12.0...HEAD
+[2.12.0]: https://github.com/JScott/ViveGrip/compare/v2.11.1...v2.12.0
 [2.11.1]: https://github.com/JScott/ViveGrip/compare/v2.11.0...v2.11.1
 [2.11.0]: https://github.com/JScott/ViveGrip/compare/v2.10.1...v2.11.0
 [2.10.0]: https://github.com/JScott/ViveGrip/compare/v2.9.1...v2.10.0

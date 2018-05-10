@@ -31,6 +31,7 @@ ViveGrip_Grabbable.anchor.enabled
 ViveGrip_Grabbable.anchor.localPosition
 ViveGrip_Grabbable.rotation.mode
 ViveGrip_Grabbable.rotation.localOrientation
+ViveGrip_Grabbable.AttachedGripPoints()
 ```
 
 ```
@@ -85,6 +86,7 @@ ViveGrip_GripPoint.grabber.jointObject
 ViveGrip_GripPoint.grabber.joint
 ViveGrip_GripPoint.grabber.ConnectedGameObject()
 ViveGrip_GripPoint.grabber.HoldingSomething()
+ViveGrip_GripPoint.grabber.RebuildJoint() *
 ```
 
 ```

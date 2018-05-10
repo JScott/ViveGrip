@@ -28,6 +28,7 @@ public class ViveGrip_Grabbable : ViveGrip_Object {
   public Position anchor;
   public Rotation rotation;
   private Vector3 grabCentre;
+  private HashSet<ViveGrip_GripPoint> attachedGripPoints;
 
   // These are called this on the scripts of the attached object and children of the controller:
 
@@ -67,5 +68,17 @@ public class ViveGrip_Grabbable : ViveGrip_Object {
 
   public bool SnapToOrientation() {
     return rotation.mode == RotationMode.ApplyGripAndOrientation;
+  }
+
+  void ViveGripGrabStart(ViveGrip_GripPoint gripPoint) {
+    attachedGripPoints.Add(gripPoint);
+  }
+
+  void ViveGripGrabStop(ViveGrip_GripPoint gripPoint) {
+    attachedGripPoints.Remove(gripPoint);
+  }
+
+  public HashSet<ViveGrip_GripPoint> AttachedGripPoints() {
+    return attachedGripPoints;
   }
 }
