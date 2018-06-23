@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.12.1] - 2018-06-23
+### Fixed
+- `ViveGrip_ControllerHandler` now finds `Device()` after `Start`
+
 ## [2.12.0] - 2018-05-10
 ### Added
 - `ViveGrip_Grabbable.AttachedGripPoints()`
@@ -204,7 +208,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Demo scene
 - Documentation
 
-[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.12.0...HEAD
+[Unreleased]: https://github.com/JScott/ViveGrip/compare/v2.12.1...HEAD
+[2.12.1]: https://github.com/JScott/ViveGrip/compare/v2.12.0...v2.12.1
 [2.12.0]: https://github.com/JScott/ViveGrip/compare/v2.11.1...v2.12.0
 [2.11.1]: https://github.com/JScott/ViveGrip/compare/v2.11.0...v2.11.1
 [2.11.0]: https://github.com/JScott/ViveGrip/compare/v2.10.1...v2.11.0

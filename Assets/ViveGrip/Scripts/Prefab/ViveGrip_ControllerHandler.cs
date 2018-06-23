@@ -30,11 +30,14 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
   private const float MAX_VIBRATION_STRENGTH = 3999f;
 
   void Start() {
-    if (trackedObject) { deviceIndex = (int)trackedObject.index; }
+    SetDeviceIndex();
   }
 
   void Update() {
-    if (Device() == null) { return; }
+    if (Device() == null) {
+      SetDeviceIndex();
+      return;
+    }
     if (InputPerformed(ViveInput.Grip, Device().GetPress) ||
         InputPerformed(ViveInput.Trigger, Device().GetPress)) {
       gripOrTriggerPressed = !gripOrTriggerHeld;
@@ -45,6 +48,11 @@ public class ViveGrip_ControllerHandler : MonoBehaviour {
       gripOrTriggerPressed = false;
       gripOrTriggerHeld = false;
     }
+  }
+
+  void SetDeviceIndex() {
+    if (!trackedObject) { return; }
+    deviceIndex = (int)trackedObject.index;
   }
 
   // Support for SteamVR's Interaction System (see Hand#InitController)
